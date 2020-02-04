@@ -1,0 +1,61 @@
+h2 {
+   margin-top: 2.5%;
+}
+
+.create-form {
+   min-width: 150px;
+   width: 100%;
+}
+
+.field-full-width {
+   width: 85%;
+   float: left;
+}
+
+.step-float {
+   margin-bottom: 1%;
+}
+
+.float {
+   float: left;
+}
+
+button {
+   margin: 0.5%;
+}
+
+.mat-card {
+   border-color: #FFFFFF;
+   padding-bottom: 2.5%;
+   margin-bottom: 5%;
+}
+
+.add-button {
+   float: right;
+}
+
+.delete-ingredient {
+   margin-left: 3%;
+}
+
+.delete-step {
+   margin-top: 3%;
+   margin-left: 3.5%;
+}
+
+.header-info, .ingredient-info {
+   float: left;
+   width: 28.5%;
+   margin-bottom: 5%;
+}
+
+.ingredient-info mat-select {
+   margin-top: 5.5%;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active  {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}

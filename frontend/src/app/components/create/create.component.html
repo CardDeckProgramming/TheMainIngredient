@@ -1,0 +1,125 @@
+<div>
+   <br/>
+   <!--
+   <mat-card class="mat-card">
+      <section class="mat-typography">
+         <h3>Create A New Issue</h3>
+      </section>
+      <mat-divider></mat-divider>
+      <br/>
+      <form [formGroup]="createForm" class="create-form">
+      
+         <mat-form-field class="field-full-width">
+            <input matInput placeholder="Issue Title" formControlName="title" #title>
+         </mat-form-field>
+
+         <mat-form-field class="field-full-width">
+            <input matInput placeholder="Responsible" formControlName="responsible" #responsible>
+         </mat-form-field>
+
+         <mat-form-field class="field-full-width">
+            <textarea rows="3" matInput placeholder="Description" formControlName="description" #description></textarea>
+         </mat-form-field>
+         
+         <mat-form-field class="field-full-width">
+            <mat-select placeholder="Severity" formControlName="severity" #severity>
+               <mat-option value="Low">Low</mat-option>
+               <mat-option value="Medium">Medium</mat-option>
+               <mat-option value="High">High</mat-option>
+            </mat-select>
+         </mat-form-field>
+         
+         <mat-divider></mat-divider>
+         <br/><br/>
+
+         <button mat-flat-button color="accent" routerLink="/list">Back</button>
+         <button type="submit" 
+               (click)="addIssue(title.value, responsible.value, description.value, severity.value)" 
+               [disabled]="createForm.pristine || createForm.invalid" 
+               mat-flat-button color="primary">Save</button>
+      </form>
+   </mat-card>
+   -->
+   <mat-card class="mat-card">
+      <button mat-flat-button color="accent" routerLink="/list">Back</button>
+      <button type="submit" 
+            (click)="saveRecipe()"
+            [disabled]="createForm.pristine || createForm.invalid" 
+            mat-flat-button color="primary">Save Recipe</button>
+      <button mat-flat-button color="primary" class="add-button" (click)="addStep()">Add Step</button>
+      <button mat-flat-button color="primary" class="add-button" (click)="addIngredient()">Add Ingredient</button>
+      <br/>
+      <br/>
+         <mat-divider style="background-color: #673AB7;"></mat-divider>
+      <br/>
+         <form [formGroup]="createForm" class="create-form">
+            <div class="header-info">
+               <input type="text" matInput placeholder="Author" formControlName="author">
+            </div>
+            <div class="header-info">
+               <input type="text" matInput placeholder="Recipe Title" formControlName="title">
+            </div>
+            <div class="header-info">
+               <mat-select placeholder="Recipe Type" formControlName="type">
+                  <mat-option value="Appetizers & Snacks">Appetizers & Snacks</mat-option>
+                  <mat-option value="Breakfast & Lunch">Breakfast & Lunch</mat-option>
+                  <mat-option value="Desserts">Desserts</mat-option>
+                  <mat-option value="Dinner">Dinner</mat-option>
+                  <mat-option value="Drinks">Drinks</mat-option>
+               </mat-select>
+            </div>
+         <br/>
+         <br/>
+            <mat-divider style="background-color: #673AB7;"></mat-divider>
+         <br/>
+         <br/>
+            <section class="mat-typography">
+               <h2>Add Ingredients</h2>
+            </section> 
+            <div formArrayName="ingredients" *ngFor="let ingredient of createForm.get('ingredients').controls; let i = index">
+               <div [formGroupName]="i" class="float">
+                  <div class="ingredient-info">
+                     <mat-form-field class="field-full-width"> 
+                        <input type="text" matInput placeholder="{{'Ingredient  '+(i+1)}}" formControlName="ingredient"> 
+                     </mat-form-field>
+                  </div>
+                  <div class="ingredient-info">
+                     <mat-form-field class="field-full-width"> 
+                        <input type="number" matInput placeholder="Amount" formControlName="amount">
+                     </mat-form-field>
+                  </div>
+                  <div class="ingredient-info">
+                     <mat-select placeholder="Measurement" formControlName="measurement">
+                        <mat-option value="tsp">Teaspoon</mat-option>
+                        <mat-option value="Tbsp">Tablespoon</mat-option>
+                        <mat-option value="c">Cup</mat-option>
+                        <mat-option value="oz">Ounce</mat-option>
+                        <mat-option value="pt">Pint</mat-option>
+                        <mat-option value="qt">Quart</mat-option>
+                        <mat-option value="gal">Gallon</mat-option>
+                        <mat-option value="lb">Pound</mat-option>
+                     </mat-select>
+                  </div>
+                  <button mat-flat-button color="warn" class="delete-ingredient" (click)="removeIngredient(i)">Delete Ingredient</button>
+               </div>
+            </div>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <section class="mat-typography">
+               <h2>Add Steps</h2>
+            </section> 
+            <div formArrayName="steps" *ngFor="let step of createForm.get('steps').controls; let i = index" class="step-float">
+               <div [formGroupName]="i">
+                  <mat-form-field class="field-full-width">
+                     <textarea rows="3" matInput placeholder="{{'Step  '+(i+1)}}" formControlName="description"></textarea>
+                  </mat-form-field>
+                  <button mat-flat-button color="warn" class="delete-step" (click)="removeStep(i)">Delete Step</button>
+               </div>
+            </div>
+         </form>
+   </mat-card>
+</div>

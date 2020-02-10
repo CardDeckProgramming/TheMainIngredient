@@ -1,10 +1,7 @@
 <div>
    <br />
    <mat-card>
-      <button mat-raised-button color="primary" routerLink="/create">Create New Recipe</button>
-      <br /><br />
-      <mat-divider></mat-divider>
-      <br />
+      <!--[dataSource] take the recipes array we created in list.component.ts and creates a table by using the data -->
       <table mat-table [dataSource]="recipes">
          <ng-container matColumnDef="author">
             <th mat-header-cell *matHeaderCellDef>Author</th>
@@ -29,6 +26,7 @@
             </td>
          </ng-container>
 
+         <!--displayedColumns is the array set in the list.component.ts which sets the table column names for us-->
          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 

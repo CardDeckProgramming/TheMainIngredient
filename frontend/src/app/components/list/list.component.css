@@ -5,3 +5,9 @@ table {
 .mat-column-right {
    text-align: center;
 }
+
+th {
+   font-size: 12pt;
+   font-weight: bold;
+   color: #000000;
+}

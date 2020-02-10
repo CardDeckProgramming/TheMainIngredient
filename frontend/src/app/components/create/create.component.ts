@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { RecipeService } from '../../recipe.service';
+import { APIService } from '../../api.service';
 
 @Component({
   selector: 'app-create',
@@ -12,7 +12,7 @@ export class CreateComponent implements OnInit {
 
   createForm: FormGroup;
 
-  constructor(private recipeService: RecipeService, private fb: FormBuilder, private router: Router) { }
+  constructor(private apiService: APIService, private fb: FormBuilder, private router: Router) { }
 
   ngOnInit() {
     this.createForm = this.fb.group({
@@ -59,7 +59,7 @@ export class CreateComponent implements OnInit {
   }
 
   saveRecipe() {
-    this.recipeService.addRecipe(this.createForm.get('author').value, this.createForm.get('title').value, this.createForm.get('type').value, this.createForm.get('ingredients').value, this.createForm.get('steps').value).subscribe(() => {
+    this.apiService.addRecipe(this.createForm.get('author').value, this.createForm.get('title').value, this.createForm.get('type').value, this.createForm.get('ingredients').value, this.createForm.get('steps').value).subscribe(() => {
       this.router.navigate(['/list']);
     });
   }

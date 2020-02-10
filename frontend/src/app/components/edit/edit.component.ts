@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { MatSnackBar } from '@angular/material';
 
-import { RecipeService } from '../../recipe.service';
+import { APIService } from '../../api.service';
 
 @Component({
   selector: 'app-edit',
@@ -17,7 +17,7 @@ export class EditComponent implements OnInit {
   issue: any = {};
   updateForm: FormGroup;
 
-  constructor(private recipeService: RecipeService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private snackBar: MatSnackBar) { 
+  constructor(private apiService: APIService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private snackBar: MatSnackBar) { 
     this.createForm();
   }
 
@@ -34,7 +34,7 @@ export class EditComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.id = params.id;
-      this.recipeService.getIssueById(this.id).subscribe(res => {
+      this.apiService.getIssueById(this.id).subscribe(res => {
         this.issue = res;
         this.updateForm.get('title').setValue(this.issue.title);
         this.updateForm.get('responsible').setValue(this.issue.responsible);
@@ -46,7 +46,7 @@ export class EditComponent implements OnInit {
   }
 
   updateIssue(title, responsible, description, severity, status) {
-    this.recipeService.updateIssue(this.id, title, responsible, description, severity, status).subscribe(() => {
+    this.apiService.updateIssue(this.id, title, responsible, description, severity, status).subscribe(() => {
       this.snackBar.open('Issue updated successfully', 'OK', {
         duration: 3000
       });

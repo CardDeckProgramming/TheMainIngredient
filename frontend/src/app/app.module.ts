@@ -13,7 +13,8 @@ import { MatToolbarModule,
   MatCardModule, 
   MatTableModule, 
   MatDividerModule, 
-  MatSnackBarModule } from '@angular/material';
+  MatSnackBarModule,
+  MatMenuModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -21,12 +22,20 @@ import { ListComponent } from './components/list/list.component';
 import { CreateComponent } from './components/create/create.component';
 import { EditComponent } from './components/edit/edit.component';
 import { HttpClientModule } from '@angular/common/http';
+import { MainNavComponent } from './components/main-nav/main-nav.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { SignInComponent } from './components/sign-in/sign-in.component';
 
+//The path variables link to the corrisponding component
 const routes: Routes = [
   {path: 'create', component: CreateComponent},
   {path: 'edit/:id', component: EditComponent},
   {path: 'list', component: ListComponent},
-  {path: '', redirectTo: 'list', pathMatch: 'full'}
+  {path: 'sign-in', component: SignInComponent},
+  {path: 'logging-in/:id', component: ListComponent},
+  {path: '', redirectTo: 'home', pathMatch: 'full'}
 ];
 
 @NgModule({
@@ -34,7 +43,9 @@ const routes: Routes = [
     AppComponent,
     ListComponent,
     CreateComponent,
-    EditComponent
+    EditComponent,
+    MainNavComponent,
+    SignInComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +63,11 @@ const routes: Routes = [
     MatCardModule, 
     MatTableModule, 
     MatDividerModule, 
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatMenuModule,
+    LayoutModule,
+    MatSidenavModule,
+    MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

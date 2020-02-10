@@ -1,0 +1,22 @@
+.mat-card {
+   border-color: #FFFFFF;
+   margin-left: 25%;
+   width: 50%;
+}
+
+.content {
+   text-align: center;
+}
+
+.create-form {
+   min-width: 150px;
+   width: 100%;
+}
+
+.header-info {
+   width: 40%;
+}
+
+button {
+   margin-bottom: 5%;
+}

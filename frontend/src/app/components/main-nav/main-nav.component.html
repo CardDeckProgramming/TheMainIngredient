@@ -1,0 +1,45 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav 
+      #drawer 
+      class="sidenav" 
+      fixedInViewport="false"
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="!(isHandset$ | async) === false">
+    <mat-toolbar>Menu</mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item href="#">Edit Accout</a>
+      <a mat-list-item href="#" routerLink="/list">Your Recipes</a>
+      <a mat-list-item href="#" routerLink="/create">Create Recipe</a>
+      <a mat-list-item (click)="drawer.toggle(); this.userService.setLoggedIn(false)">Log Out</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <!--This *ngoIf checks to see if a variable is true/false, if true (meaning a user is logged in the fancy side bar is enabled)
+      else signIn is called which can be sseen below with #signIn which creates the yellow sign in button-->
+      <div *ngIf="this.userService.isLoggedIn(); else signIn">
+        <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()">
+        <mat-icon aria-label="Side nav toggle icon">account_circle</mat-icon>
+        </button>
+      </div>
+      <ng-template #signIn>
+        <button mat-flat-button color="accent" routerLink="/sign-in">Sign In</button>
+      </ng-template>
+      <span class="spacer"></span>
+      <a mat-list-item href="#">Link 1</a>
+      <a mat-list-item href="#">Link 2</a>
+      <a mat-list-item href="#">Link 3</a>
+      <span class="pipe">&#124;</span>
+      <span>Recipe Web App</span>
+    </mat-toolbar>
+    <!--The router-outlet tag uses the routes array (found in app.module / created in app-routing.module) to trvale to each page (component)-->
+    <div class="wrapper"> 
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -3,7 +3,9 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 
+//These imports are Schemas made to put into our db collections (tables) as seen in Robo 3T
 import Recipe from './models/Recipe';
+import Account from './models/Account';
 
 const app = express();
 const router = express.Router();
@@ -11,14 +13,16 @@ const router = express.Router();
 app.use(cors());
 app.use(bodyParser.json());
 
+//Connect our local db with our server
 mongoose.connect('mongodb://localhost:27017/recipes');
 
-const connection = mongoose.connection;
-
-connection.once('Open', () => {
+mongoose.connection.once('Open', () => {
    console.log('MongoDB database connection established successfully');
+}).on('error', () => {
+console.log('MongoDB Connection Error: ', error);
 });
 
+//All these function below are the API calls we use the get, post, update and delete data from the database
 router.route('/recipes').get((req, res) => {
    Recipe.find((err, recipes) => {
        if (err)
@@ -37,15 +41,26 @@ router.route('/recipes/:id').get((req, res) => {
    });
 });
 
+router.route('/accounts/add').post((req, res) => {
+    let account = new Account(req.body);
+    console.log(account);
+    account.save()
+        .then(account => {
+            res.status(200).json({'account': 'Added successfully'});  
+            console.log('Account added successfully');        
+        }).catch(err => {
+            res.status(400).send('Failed to create new account');
+            console.log('Failed to add account');
+        });
+});
+
 router.route('/recipes/add').post((req, res) => {
    let recipe = new Recipe(req.body);
-   console.log(recipe);
    recipe.save()
        .then(recipe => {
            res.status(200).json({'recipe': 'Added successfully'});
-       })
-       .catch(err => {
-           res.status(400).send('Failed to create new record');
+       }).catch(err => {
+           res.status(400).send('Failed to create new recipe');
        });
 });
 

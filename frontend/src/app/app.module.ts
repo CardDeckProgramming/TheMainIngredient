@@ -27,6 +27,8 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { SignInComponent } from './components/sign-in/sign-in.component';
+import { HomeComponent } from './components/home/home.component';
+import { ContactUsComponent } from './components/contact-us/contact-us.component';
 
 //The path variables link to the corrisponding component
 const routes: Routes = [
@@ -35,6 +37,9 @@ const routes: Routes = [
   {path: 'list', component: ListComponent},
   {path: 'sign-in', component: SignInComponent},
   {path: 'logging-in/:id', component: ListComponent},
+  {path: 'home', component: HomeComponent},
+  {path: 'home', component: HomeComponent},
+  {path: 'contact-us', component: ContactUsComponent},
   {path: '', redirectTo: 'home', pathMatch: 'full'}
 ];
 
@@ -45,7 +50,9 @@ const routes: Routes = [
     CreateComponent,
     EditComponent,
     MainNavComponent,
-    SignInComponent
+    SignInComponent,
+    HomeComponent,
+    ContactUsComponent
   ],
   imports: [
     BrowserModule,

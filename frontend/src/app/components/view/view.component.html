@@ -1,0 +1,32 @@
+<div>
+   <br />
+   <mat-card>
+      <section class="mat-typography">
+         <h2>{{this.recipe.title}}</h2>
+      </section> 
+      <section class="mat-typography">
+         <h2>{{this.recipe.type}}</h2>
+      </section> 
+      <section class="mat-typography">
+         <h2>{{this.recipe.author}}</h2>
+      </section> 
+      <button mat-flat-button color="accent" routerLink="/list">Back</button>
+      <br/>
+      <br/>
+      <mat-divider style="background-color: #673AB7;"></mat-divider>
+
+      <p>Ingredients</p>
+      <ul>
+         <li *ngFor="let ingredient of recipe.ingredients; let i = index">
+           {{ingredient.ingredient}}, {{ingredient.amount}}, {{ingredient.measurement}}
+         </li>
+      </ul>
+
+      <p>Steps</p>
+      <ol>
+         <li *ngFor="let step of recipe.steps; let i = index">
+            {{step.description}}
+         </li>
+      </ol>
+   </mat-card>
+</div>

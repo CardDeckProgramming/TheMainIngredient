@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class APIService {
   private accountIdSource = new Subject<string>();
   accountId$ = this.accountIdSource.asObservable();
 
-  constructor(private http: HttpClient) { }
+  constructor(private userService: UserService, private http: HttpClient) { }
 
   sendAccountId(account: string) {
     this.accountIdSource.next(account);
@@ -28,15 +29,26 @@ export class APIService {
     return this.http.post(`${this.uri}/accounts/add`, account);
   }
 
-  getAccount(id) {
-    return this.http.get(`${this.uri}/accounts/account/${id}`);
+  getAccount(email, password) {
+    return this.http.get(`${this.uri}/accounts/getAccount/${email}/${password}`);
+  }
+
+  addAccountRecipeId(recipeId) {
+    const account = {
+      recipeId: recipeId
+    }
+    return this.http.post(`${this.uri}/accounts/${this.userService.getAccountId()}/addRecipe`, account);
+  }
+
+  getAccountRecipes() {
+    return this.http.get(`${this.uri}/accounts/${this.userService.getAccountId()}/recipes`);
   }
 
   getRecipes() {
     return this.http.get(`${this.uri}/recipes`);
   }
 
-  getIssueById(id) {
+  getRecipeById(id) {
     return this.http.get(`${this.uri}/recipes/${id}`);
   }
 
@@ -51,15 +63,15 @@ export class APIService {
     return this.http.post(`${this.uri}/recipes/add`, recipe);
   }
 
-  updateIssue(id, title, responsible, description, severity, status) {
-    const issue = {
+  updateRecipe(id, author, title, type, ingredients, steps) {
+    const recipe = {
+      author: author,
       title: title,
-      responsible: responsible,
-      description: description,
-      severity: severity,
-      status: status
+      type: type,
+      ingredients: ingredients,
+      steps: steps
     };
-    return this.http.post(`${this.uri}/recipes/update/${id}`, issue);
+    return this.http.post(`${this.uri}/recipes/update/${id}`, recipe);
   }
 
   deleteIssue(id) {

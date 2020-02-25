@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+//import Recipe from './Recipe';
 
 const Schema = mongoose.Schema;
 
@@ -8,10 +9,6 @@ let Account = new Schema({
     },
     password: {
        type: String
-    },
-    username: {
-       type: String,
-       default: ''
     },
     recipes: {
        type: []

@@ -27,6 +27,8 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { SignInComponent } from './components/sign-in/sign-in.component';
+import { HomeComponent } from './components/home/home.component';
+import { ContactUsComponent } from './components/contact-us/contact-us.component';
 import { ViewComponent } from './components/view/view.component';
 
 //The path variables link to the corrisponding component
@@ -35,9 +37,11 @@ const routes: Routes = [
   {path: 'edit/:id', component: EditComponent},
   {path: 'list', component: ListComponent},
   {path: 'logging-in/:id', component: ListComponent},
+  {path: 'home', component: HomeComponent},
+  {path: 'contact-us', component: ContactUsComponent},
   {path: 'sign-in', component: SignInComponent},
   {path: 'view/:id', component: ViewComponent},
-  {path: '', redirectTo: 'list', pathMatch: 'full'}
+  {path: '', redirectTo: 'home', pathMatch: 'full'}
 ];
 
 @NgModule({
@@ -48,6 +52,8 @@ const routes: Routes = [
     EditComponent,
     MainNavComponent,
     SignInComponent,
+    HomeComponent,
+    ContactUsComponent,
     ViewComponent
   ],
   imports: [

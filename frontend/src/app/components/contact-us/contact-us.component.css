@@ -1,0 +1,61 @@
+body {
+    margin:0;
+    padding: 0;
+    text-align: center;
+    background:url(img/bg.jpg);
+    background-size: cover;
+    background-position: center;
+    padding: 100px;
+
+}
+* {box-sizing: border-box;}
+.contact-title{
+    margin-top: 100px;
+    color: black;
+    text-transform: uppercase;
+    transition: all 4s ease-in-out;
+}
+.contact-us h1 {
+    font-size: 32px;
+    line-height: 10px;
+}
+.footer p {
+    text-align: center;
+    font-size: 15px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+input[type=text], select, textarea {
+    width: 50%;
+    padding: 12px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    border-color:#ffaa00;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical;
+  }
+  
+  input[type=submit] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  input[type=submit]:hover {
+    background-color: #45a049;
+  }
+  .footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color:  #2d2d86;
+    color: white;
+    text-align: center;
+ }
+  
+  

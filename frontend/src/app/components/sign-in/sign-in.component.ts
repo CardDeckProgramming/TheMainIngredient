@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { APIService } from '../../api.service';
 import { UserService } from 'src/app/user.service';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'sign-in',
@@ -13,7 +14,7 @@ export class SignInComponent implements OnInit {
 
   signInForm: FormGroup;
 
-  constructor(private apiService: APIService, private fb: FormBuilder, private router: Router, private userService: UserService) { }
+  constructor(private apiService: APIService, private fb: FormBuilder, private router: Router, private userService: UserService, private snackBar: MatSnackBar) { }
 
   /*
   When we load this component, the code in this method will run automatically,
@@ -36,8 +37,10 @@ export class SignInComponent implements OnInit {
         this.userService.setAccountPassword(JSON.parse(JSON.stringify(response['password'])));
         this.userService.setAccountLoggedIn(true);
         this.router.navigate([`/list`]);
+        let email = JSON.parse(JSON.stringify(response['email']));
+        this.snackBar.open('Welcome back ' + email.substring(0, email.indexOf('.')) + '!', 'Dismiss', { duration: 2500, verticalPosition: 'top', panelClass: ['snackBarSucess'] });
       } else {
-        console.log('Error!!!');
+        this.snackBar.open('Error: Invalid login credentials', 'Dismiss', { verticalPosition: 'top', panelClass: ['snackBarError'] });
       }
     });
   }

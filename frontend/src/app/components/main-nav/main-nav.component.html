@@ -23,19 +23,19 @@
         type="button"
         aria-label="Toggle sidenav"
         mat-icon-button
-        (click)="drawer.toggle()">
+        (click)="drawer.toggle()" disableRipple>
         <mat-icon aria-label="Side nav toggle icon">account_circle</mat-icon>
         <span>     {{this.userService.getAccountEmail()}}</span>
         </button>
       </div>
       <ng-template #signIn>
-        <button mat-flat-button color="accent" routerLink="/sign-in">Sign In</button>
+        <button mat-flat-button color="accent" routerLink="/sign-in" disableRipple>Sign In</button>
       </ng-template>
       <span class="spacer"></span>
       <a mat-list-item routerLink="/home">Home</a>
       <a mat-list-item routerLink="/contact-us">Contact Us</a>
       <span class="pipe">&#124;</span>
-      <span>Recipe Web App</span>
+      <span style="color: #FFD740;">WebApp Name</span>
     </mat-toolbar>
     <!--The router-outlet tag uses the routes array (found in app.module / created in app-routing.module) to trvale to each page (component)-->
     <div class="wrapper"> 

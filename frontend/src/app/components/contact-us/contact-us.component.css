@@ -19,6 +19,11 @@ body {
     font-size: 32px;
     line-height: 10px;
 }
+
+h1 {
+  color: #673AB7;
+}
+
 .footer p {
     text-align: center;
     font-size: 15px;
@@ -29,7 +34,7 @@ input[type=text], select, textarea {
     padding: 12px;
     border: 2px solid #ccc;
     border-radius: 5px;
-    border-color:#ffaa00;
+    border-color:#FFAA00;
     box-sizing: border-box;
     margin-top: 6px;
     margin-bottom: 16px;
@@ -46,15 +51,16 @@ input[type=text], select, textarea {
   }
   
   input[type=submit]:hover {
-    background-color: #45a049;
+    background-color: #45A049;
   }
   .footer {
     position: fixed;
     left: 0;
     bottom: 0;
     width: 100%;
-    background-color:  #2d2d86;
-    color: white;
+    height: 75px;
+    background-color:  #673AB7;
+    color: #FFFFFF;
     text-align: center;
  }
   

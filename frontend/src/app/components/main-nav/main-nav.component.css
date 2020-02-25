@@ -42,6 +42,11 @@
   text-decoration: none;
 }
 
+.mat-toolbar a:hover {
+  color: #FFD740;
+  transition: 0.5s;
+}
+
 .is-active {
   background-color: red;
 }

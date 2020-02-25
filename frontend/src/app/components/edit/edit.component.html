@@ -1,6 +1,7 @@
 <div>
    <br/>
    <mat-card class="mat-card">
+      <h2>Edit</h2>
       <button mat-flat-button color="accent" routerLink="/list">Back</button>
       <button type="submit" 
             (click)="updateRecipe()"
@@ -14,10 +15,10 @@
       <br/>
          <form [formGroup]="updateForm" class="create-form">
             <div class="header-info">
-               <input type="text" matInput placeholder="Author" formControlName="author">
+               <input type="text" matInput placeholder="Author" formControlName="author" autocomplete="off">
             </div>
             <div class="header-info">
-               <input type="text" matInput placeholder="Recipe Title" formControlName="title">
+               <input type="text" matInput placeholder="Recipe Title" formControlName="title" autocomplete="off">
             </div>
             <div class="header-info">
                <mat-select placeholder="Recipe Type" formControlName="type">
@@ -40,24 +41,24 @@
                <div [formGroupName]="i" class="float">
                   <div class="ingredient-info">
                      <mat-form-field class="field-full-width"> 
-                        <input type="text" matInput placeholder="{{'Ingredient  '+(i+1)}}" formControlName="ingredient"> 
+                        <input type="text" matInput placeholder="{{'Ingredient  '+(i+1)}}" formControlName="ingredient" autocomplete="off"> 
                      </mat-form-field>
                   </div>
                   <div class="ingredient-info">
                      <mat-form-field class="field-full-width"> 
-                        <input type="number" matInput placeholder="Amount" formControlName="amount">
+                        <input type="number" matInput placeholder="Amount" formControlName="amount" autocomplete="off">
                      </mat-form-field>
                   </div>
                   <div class="ingredient-info">
                      <mat-select placeholder="Measurement" formControlName="measurement">
-                        <mat-option value="tsp">Teaspoon</mat-option>
-                        <mat-option value="Tbsp">Tablespoon</mat-option>
-                        <mat-option value="c">Cup</mat-option>
-                        <mat-option value="oz">Ounce</mat-option>
-                        <mat-option value="pt">Pint</mat-option>
-                        <mat-option value="qt">Quart</mat-option>
-                        <mat-option value="gal">Gallon</mat-option>
-                        <mat-option value="lb">Pound</mat-option>
+                        <mat-option value="tsp">Teaspoon(s)</mat-option>
+                        <mat-option value="Tbsp">Tablespoon(s)</mat-option>
+                        <mat-option value="c">Cup(s)</mat-option>
+                        <mat-option value="oz">Ounce(s)</mat-option>
+                        <mat-option value="pt">Pint(s)</mat-option>
+                        <mat-option value="qt">Quart(s)</mat-option>
+                        <mat-option value="gal">Gallon(s)</mat-option>
+                        <mat-option value="lb">Pound(s)</mat-option>
                      </mat-select>
                   </div>
                   <button mat-flat-button color="warn" class="delete-ingredient" (click)="removeIngredient(i)">Delete Ingredient</button>

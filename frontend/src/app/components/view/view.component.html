@@ -1,28 +1,31 @@
 <div>
    <br />
    <mat-card>
-      <section class="mat-typography">
-         <h2>{{this.recipe.title}}</h2>
-      </section> 
-      <section class="mat-typography">
-         <h2>{{this.recipe.type}}</h2>
-      </section> 
-      <section class="mat-typography">
-         <h2>{{this.recipe.author}}</h2>
-      </section> 
+      <h2>View</h2>
       <button mat-flat-button color="accent" routerLink="/list">Back</button>
       <br/>
       <br/>
       <mat-divider style="background-color: #673AB7;"></mat-divider>
 
-      <p>Ingredients</p>
+      <section class="mat-typography">
+         <h2>Information</h2>
+      </section>
+      <p>Author: {{recipe.author}}</p>
+      <p>Title: {{recipe.title}}</p>
+      <p>Type: {{recipe.type}}</p>
+
+      <section class="mat-typography">
+         <h2>Ingredients</h2>
+      </section>
       <ul>
          <li *ngFor="let ingredient of recipe.ingredients; let i = index">
-           {{ingredient.ingredient}}, {{ingredient.amount}}, {{ingredient.measurement}}
+           {{ingredient.ingredient}} / {{ingredient.amount}}{{ingredient.measurement}}
          </li>
       </ul>
-
-      <p>Steps</p>
+      
+      <section class="mat-typography">
+         <h2>Steps</h2>
+      </section>
       <ol>
          <li *ngFor="let step of recipe.steps; let i = index">
             {{step.description}}

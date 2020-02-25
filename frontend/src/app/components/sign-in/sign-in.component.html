@@ -9,11 +9,11 @@
             The formControlName property in the input tags link each property from the signInForm to our [formGroup] property-->
          <form [formGroup]="signInForm" class="sign-in">
             <mat-form-field class="header-info">
-               <input type="text" matInput placeholder="Email" formControlName="email" size="35">
+               <input type="email" matInput placeholder="Email" formControlName="email" size="35" autocomplete="off" email>
             </mat-form-field>
             <br /><br />
             <mat-form-field class="header-info">
-               <input type="text" matInput placeholder="Password" formControlName="password" size="35">
+               <input type="password" matInput placeholder="Password" formControlName="password" size="35" >
             </mat-form-field>
          </form>
          <br />

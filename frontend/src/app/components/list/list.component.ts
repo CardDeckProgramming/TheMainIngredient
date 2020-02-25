@@ -19,7 +19,11 @@ export class ListComponent implements OnInit {
   constructor(private userService: UserService, private apiService: APIService, private router: Router) { }
 
   ngOnInit() {
-    this.fetchRecipes();
+    if (this.userService.isAccountLoggedIn()) {
+      this.fetchRecipes();
+    } else {
+      this.router.navigate([`/home`]);
+    }
   }
 
   /* 

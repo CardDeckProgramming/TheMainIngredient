@@ -36,7 +36,6 @@ const routes: Routes = [
   {path: 'create', component: CreateComponent},
   {path: 'edit/:id', component: EditComponent},
   {path: 'list', component: ListComponent},
-  {path: 'logging-in/:id', component: ListComponent},
   {path: 'home', component: HomeComponent},
   {path: 'contact-us', component: ContactUsComponent},
   {path: 'sign-in', component: SignInComponent},

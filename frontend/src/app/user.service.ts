@@ -7,9 +7,41 @@ import { Injectable } from '@angular/core';
 //which turns on the fancy side bar functionality
 export class UserService {
 
-  private loggedIn: boolean = false;
+  private accountLoggedIn: boolean = false;
+  private accountId: string = '';
+  private accountEmail: string = '';
+  private accountPassword: string = '';
 
-  public isLoggedIn() { return this.loggedIn; }
+  public isAccountLoggedIn() { 
+    return this.accountLoggedIn; 
+  }
 
-  public setLoggedIn(loggedIn: boolean) { this.loggedIn = loggedIn; }
+  public setAccountLoggedIn(accountLoggedIn: boolean) { 
+    this.accountLoggedIn = accountLoggedIn; 
+  }
+
+  public getAccountId() {
+    return this.accountId;
+  }
+
+  public setAccountId(accountId: string) { 
+    this.accountId = accountId; 
+  }
+
+  public getAccountEmail() {
+    return this.accountEmail;
+  }
+
+  public setAccountEmail(accountEmail: string) { 
+    this.accountEmail = accountEmail; 
+  }
+
+  public getAccountPassword() {
+    return this.accountPassword;
+  }
+
+  public setAccountPassword(accountPassword: string) { 
+    this.accountPassword = accountPassword; 
+  }
+
 }

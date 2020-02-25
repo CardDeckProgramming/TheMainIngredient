@@ -28,13 +28,30 @@ export class SignInComponent implements OnInit {
     });
   }
 
+  logIn() {
+    this.apiService.getAccount(this.signInForm.get('email').value, this.signInForm.get('password').value).subscribe(response => {
+      if (JSON.parse(JSON.stringify(response)) != null) {
+        this.userService.setAccountId(JSON.parse(JSON.stringify(response['_id'])));
+        this.userService.setAccountEmail(JSON.parse(JSON.stringify(response['email'])));
+        this.userService.setAccountPassword(JSON.parse(JSON.stringify(response['password'])));
+        this.userService.setAccountLoggedIn(true);
+        this.router.navigate([`/list`]);
+      } else {
+        console.log('Error!!!');
+      }
+    });
+  }
+
   /*
   When the sign up button is clicked, this function is called. Here we call our addAccount from the apiService object we made
   Note: Remember the apiService (api.service.ts) holds all of our api function calls we send to the server  
   */
   signUp() {
-    this.apiService.addAccount(this.signInForm.get('email').value, this.signInForm.get('password').value).subscribe(() => {
-      this.userService.setLoggedIn(true);
+    this.apiService.addAccount(this.signInForm.get('email').value, this.signInForm.get('password').value).subscribe(response => {
+      this.userService.setAccountId(JSON.parse(JSON.stringify(response['accountId'])));
+      this.userService.setAccountEmail(JSON.parse(JSON.stringify(response['accountEmail'])));
+      this.userService.setAccountPassword(JSON.parse(JSON.stringify(response['accountPassword'])));
+      this.userService.setAccountLoggedIn(true);
       this.router.navigate([`/list`]);
     });
   }

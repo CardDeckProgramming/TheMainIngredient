@@ -18,6 +18,8 @@ Afterwards the web app should run and open in your browser
 --------------------------------------------------------------------------------------------------------------------------------------
 Git Commands:
 
+***Always make a new branch when making code changes***
+
 git branch <- Lists the available branches you have. If the name is has a * and is highlighted, 
               that means it's cureently the branch you are in  
 
@@ -35,5 +37,6 @@ git commit -m "Message here" <- This command will commit all the files you added
                pushed to the master branch. You always need to add the -m and a quick message for this command to work. Usually 
                you'd just put what you did on the quotes such as "Added ____ functionality"
 
-git push <- This will then push your changes to be added to the master branch, because mandatory pull requests are enabled, 
-            the terminal should provide a link for you to set up the review such as add reviewers, comments, etc.
+git push --set-upstream origin [your_Branch_Name_Here] <- This will then push your changes to be added to the master branch, because
+                                                          mandatory pull requests are enabled, the terminal should provide a link for 
+                                                          you to set up the review such as add reviewers, comments, etc.

@@ -20,6 +20,15 @@ export class MainNavComponent {
       shareReplay()
     );
 
-  constructor(private breakpointObserver: BreakpointObserver, private router: Router, private route: ActivatedRoute, private userService: UserService) {}
+  constructor(private breakpointObserver: BreakpointObserver, 
+              private router: Router, private route: ActivatedRoute, 
+              private userService: UserService) { }
 
+  logOut() {
+    this.userService.setAccountId(null);
+    this.userService.setAccountEmail(null);
+    this.userService.setAccountPassword(null);
+    this.userService.setAccountLoggedIn(false);
+    this.router.navigate(['']);
+  }
 }

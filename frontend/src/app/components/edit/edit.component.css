@@ -12,16 +12,16 @@ h2 {
    float: left;
 }
 
-.step-float {
-   margin-bottom: 1%;
-}
-
 .float {
    float: left;
 }
 
 button {
    margin: 0.5%;
+}
+
+.matInput {
+   resize: none;
 }
 
 .mat-card {
@@ -39,7 +39,7 @@ button {
 }
 
 .delete-step {
-   margin-top: 3%;
+   margin-top: 5%;
    margin-left: 3.5%;
 }
 

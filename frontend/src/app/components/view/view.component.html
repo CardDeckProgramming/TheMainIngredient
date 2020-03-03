@@ -3,33 +3,97 @@
    <mat-card>
       <h2>View</h2>
       <button mat-flat-button color="accent" routerLink="/list">Back</button>
+      <mat-select placeholder="Convert All Weight Measurements"
+                  style="width: 20%; margin-top: 0.75%; float: right; color: #673AB7;"
+                  (selectionChange)="convertAllMeasurements(this.WEIGHTS, $event.value)"
+                  class="specific-class">
+         <mat-option value="oz">Ounce (oz)</mat-option>
+         <mat-option value="lb">Pound (lb)</mat-option>
+         <mat-option value="g">Gram (g)</mat-option>
+         <mat-option value="kg">Kilogram (kg)</mat-option>
+      </mat-select>
+
+      <mat-select placeholder="Convert All Volume Measurements"
+                  style="width: 20%; margin-top: 0.75%; margin-right: 2.5%; float: right;"
+                  (selectionChange)="convertAllMeasurements(this.VOLUMES, $event.value)">
+         <mat-option value="tsp">Teaspoon (tsp)</mat-option>
+         <mat-option value="Tbsp">Tablespoon (Tbsp)</mat-option>
+         <mat-option value="c">Cup (c)</mat-option>
+         <mat-option value="oz">Ounce (oz)</mat-option>
+         <mat-option value="pt">Pint (pt)</mat-option>
+         <mat-option value="qt">Quart (qt)</mat-option>
+         <mat-option value="gal">Gallon (gal)</mat-option>
+         <mat-option value="ltr">Liter (ltr)</mat-option>
+         <mat-option value="ml">Milliliter( ml)</mat-option>
+      </mat-select>
       <br/>
       <br/>
       <mat-divider style="background-color: #673AB7;"></mat-divider>
-
-      <section class="mat-typography">
-         <h2>Information</h2>
-      </section>
-      <p>Author: {{recipe.author}}</p>
-      <p>Title: {{recipe.title}}</p>
-      <p>Type: {{recipe.type}}</p>
-
-      <section class="mat-typography">
-         <h2>Ingredients</h2>
-      </section>
-      <ul>
-         <li *ngFor="let ingredient of recipe.ingredients; let i = index">
-           {{ingredient.ingredient}} / {{ingredient.amount}}{{ingredient.measurement}}
-         </li>
-      </ul>
-      
-      <section class="mat-typography">
-         <h2>Steps</h2>
-      </section>
-      <ol>
-         <li *ngFor="let step of recipe.steps; let i = index">
-            {{step.description}}
-         </li>
-      </ol>
+      <br/>
+      <div *ngIf="recipe">
+         <div class="header-info">
+            <input type="text" matInput value="Author: {{recipe.author}}" readonly>
+         </div>
+         <div class="header-info">
+            <input type="text" matInput value="Title: {{recipe.title}}" readonly>
+         </div>
+         <div class="header-info">
+            <input type="text" matInput value="Type: {{recipe.type}}" readonly>
+         </div>
+         <br/>
+         <br/>
+            <mat-divider style="background-color: #673AB7;"></mat-divider>
+         <br/>
+         <br/>
+         <section class="mat-typography">
+            <h2>Recipe Ingredients</h2>
+         </section>
+         <ul>
+            <li *ngFor="let ingredient of recipe.ingredients; let i = index">
+               {{ingredient.ingredient}} <br/>
+               Amount: {{ingredient.amount}}{{ingredient.measurement == ' ' ? '' : ingredient.measurement}} <br/>
+               <div *ngIf="ingredient.measurement != ' '">
+                  <mat-select placeholder="{{ingredient.measurement == ' ' ? 'Convert Disabled' : 'Convert Measurement'}}"
+                           style="width: 13%; margin-right: 2.5%;"
+                           (selectionChange)="convertMeasurement(ingredient.amount, ingredient.measurement, i, $event.value)"
+                           [disabled] = "ingredient.measurement == ' ' ? 'disabled' : null"
+                           [(ngModel)]="dropDown[i]">
+                  <mat-option value="tsp">Teaspoon (tsp)</mat-option>
+                  <mat-option value="Tbsp">Tablespoon (Tbsp)</mat-option>
+                  <mat-option value="c">Cup (c)</mat-option>
+                  <mat-option value="oz">Ounce (oz)</mat-option>
+                  <mat-option value="pt">Pint (pt)</mat-option>
+                  <mat-option value="qt">Quart (qt)</mat-option>
+                  <mat-option value="gal">Gallon (gal)</mat-option>
+                  <mat-option value="ltr">Liter (ltr)</mat-option>
+                  <mat-option value="ml">Milliliter (ml)</mat-option>
+                  <mat-option value="lb">Pound (lb)</mat-option>
+                  <mat-option value="g">Gram (g)</mat-option>
+                  <mat-option value="kg">Kilogram (kg)</mat-option>
+               </mat-select>
+               <mat-form-field style="width: 16%;">
+                  <input type="text" 
+                         matInput 
+                         placeholder="{{ingredient.measurement == ' ' ? 'Ingredient Has No Measurement' : 'Conversion Result'}}" 
+                         [(ngModel)]="results[i]" readonly>
+               </mat-form-field>
+               </div>
+               <br/><br/>
+            </li>
+         </ul>
+         <section class="mat-typography">
+            <h2>Recipe Steps</h2>
+         </section>
+         <mat-accordion multi="true">
+            <mat-expansion-panel *ngFor="let step of recipe.steps; let i = index">
+               <mat-expansion-panel-header class="specific-class">
+                 <mat-panel-title>
+                  Step {{i+1}}
+                 </mat-panel-title>
+               </mat-expansion-panel-header>
+               <p>{{step.description}}</p>
+             </mat-expansion-panel>
+         </mat-accordion>
+      </div>
    </mat-card>
 </div>

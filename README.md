@@ -37,7 +37,7 @@ git commit -m "Message here" <- This command will commit all the files you added
                pushed to the master branch. You always need to add the -m and a quick message for this command to work. Usually 
                you'd just put what you did on the quotes such as "Added ____ functionality"
 
-git push --set-upstream origin [your_Branch_Name_Here] <- This will then push your changes to be added to the master branch, because
+git push origin [your_Branch_Name_Here] <- This will then push your changes to be added to the master branch, because
                                                           mandatory pull requests are enabled, the terminal should provide a link for 
                                                           you to set up the review such as add reviewers, comments, etc.
 

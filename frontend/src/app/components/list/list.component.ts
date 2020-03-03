@@ -53,7 +53,7 @@ export class ListComponent implements OnInit {
 
   //This currently deletes recipes, the naming will be fixed later...
   deleteRecipe(id) {
-    this.apiService.deleteIssue(id).subscribe(() => {
+    this.apiService.deleteRecipe(id).subscribe(() => {
       this.fetchRecipes();
     });
   }

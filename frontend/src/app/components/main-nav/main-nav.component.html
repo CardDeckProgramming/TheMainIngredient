@@ -12,6 +12,7 @@
       <a mat-list-item routerLink="/list">Your Recipes</a>
       <a mat-list-item routerLink="/create">Create Recipe</a>
       <a mat-list-item (click)="drawer.toggle(); logOut()">Log Out</a>
+      <a mat-list-item (click)="drawer.toggle(); deleteAccount(this.userService.getAccountId())">Delete Account</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -33,6 +34,7 @@
       </ng-template>
       <span class="spacer"></span>
       <a mat-list-item routerLink="/home">Home</a>
+      <a mat-list-item href="#">About Us</a>
       <a mat-list-item routerLink="/contact-us">Contact Us</a>
       <span class="pipe">&#124;</span>
       <span style="color: #FFD740;">WebApp Name</span>

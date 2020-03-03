@@ -52,3 +52,30 @@ button {
 .ingredient-info mat-select {
    margin-top: 5.5%;
 }
+
+.mat-expansion-panel {
+   border: 0.5px solid #673AB7;
+   border-bottom: 0.25px;
+}
+
+.mat-expansion-panel:last-child {
+   border: 1px solid #673AB7;
+}
+
+.mat-expansion-panel.mat-expanded {
+  border: 1px solid #FFD740;
+}
+
+::ng-deep .specific-class > .mat-expansion-indicator:after {
+   color:  #673AB7;
+}
+
+ul {
+   list-style: none;
+}
+
+ul li::before {
+   content: "\2022";
+   color: #673AB7;
+   font-weight: bold;
+}

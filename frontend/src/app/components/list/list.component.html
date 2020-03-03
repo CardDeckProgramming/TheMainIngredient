@@ -1,5 +1,23 @@
 <div>
-   <br />
+   <br/>
+   <mat-card>
+      <mat-select placeholder="Measurement">
+         <mat-option value=" ">N/A</mat-option>
+         <mat-option value="tsp">Teaspoon (tsp)</mat-option>
+         <mat-option value="Tbsp">Tablespoon (Tbsp)</mat-option>
+         <mat-option value="c">Cup (c)</mat-option>
+         <mat-option value="oz">Ounce (oz)</mat-option>
+         <mat-option value="pt">Pint (pt)</mat-option>
+         <mat-option value="qt">Quart (qt)</mat-option>
+         <mat-option value="gal">Gallon (gal)</mat-option>
+         <mat-option value="ltr">Liter (ltr)</mat-option>
+         <mat-option value="ml">Milliliter (ml)</mat-option>
+         <mat-option value="lb">Pound (lb)</mat-option>
+         <mat-option value="g">Gram (g)</mat-option>
+         <mat-option value="kg">Kilogram (kg)</mat-option>
+      </mat-select>
+   </mat-card>
+   <br/>
    <mat-card>
       <!--[dataSource] take the recipes array we created in list.component.ts and creates a table by using the data -->
       <table mat-table [dataSource]="recipes">
@@ -30,7 +48,6 @@
          <!--displayedColumns is the array set in the list.component.ts which sets the table column names for us-->
          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
       </table>
    </mat-card>
 </div>

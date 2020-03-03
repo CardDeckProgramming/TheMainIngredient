@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { map, shareReplay } from 'rxjs/operators';
 import { UserService } from 'src/app/user.service';
+import { APIService } from '../../api.service';
 
 @Component({
   selector: 'main-nav',
@@ -22,7 +23,8 @@ export class MainNavComponent {
 
   constructor(private breakpointObserver: BreakpointObserver, 
               private router: Router, private route: ActivatedRoute, 
-              private userService: UserService) { }
+              private userService: UserService,
+              private apiService: APIService) { }
 
   logOut() {
     this.userService.setAccountId(null);
@@ -30,5 +32,11 @@ export class MainNavComponent {
     this.userService.setAccountPassword(null);
     this.userService.setAccountLoggedIn(false);
     this.router.navigate(['']);
+  }
+
+  deleteAccount(id) {
+    this.apiService.deleteAccount(id).subscribe(() => {
+      this.logOut();
+    });
   }
 }

@@ -30,14 +30,14 @@ export class APIService {
   }
 
   getAccount(email, password) {
-    return this.http.get(`${this.uri}/accounts/getAccount/${email}/${password}`);
+    return this.http.get(`${this.uri}/accounts/get/${email}/${password}`);
   }
 
   addAccountRecipeId(recipeId) {
     const account = {
       recipeId: recipeId
     }
-    return this.http.post(`${this.uri}/accounts/${this.userService.getAccountId()}/addRecipe`, account);
+    return this.http.post(`${this.uri}/accounts/${this.userService.getAccountId()}/recipe/add`, account);
   }
 
   getAccountRecipes() {
@@ -74,7 +74,11 @@ export class APIService {
     return this.http.post(`${this.uri}/recipes/update/${id}`, recipe);
   }
 
-  deleteIssue(id) {
+  deleteAccount(id) {
+    return this.http.get(`${this.uri}/accounts/delete/${id}`);
+  }
+
+  deleteRecipe(id) {
     return this.http.get(`${this.uri}/recipes/delete/${id}`);
   }
 }

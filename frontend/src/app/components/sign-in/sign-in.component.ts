@@ -13,6 +13,7 @@ import { MatSnackBar } from '@angular/material';
 export class SignInComponent implements OnInit {
 
   signInForm: FormGroup;
+  hide: boolean = true;
 
   constructor(private apiService: APIService, private fb: FormBuilder, private router: Router, private userService: UserService, private snackBar: MatSnackBar) { }
 
@@ -38,9 +39,9 @@ export class SignInComponent implements OnInit {
         this.userService.setAccountLoggedIn(true);
         this.router.navigate([`/list`]);
         let email = JSON.parse(JSON.stringify(response['email']));
-        this.snackBar.open('Welcome back ' + email.substring(0, email.indexOf('.')) + '!', 'Dismiss', { duration: 2500, verticalPosition: 'top', panelClass: ['snackBarSucess'] });
+        this.snackBar.open('Welcome back ' + email.substring(0, email.indexOf('.')) + '!', 'Dismiss', {duration: 2500, verticalPosition: 'top', panelClass: ['snackBarSucess']});
       } else {
-        this.snackBar.open('Error: Invalid login credentials', 'Dismiss', { verticalPosition: 'top', panelClass: ['snackBarError'] });
+        this.snackBar.open('Error: Invalid login credentials', 'Dismiss', {verticalPosition: 'top', panelClass: ['snackBarError']});
       }
     });
   }
@@ -51,11 +52,16 @@ export class SignInComponent implements OnInit {
   */
   signUp() {
     this.apiService.addAccount(this.signInForm.get('email').value, this.signInForm.get('password').value).subscribe(response => {
-      this.userService.setAccountId(JSON.parse(JSON.stringify(response['accountId'])));
-      this.userService.setAccountEmail(JSON.parse(JSON.stringify(response['accountEmail'])));
-      this.userService.setAccountPassword(JSON.parse(JSON.stringify(response['accountPassword'])));
-      this.userService.setAccountLoggedIn(true);
-      this.router.navigate([`/list`]);
+      if (JSON.parse(JSON.stringify(response)) != null) {
+        this.userService.setAccountId(JSON.parse(JSON.stringify(response['accountId'])));
+        this.userService.setAccountEmail(JSON.parse(JSON.stringify(response['accountEmail'])));
+        this.userService.setAccountPassword(JSON.parse(JSON.stringify(response['accountPassword'])));
+        this.userService.setAccountLoggedIn(true);
+        this.router.navigate([`/list`]);
+        this.snackBar.open('Welcome to Recipe Web App!', 'Dismiss', { duration: 2500, verticalPosition: 'top', panelClass: ['snackBarSucess'] });
+      } else {
+        this.snackBar.open('Error: This email is already being used', 'Dismiss', { verticalPosition: 'top', panelClass: ['snackBarError'] });
+      }
     });
   }
 

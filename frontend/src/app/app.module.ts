@@ -16,6 +16,7 @@ import {
   MatDividerModule, 
   MatExpansionModule,
   MatFormFieldModule,
+  MatGridListModule,
   MatIconModule,  
   MatInputModule,
   MatListModule,
@@ -29,7 +30,6 @@ import {
   MatTooltipModule
   } from '@angular/material';
 import { NgModule } from '@angular/core';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule, Routes } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SignInComponent } from './components/sign-in/sign-in.component';
@@ -72,6 +72,7 @@ const routes: Routes = [
     MatDividerModule,
     MatExpansionModule, 
     MatFormFieldModule, 
+    MatGridListModule,
     MatIconModule, 
     MatInputModule, 
     MatListModule,
@@ -82,7 +83,6 @@ const routes: Routes = [
     MatSnackBarModule,
     MatTableModule, 
     MatToolbarModule,
-    NgbModule,
     ReactiveFormsModule,
     RouterModule.forRoot(routes)
   ],

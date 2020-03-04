@@ -13,8 +13,6 @@ import { APIService } from '../../api.service';
 })
 export class MainNavComponent {
 
-  id: String;
-
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
       map(result => result.matches),
@@ -23,7 +21,7 @@ export class MainNavComponent {
 
   constructor(private breakpointObserver: BreakpointObserver, 
               private router: Router, private route: ActivatedRoute, 
-              private userService: UserService,
+              public userService: UserService,
               private apiService: APIService) { }
 
   logOut() {

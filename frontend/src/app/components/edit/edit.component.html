@@ -37,7 +37,7 @@
             <section class="mat-typography">
                <h2>Add Ingredients</h2>
             </section> 
-            <div formArrayName="ingredients" *ngFor="let ingredient of updateForm.get('ingredients').controls; let i = index">
+            <div formArrayName="ingredients" *ngFor="let ingredient of updateForm.get('ingredients')['controls']; let i = index">
                <div [formGroupName]="i" class="float">
                   <div class="ingredient-info">
                      <mat-form-field class="field-full-width"> 
@@ -79,7 +79,7 @@
             <section class="mat-typography">
                <h2>Add Steps</h2>
             </section> 
-            <div formArrayName="steps" *ngFor="let step of updateForm.get('steps').controls; let i = index">
+            <div formArrayName="steps" *ngFor="let step of updateForm.get('steps')['controls']; let i = index">
                <div [formGroupName]="i">
                   <mat-form-field class="field-full-width">
                      <textarea rows="3" matInput class="matInput" placeholder="{{'Step  '+(i+1)}}" formControlName="description"></textarea>

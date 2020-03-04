@@ -188,12 +188,12 @@ export class ViewComponent implements OnInit {
   convertAllMeasurements(measurmentType, toMeasurement) {
     for (let i = 0; i < this.recipe.ingredients.length; i++) {
       let currentIngredient = this.recipe.ingredients[i];
-      if (measurmentType == this.VOLUMES && this.doesVolumeExist(currentIngredient['measurement'])) {
+      if (measurmentType == this.VOLUMES && Volumes[currentIngredient['measurement']]) {
         this.volumeCalculations.forEach(conversion => {
           this.setMeasurement(conversion['from'], conversion['to'], conversion['value'], currentIngredient['measurement'], toMeasurement, currentIngredient['amount'], i);
           this.dropDown[i] = '-1';
         });
-      } else if (measurmentType == this.WEIGHTS && this.doesWeightExist(currentIngredient['measurement'])) {
+      } else if (measurmentType == this.WEIGHTS && Weights[currentIngredient['measurement']]) {
         this.weightCalculations.forEach(conversion => {
           this.setMeasurement(conversion['from'], conversion['to'], conversion['value'], currentIngredient['measurement'], toMeasurement, currentIngredient['amount'], i);
           this.dropDown[i] = '-1';
@@ -203,11 +203,11 @@ export class ViewComponent implements OnInit {
   }
 
   convertMeasurement(amount, fromMeasurement, inputId, toMeasurement) {
-    if (this.doesVolumeExist(fromMeasurement) && this.doesVolumeExist(toMeasurement)) {
+    if (Volumes[fromMeasurement] && Volumes[toMeasurement]) {
       this.volumeCalculations.forEach(conversion => {
         this.setMeasurement(conversion['from'], conversion['to'], conversion['value'], fromMeasurement, toMeasurement, amount, inputId);
       });
-    } else if (this.doesWeightExist(fromMeasurement) && this.doesWeightExist(toMeasurement)) {
+    } else if (Weights[fromMeasurement] && Weights[toMeasurement]) {
       this.weightCalculations.forEach(conversion => {
         this.setMeasurement(conversion['from'], conversion['to'], conversion['value'], fromMeasurement, toMeasurement, amount, inputId);
       });
@@ -223,6 +223,7 @@ export class ViewComponent implements OnInit {
     }
   }
 
+  /*
   doesWeightExist(type) {
     for (let weight in Weights) {
       if (type == weight) {
@@ -240,5 +241,6 @@ export class ViewComponent implements OnInit {
     }
     return false;
   }
+  */
 
 }

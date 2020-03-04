@@ -12,7 +12,7 @@ export class UserService {
   private accountEmail: string = '';
   private accountPassword: string = '';
 
-  public isAccountLoggedIn() { 
+  public isAccountLoggedIn(): boolean { 
     return this.accountLoggedIn; 
   }
 

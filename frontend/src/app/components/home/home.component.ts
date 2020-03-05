@@ -20,9 +20,9 @@ export class HomeComponent implements OnInit {
     {text: '', cols: 2, rows: 2, img: 'assets/imgs/placeholder2.jpg'},
     {text: '', cols: 2, rows: 2, img: 'assets/imgs/placeholder3.jpg'},
     {text: '', cols: 4, rows: 2, img: 'assets/imgs/placeholder4.jpg'},
-    {text: '', cols: 1, rows: 2, img: 'assets/imgs/placeholder5.jpg'},
-    {text: '', cols: 3, rows: 2, img: 'assets/imgs/placeholder6.jpg'},
-    {text: '', cols: 2, rows: 2, img: 'assets/imgs/placeholder7.jpg'}
+    {text: '', cols: 1, rows: 3, img: 'assets/imgs/placeholder5.jpg'},
+    {text: '', cols: 3, rows: 3, img: 'assets/imgs/placeholder6.jpg'},
+    {text: '', cols: 2, rows: 3, img: 'assets/imgs/placeholder7.jpg'}
   ];
 
   constructor() { }

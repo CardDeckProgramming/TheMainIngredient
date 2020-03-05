@@ -1,17 +1,16 @@
 <mat-grid-list cols="6" rowHeight="100px">
-    <mat-grid-tile style="border: 1px solid #FFFFFF;"
+    <mat-grid-tile
         *ngFor="let tile of tiles"
         [colspan]="tile.cols"
         [rowspan]="tile.rows"
-        [style.background]="tile.color">
+        [style.border]="'1px solid #FFFFFF;'">
         <ng-container style="z-index: -1;">
             <img [src]="tile.img"/>
         </ng-container>
         {{tile.text}}
     </mat-grid-tile>
-</mat-grid-list>
-<footer>
-    <mat-toolbar style="background-color: #673AB7;">
-        <span>Footer Placeholder</span>
+    <mat-toolbar style="background-color: #673AB7;position: absolute;bottom: 0;width: 100%;border-top-left-radius: 10px;border-top-right-radius: 10px;">
+      <span style="color: white;">Footer Placeholder</span>
     </mat-toolbar>
-</footer>
+</mat-grid-list>
+

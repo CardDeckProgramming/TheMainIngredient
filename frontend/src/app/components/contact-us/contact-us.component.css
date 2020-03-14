@@ -1,23 +1,25 @@
-body {
-    margin:0;
-    padding: 0;
-    text-align: center;
-    background:url(img/bg.jpg);
-    background-size: cover;
-    background-position: center;
-    padding: 100px;
+.mat-card {
+  border-color: #FFFFFF;
+  margin-left: 25%;
+  width: 50%;
+}
 
+.content1 {
+  text-align: center;
 }
-* {box-sizing: border-box;}
-.contact-title{
-    margin-top: 100px;
-    color: black;
-    text-transform: uppercase;
-    transition: all 4s ease-in-out;
+
+.create-form {
+  min-width: 150px;
+  width: 100%;
 }
-.contact-us h1 {
-    font-size: 32px;
-    line-height: 10px;
+
+.header-info {
+  width: 40%;
+}
+
+button {
+  margin-bottom: 5%;
+  color:red;
 }
 
 h1 {
@@ -63,5 +65,3 @@ input[type=text], select, textarea {
     color: #FFFFFF;
     text-align: center;
  }
-  
-  

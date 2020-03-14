@@ -11,6 +11,9 @@ export class UserService {
   private accountId: string = '';
   private accountEmail: string = '';
   private accountPassword: string = '';
+  private contactId: string = '';
+  private contactEmail: string = '';
+  private ContactMessage: string = '';
 
   public isAccountLoggedIn(): boolean { 
     return this.accountLoggedIn; 
@@ -42,6 +45,20 @@ export class UserService {
 
   public setAccountPassword(accountPassword: string) { 
     this.accountPassword = accountPassword; 
+  }
+  public getContactEmail() {
+    return this.contactEmail;
+  }
+
+  public setContactEmail(contactEmail: string) { 
+    this.contactEmail = contactEmail; 
+  }
+  public getContactMessage() {
+    return this.contactEmail;
+  }
+
+  public setcontactMessage(contactEmail: string) { 
+    this.accountEmail = contactEmail; 
   }
 
 }

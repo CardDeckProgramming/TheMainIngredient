@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 //These imports are Schemas made to put into our db collections (tables) as seen in Robo 3T
 import Recipe from './models/Recipe';
 import Account from './models/Account';
+import Contact from './models/Contact';
 
 const app = express();
 const router = express.Router();
@@ -78,6 +79,33 @@ router.route('/accounts/add').post((req, res) => {
             });
         }
     });
+});
+router.route('/Contact/getContact/:email/:Message').get((req, res) => {
+    console.log('I was called');
+    console.log('Email: ' + req.params.email + ', Message: ' + req.params.message);
+    Account.findOne({email: req.params.email, message: req.params.message}, (err, account) => {
+        if (err) {
+            res.json(err);
+        } else {
+            res.json(Contact);
+        }
+    });
+});
+
+router.route('/contact/add').post((req, res) => {
+    let account = new Contact(req.body);
+    console.log(Contact);
+    account.save()
+        .then(Contact => {
+            res.status(200).json({'status': 'Added successfully', 
+                                  'contactId': account._id, 
+                                  'contactEmail': account.email, 
+                                  'contactMessage': account.password});  
+            console.log('Contact added successfully');        
+        }).catch(err => {
+            res.status(400).send('Failed to create new contact: ' + err);
+            console.log('Failed to create new contact: ' + err);
+        });
 });
 
 //Accounts Collection (table) - Specifically Add Recipe ID to Recipe array

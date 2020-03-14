@@ -1,34 +1,16 @@
-<!DOCTYPE html>
-<html>
-    <body>
-
-
-<div class="about-section">
-    <h1>Welcome</h1>
-    <p>Our website is basically a cooking website.</p>
-    <p>It’s easy to look up recipes online, </p>
-    <p>but if you need something to cook tonight, </p>
-    <p>it’s hard to find something that includes the ingredients you already have at home.</p>
-    <p>By entering in your ingredients or searching by recipe type</p>
-    <p> it’s easy to find something that sounds delicious,</p>
-    <p> no trip to the grocery store required.</p>
-    <br>
-    <br>
-    <br>
-</div>
-
-</body>
-<div class="footer">
-  <p>Contact number:226-448-4697</p>
-  <p> <a href="">
-      </a>Email:poojampatel1894@gmail.com</p>
-</div>
-
-
-
-
-</html>
-
-
-
+<mat-grid-list cols="6" rowHeight="100px">
+    <mat-grid-tile
+        *ngFor="let tile of tiles"
+        [colspan]="tile.cols"
+        [rowspan]="tile.rows"
+        [style.border]="'1px solid #FFFFFF;'">
+        <ng-container style="z-index: -1;">
+            <img [src]="tile.img"/>
+        </ng-container>
+        {{tile.text}}
+    </mat-grid-tile>
+    <mat-toolbar style="background-color: #673AB7;position: absolute;bottom: 0;width: 100%;border-top-left-radius: 10px;border-top-right-radius: 10px;">
+      <span style="color: white;">Footer Placeholder</span>
+    </mat-toolbar>
+</mat-grid-list>
 

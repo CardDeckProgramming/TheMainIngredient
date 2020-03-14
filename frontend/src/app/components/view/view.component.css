@@ -1,7 +1,5 @@
 h2 {
-   margin-top: 0.5%;
-   margin-left: 2.5%;
-   float: right;
+   margin-top: 2.5%;
 }
 
 .create-form {
@@ -55,9 +53,29 @@ button {
    margin-top: 5.5%;
 }
 
-input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active  {
-    -webkit-box-shadow: 0 0 0 30px white inset !important;
+.mat-expansion-panel {
+   border: 0.5px solid #673AB7;
+   border-bottom: 0.25px;
+}
+
+.mat-expansion-panel:last-child {
+   border: 1px solid #673AB7;
+}
+
+.mat-expansion-panel.mat-expanded {
+  border: 1px solid #FFD740;
+}
+
+::ng-deep .specific-class > .mat-expansion-indicator:after {
+   color:  #673AB7;
+}
+
+ul {
+   list-style: none;
+}
+
+ul li::before {
+   content: "\2022";
+   color: #673AB7;
+   font-weight: bold;
 }

@@ -1,19 +1,5 @@
-body {
-    background: url(image/background1.jpg);
+.body {
+  padding: 0;
+  margin: 0;
 }
 
-.about-section {
-    padding: 100px;
-    text-align: center;
-    color:black;
-  }
-  .footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    background-color:  #2d2d86;
-    color: white;
-    text-align: center;
- }
-  

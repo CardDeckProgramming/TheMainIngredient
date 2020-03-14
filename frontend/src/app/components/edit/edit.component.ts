@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { APIService } from '../../api.service';
+import { UserService } from 'src/app/user.service';
 
 @Component({
   selector: 'app-edit',
@@ -15,27 +16,37 @@ export class EditComponent implements OnInit {
   recipe: any = {};
   updateForm: FormGroup;
 
-  constructor(private apiService: APIService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private snackBar: MatSnackBar) { 
+  constructor(private apiService: APIService, 
+              private fb: FormBuilder, 
+              private router: Router, 
+              private route: ActivatedRoute, 
+              private snackBar: MatSnackBar,
+              private userService: UserService) { 
+        
     this.createForm();
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.id = params.id;
-      this.apiService.getRecipeById(this.id).subscribe(res => {
-        this.recipe = res;
-
-        this.updateForm.get('author').setValue(this.recipe.author);
-        this.updateForm.get('title').setValue(this.recipe.title);
-        this.updateForm.get('type').setValue(this.recipe.type);
-        for(let ingredient of this.recipe.ingredients) {
-          this.setIngredient(ingredient);
-        }
-        for(let step of this.recipe.steps) {
-          this.setStep(step);
-        }
+    if (this.userService.isAccountLoggedIn()) {
+      this.route.params.subscribe(params => {
+        this.id = params.id;
+        this.apiService.getRecipeById(this.id).subscribe(res => {
+          this.recipe = res;
+  
+          this.updateForm.get('author').setValue(this.recipe.author);
+          this.updateForm.get('title').setValue(this.recipe.title);
+          this.updateForm.get('type').setValue(this.recipe.type);
+          for(let ingredient of this.recipe.ingredients) {
+            this.setIngredient(ingredient);
+          }
+          for(let step of this.recipe.steps) {
+            this.setStep(step);
+          }
+        });
       });
-    });
+    } else {
+      this.router.navigate([`/home`]);
+    }
   }
 
   createForm() {
@@ -95,7 +106,7 @@ export class EditComponent implements OnInit {
   updateRecipe() {
     this.apiService.updateRecipe(this.id, this.updateForm.get('author').value, this.updateForm.get('title').value, this.updateForm.get('type').value, this.updateForm.get('ingredients').value, this.updateForm.get('steps').value).subscribe(response => {
       this.router.navigate(['/list']);
-      this.snackBar.open('Recipe "' + JSON.parse(JSON.stringify(response['title'])) + '" updated successfully', 'OK', { duration: 4000 });
+      this.snackBar.open('Recipe "' + JSON.parse(JSON.stringify(response['title'])) + '" updated successfully', 'OK', { duration: 4000, verticalPosition: 'top', panelClass: ['snackBarSuccess'] });
     });
   }
 

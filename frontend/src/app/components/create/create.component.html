@@ -1,6 +1,7 @@
 <div>
    <br/>
    <mat-card class="mat-card">
+      <h2>Create</h2>
       <button mat-flat-button color="accent" routerLink="/list">Back</button>
       <button type="submit" 
             (click)="saveRecipe()"
@@ -14,10 +15,10 @@
       <br/>
          <form [formGroup]="createForm" class="create-form">
             <div class="header-info">
-               <input type="text" matInput placeholder="Author" formControlName="author">
+               <input type="text" matInput placeholder="Author" formControlName="author" autocomplete="off">
             </div>
             <div class="header-info">
-               <input type="text" matInput placeholder="Recipe Title" formControlName="title">
+               <input type="text" matInput placeholder="Recipe Title" formControlName="title" autocomplete="off">
             </div>
             <div class="header-info">
                <mat-select placeholder="Recipe Type" formControlName="type">
@@ -36,28 +37,33 @@
             <section class="mat-typography">
                <h2>Add Ingredients</h2>
             </section> 
-            <div formArrayName="ingredients" *ngFor="let ingredient of createForm.get('ingredients').controls; let i = index">
+            <div formArrayName="ingredients" *ngFor="let ingredient of createForm.get('ingredients')['controls']; let i = index">
                <div [formGroupName]="i" class="float">
                   <div class="ingredient-info">
                      <mat-form-field class="field-full-width"> 
-                        <input type="text" matInput placeholder="{{'Ingredient  '+(i+1)}}" formControlName="ingredient"> 
+                        <input type="text" matInput placeholder="{{'Ingredient  '+(i+1)}}" formControlName="ingredient" autocomplete="off"> 
                      </mat-form-field>
                   </div>
                   <div class="ingredient-info">
                      <mat-form-field class="field-full-width"> 
-                        <input type="number" matInput placeholder="Amount" formControlName="amount">
+                        <input type="number" matInput placeholder="Amount" formControlName="amount" autocomplete="off">
                      </mat-form-field>
                   </div>
                   <div class="ingredient-info">
                      <mat-select placeholder="Measurement" formControlName="measurement">
-                        <mat-option value="tsp">Teaspoon</mat-option>
-                        <mat-option value="Tbsp">Tablespoon</mat-option>
-                        <mat-option value="c">Cup</mat-option>
-                        <mat-option value="oz">Ounce</mat-option>
-                        <mat-option value="pt">Pint</mat-option>
-                        <mat-option value="qt">Quart</mat-option>
-                        <mat-option value="gal">Gallon</mat-option>
-                        <mat-option value="lb">Pound</mat-option>
+                        <mat-option value=" ">N/A</mat-option>
+                        <mat-option value="tsp">Teaspoon (tsp)</mat-option>
+                        <mat-option value="Tbsp">Tablespoon (Tbsp)</mat-option>
+                        <mat-option value="c">Cup (c)</mat-option>
+                        <mat-option value="oz">Ounce (oz)</mat-option>
+                        <mat-option value="pt">Pint (pt)</mat-option>
+                        <mat-option value="qt">Quart (qt)</mat-option>
+                        <mat-option value="gal">Gallon (gal)</mat-option>
+                        <mat-option value="ltr">Liter (ltr)</mat-option>
+                        <mat-option value="ml">Milliliter (ml)</mat-option>
+                        <mat-option value="lb">Pound (lb)</mat-option>
+                        <mat-option value="g">Gram (g)</mat-option>
+                        <mat-option value="kg">Kilogram (kg)</mat-option>
                      </mat-select>
                   </div>
                   <button mat-flat-button color="warn" class="delete-ingredient" (click)="removeIngredient(i)">Delete Ingredient</button>
@@ -72,10 +78,10 @@
             <section class="mat-typography">
                <h2>Add Steps</h2>
             </section> 
-            <div formArrayName="steps" *ngFor="let step of createForm.get('steps').controls; let i = index" class="step-float">
+            <div formArrayName="steps" *ngFor="let step of createForm.get('steps')['controls']; let i = index">
                <div [formGroupName]="i">
                   <mat-form-field class="field-full-width">
-                     <textarea rows="3" matInput placeholder="{{'Step  '+(i+1)}}" formControlName="description"></textarea>
+                     <textarea rows="3" matInput class="matInput" placeholder="{{'Step  '+(i+1)}}" formControlName="description"></textarea>
                   </mat-form-field>
                   <button mat-flat-button color="warn" class="delete-step" (click)="removeStep(i)">Delete Step</button>
                </div>

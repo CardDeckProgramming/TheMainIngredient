@@ -19,7 +19,11 @@ export class ListComponent implements OnInit {
   constructor(private userService: UserService, private apiService: APIService, private router: Router) { }
 
   ngOnInit() {
-    this.fetchRecipes();
+    if (this.userService.isAccountLoggedIn()) {
+      this.fetchRecipes();
+    } else {
+      this.router.navigate([`/home`]);
+    }
   }
 
   /* 
@@ -49,7 +53,7 @@ export class ListComponent implements OnInit {
 
   //This currently deletes recipes, the naming will be fixed later...
   deleteRecipe(id) {
-    this.apiService.deleteIssue(id).subscribe(() => {
+    this.apiService.deleteRecipe(id).subscribe(() => {
       this.fetchRecipes();
     });
   }

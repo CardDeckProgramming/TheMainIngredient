@@ -2,3 +2,15 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.snackBarSuccess {
+   color: #89B73A;
+}
+
+.snackBarError {
+   color: #FFA640;
+}
+
+.mat-tooltip {
+   font-size: 16px;
+}

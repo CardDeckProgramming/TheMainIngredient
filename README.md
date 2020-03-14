@@ -37,6 +37,20 @@ git commit -m "Message here" <- This command will commit all the files you added
                pushed to the master branch. You always need to add the -m and a quick message for this command to work. Usually 
                you'd just put what you did on the quotes such as "Added ____ functionality"
 
-git push --set-upstream origin [your_Branch_Name_Here] <- This will then push your changes to be added to the master branch, because
+git push origin [your_Branch_Name_Here] <- This will then push your changes to be added to the master branch, because
                                                           mandatory pull requests are enabled, the terminal should provide a link for 
                                                           you to set up the review such as add reviewers, comments, etc.
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
+Updating your master branch (and other branches):
+
+If changes have been updated in Git (a pull request has been accepted) it's a good idea to pull these changes to your master branch.
+Use 'git branch' to see/verify which branch you are in, if you are not in master use the command 'git checkout master' to switch to it
+Use 'git pull' to bring in all the changes from the repository (origin aka the master copy) to your master branch copy.
+
+*If you are making code chages in another branch, you'll need to do a rebase
+After you have pulled in the new changes in the master branch, switch to your other branch with 'git checkout [branch_name_here]'
+Then enter 'git rebase master' to briing in the new changes from master to your branch. 
+
+   *Note: You may get merge conflicts during this command (this means code you've changed was also changed in the same spot with the new changes you just pulled in). To fix these, go to the files where merge conflicts exist. Fix the code so the appropriate changes remain, and add the files to your next commit when you're ready to push your changes to the repository

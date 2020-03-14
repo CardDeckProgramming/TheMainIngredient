@@ -6,14 +6,20 @@
       <br />
       <div class="content">
          <!--[formGroup] uses the signInForm variable provided in the sign-in.component.ts file to create our form.
-            The formControlName property in the input tags link each property from the signInForm to our [formGroup] property-->
+            The formControlName property in the input tags link each property from the signInForm to our [formGroup] property
+         
+         value="bdb.barth@gmail.com"
+         value="ben123"
+         -->
          <form [formGroup]="signInForm" class="sign-in">
             <mat-form-field class="header-info">
-               <input type="text" matInput placeholder="Email" formControlName="email" size="35">
+               <input type="email" matInput placeholder="Email" formControlName="email" size="35" autocomplete="off"  email>
             </mat-form-field>
-            <br /><br />
+            <br/><br/>
+
             <mat-form-field class="header-info">
-               <input type="text" matInput placeholder="Password" formControlName="password" size="35">
+               <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'" formControlName="password" autocomplete="off" required>
+               <mat-icon matSuffix (click)="hide = !hide" color="primary">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
             </mat-form-field>
          </form>
          <br />
@@ -21,13 +27,13 @@
          needs to be completed before the user can press either of the buttons-->
          <button type="submit" 
                (click)="logIn()"
-               [disabled]="signInForm.pristine || signInForm.invalid" 
+               [disabled]="signInForm.pristine || signInForm.invalid"
                mat-flat-button color="primary">Log In</button>
          <br />
          <button type="submit" 
                (click)="signUp()"
                [disabled]="signInForm.pristine || signInForm.invalid" 
-               mat-flat-button color="primary">Sign Up</button>
+               mat-flat-button color="accent">Sign Up</button>
          <mat-divider style="background-color: #673AB7;"></mat-divider>
       </div>
    </mat-card>

@@ -44,33 +44,41 @@ router.route('/recipes/:id').get((req, res) => {
     });
 });
 
-router.route('/accounts/getAccount/:email/:password').get((req, res) => {
+router.route('/accounts/get/:email/:password').get((req, res) => {
     console.log('I was called');
     console.log('Email: ' + req.params.email + ', Password: ' + req.params.password);
     Account.findOne({email: req.params.email, password: req.params.password}, (err, account) => {
         if (err) {
+            console.log(err);
             res.json(err);
         } else {
+            console.log(account);
             res.json(account);
         }
     });
 });
 
 router.route('/accounts/add').post((req, res) => {
-    let account = new Account(req.body);
-    console.log(account);
-    account.save()
-        .then(account => {
-            res.status(200).json({'status': 'Added successfully', 
-                                  'accountId': account._id, 
-                                  'accountEmail': account.email, 
-                                  'accountPassword': account.password,
-                                  'accountUsername': account.username});  
-            console.log('Account added successfully');        
-        }).catch(err => {
-            res.status(400).send('Failed to create new account: ' + err);
-            console.log('Failed to create new account: ' + err);
-        });
+    let newAccount = new Account(req.body);
+    console.log(newAccount);
+
+    Account.findOne({email: req.body.email}, (err, account) => {
+        if (account) {
+            res.json(null);
+        } else {
+            newAccount.save().then(account => {
+                res.status(200).json({'status': 'Added successfully', 
+                                      'accountId': account._id, 
+                                      'accountEmail': account.email, 
+                                      'accountPassword': account.password,
+                                      'accountUsername': account.username});              
+                console.log('Account added successfully');        
+            }).catch(err => {
+                res.status(400).send('Failed to create new account: ' + err);
+                console.log('Failed to create new account: ' + err);
+            });
+        }
+    });
 });
 router.route('/Contact/getContact/:email/:Message').get((req, res) => {
     console.log('I was called');
@@ -101,7 +109,7 @@ router.route('/contact/add').post((req, res) => {
 });
 
 //Accounts Collection (table) - Specifically Add Recipe ID to Recipe array
-router.route('/accounts/:id/addRecipe').post((req, res) => {
+router.route('/accounts/:id/recipe/add').post((req, res) => {
     Account.findById(req.params.id, (err, account) => {
         if (!account) {
             return next(new Error('Could not load Account'));
@@ -135,6 +143,16 @@ router.route('/accounts/:id/recipes').get((req, res) => {
         }
     });
 });
+
+router.route('/accounts/delete/:id').get((req, res) => {
+    Account.findByIdAndRemove({_id: req.params.id}, (err, recipe) => {
+        if (err) {
+            res.json(err);
+        } else {
+            res.json('Removed account successfully');
+        }
+    })
+})
 
 //Recipe Collection (table)
 router.route('/recipes/add').post((req, res) => {
@@ -175,7 +193,7 @@ router.route('/recipes/delete/:id').get((req, res) => {
         if (err) {
             res.json(err);
         } else {
-            res.json('Remove successfully');
+            res.json('Remove recipe successfully');
         }
     })
 })

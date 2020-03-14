@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { APIService } from '../../api.service';
+import { UserService } from 'src/app/user.service';
 
 @Component({
   selector: 'app-create',
@@ -12,20 +13,24 @@ export class CreateComponent implements OnInit {
 
   createForm: FormGroup;
 
-  constructor(private apiService: APIService, private fb: FormBuilder, private router: Router) { }
+  constructor(private apiService: APIService, private fb: FormBuilder, private router: Router, private userService: UserService) { }
 
   ngOnInit() {
-    this.createForm = this.fb.group({
-      author: ['', Validators.required],
-      title: ['', Validators.required],
-      type: ['', Validators.required],
-      ingredients: this.fb.array([
-        this.addIngredientFormGroup()
-      ]),
-      steps: this.fb.array([
-        this.addStepFormGroup()
-      ])
-    });
+    if (this.userService.isAccountLoggedIn()) { 
+      this.createForm = this.fb.group({
+        author: ['', Validators.required],
+        title: ['', Validators.required],
+        type: ['', Validators.required],
+        ingredients: this.fb.array([
+          this.addIngredientFormGroup()
+        ]),
+        steps: this.fb.array([
+          this.addStepFormGroup()
+        ])
+      });
+    } else {
+      this.router.navigate([`/list`]);
+    }
   }
 
   addIngredientFormGroup() {

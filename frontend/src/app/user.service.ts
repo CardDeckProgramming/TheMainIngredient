@@ -15,7 +15,7 @@ export class UserService {
   private contactEmail: string = '';
   private ContactMessage: string = '';
 
-  public isAccountLoggedIn() { 
+  public isAccountLoggedIn(): boolean { 
     return this.accountLoggedIn; 
   }
 

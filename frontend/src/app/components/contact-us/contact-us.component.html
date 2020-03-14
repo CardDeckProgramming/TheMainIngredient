@@ -1,38 +1,31 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Contact Us</title>
-    </head>
-    <body>
-        <div class="contact-us">
-            <h1>Contact Us</h1>
-            <br>
-            <br>
-            
-            <label for="name">Name</label><br>
-            <input type="text" id="name" name="name" placeholder="Your name.."><br>
-            <label for="email">Email</label><br>
-            <input type="text" id="email" name="email" placeholder="Your email.."><br>
-            <label for="Message">Message</label><br>
-            <textarea id="message" name="message" placeholder="Write your message.." style="height:100px"></textarea><br>
-            <input type="submit" value="Submit">
-            <br>
-            <br>
-            <br>
-            
-            <p>Direct Contact<p>
-        </div>
-        <div class="footer">
-            <p>Contact number:226-448-4697</p>
-            <p> <a href="">
-                </a>Email:poojampatel1894@gmail.com</p>
-          </div>
-        
-    </body>
-    
-</html>
 
-
-
-
-
+<div>
+    <br />
+    <mat-card>
+       <h2>Contact Us</h2>
+       <mat-divider style="background-color: #673AB7;"></mat-divider>
+       <br />
+       <div class="content1">
+          <!--[formGroup] uses the signInForm variable provided in the sign-in.component.ts file to create our form.
+             The formControlName property in the input tags link each property from the signInForm to our [formGroup] property-->
+          <form [formGroup]="contactUsForm" class="contact-us">
+             <mat-form-field class="header-info">
+                <input type="text" matInput placeholder="Email" formControlName="email" size="35">
+             </mat-form-field>
+             <br /><br />
+             <mat-form-field class="header-info">
+                <input type="text" matInput placeholder="Message" formControlName="message" size="35">
+             </mat-form-field>
+          </form>
+          <br />
+          <!--These buttons will allow users to log in or sign up, the [disabled] code state that the signInForm (that we set above)
+          needs to be completed before the user can press either of the buttons-->
+          
+          <button type="submit" 
+                (click)="submit()"
+                [disabled]="contactUsForm.pristine || contactUsForm.invalid" 
+                mat-flat-button color="primary">Submit</button>
+          <mat-divider style="background-color: #673AB7;"></mat-divider>
+       </div>
+    </mat-card>
+ </div>

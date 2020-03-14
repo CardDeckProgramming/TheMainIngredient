@@ -15,6 +15,9 @@ export class APIService {
   private accountIdSource = new Subject<string>();
   accountId$ = this.accountIdSource.asObservable();
 
+  private contactIdSource = new Subject<string>();
+  contactId$ = this.contactIdSource.asObservable();
+
   constructor(private userService: UserService, private http: HttpClient) { }
 
   sendAccountId(account: string) {
@@ -32,6 +35,22 @@ export class APIService {
   getAccount(email, password) {
     return this.http.get(`${this.uri}/accounts/getAccount/${email}/${password}`);
   }
+  sendContactId(contact: string) {
+    this.contactIdSource.next(contact);
+  }
+
+  addContact(email, message) {
+    const contact = {
+      email: email,
+      message: message
+    }
+    return this.http.post(`${this.uri}/contact/add`,contact);
+  }
+
+  getContact(email, message) {
+    return this.http.get(`${this.uri}/contact/getcontact/${email}/${message}`);
+  }
+  
 
   addAccountRecipeId(recipeId) {
     const account = {

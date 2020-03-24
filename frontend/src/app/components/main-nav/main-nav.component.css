@@ -2,11 +2,6 @@
   background-color: #F5F5F5;
 }
 
-.wrapper {
-  margin: 0 auto;
-  width: 80%;
-}
-
 .mat-sidenav-container app-list {
   width: 80%;
 }

@@ -4,8 +4,8 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 
 //These imports are Schemas made to put into our db collections (tables) as seen in Robo 3T
-import Recipe from './models/Recipe';
 import Account from './models/Account';
+import Recipe from './models/Recipe';
 import Contact from './models/Contact';
 
 const app = express();
@@ -17,36 +17,39 @@ app.use(bodyParser.json());
 //Connect our local db with our server
 mongoose.connect('mongodb://localhost:27017/recipes');
 mongoose.connection.once('Open', () => {
-   console.log('MongoDB database connection established successfully');
-}).on('error', () => {
-console.log('MongoDB Connection Error: ', error);
+        console.log('MongoDB database connection established successfully');
+    }).on('error', () => {
+        console.log('MongoDB Connection Error: ', error);
 });
 
 //All these function below are the API calls we use the get, post, update and delete data from the database
 
-router.route('/recipes').get((req, res) => {
-    Recipe.find((err, recipes) => {
-        if (err) {
-            console.log(err);
+//Accounts Collection
+//Add Account
+router.route('/accounts/add').post((req, res) => {
+    let newAccount = new Account(req.body);
+    console.log(newAccount);
+    Account.findOne({email: req.body.email}, (err, account) => {
+        if (account) {
+            res.json(null);
         } else {
-            res.json(recipes);
+            newAccount.save().then(account => {
+                res.status(200).json({'status': 'Added successfully', 
+                                      'accountId': account._id, 
+                                      'accountFirst': account.first,
+                                      'accountEmail': account.email, 
+                                      'accountPassword': account.password});              
+                console.log('Account added successfully');        
+            }).catch(err => {
+                res.status(400).send('Failed to create new account: ' + err);
+                console.log('Failed to create new account: ' + err);
+            });
         }
     });
 });
 
-router.route('/recipes/:id').get((req, res) => {
-    Recipe.findById(req.params.id, (err, recipe) => {
-        if (err) {
-           console.log(err);
-        } else {
-           res.json(recipe);
-        }
-    });
-});
-
-router.route('/accounts/get/:email/:password').get((req, res) => {
-    console.log('I was called');
-    console.log('Email: ' + req.params.email + ', Password: ' + req.params.password);
+//Log Into Account
+router.route('/accounts/:email/:password').get((req, res) => {
     Account.findOne({email: req.params.email, password: req.params.password}, (err, account) => {
         if (err) {
             console.log(err);
@@ -58,58 +61,39 @@ router.route('/accounts/get/:email/:password').get((req, res) => {
     });
 });
 
-router.route('/accounts/add').post((req, res) => {
-    let newAccount = new Account(req.body);
-    console.log(newAccount);
-
-    Account.findOne({email: req.body.email}, (err, account) => {
-        if (account) {
-            res.json(null);
+//Get Account (Profile) By Id
+router.route('/accounts/:id').get((req, res) => {
+    Account.findById(req.params.id, (err, account) => {
+        if (err) {
+           console.log(err);
         } else {
-            newAccount.save().then(account => {
-                res.status(200).json({'status': 'Added successfully', 
-                                      'accountId': account._id, 
-                                      'accountEmail': account.email, 
-                                      'accountPassword': account.password,
-                                      'accountUsername': account.username});              
-                console.log('Account added successfully');        
+           res.json(account);
+        }
+    });
+});
+
+//Update Account (Profile)
+router.route('/accounts/update/:id').post((req, res) => {
+    Account.findById(req.params.id, (err, account) => {
+        if (!account) {
+            return next(new Error('Could not load Account'));
+        } else {
+            account.first = req.body.first;
+            account.last = req.body.last;
+            account.gender = req.body.gender;
+            account.bio = req.body.bio;
+
+            account.save().then(account => {
+               res.json({'status': 'Account Updated successfully'});
             }).catch(err => {
-                res.status(400).send('Failed to create new account: ' + err);
-                console.log('Failed to create new account: ' + err);
+                res.status(400).json({'status': 'Account failed to update'});
             });
         }
     });
 });
-router.route('/Contact/getContact/:email/:Message').get((req, res) => {
-    console.log('I was called');
-    console.log('Email: ' + req.params.email + ', Message: ' + req.params.message);
-    Account.findOne({email: req.params.email, message: req.params.message}, (err, account) => {
-        if (err) {
-            res.json(err);
-        } else {
-            res.json(Contact);
-        }
-    });
-});
 
-router.route('/contact/add').post((req, res) => {
-    let account = new Contact(req.body);
-    console.log(Contact);
-    account.save()
-        .then(Contact => {
-            res.status(200).json({'status': 'Added successfully', 
-                                  'contactId': account._id, 
-                                  'contactEmail': account.email, 
-                                  'contactMessage': account.password});  
-            console.log('Contact added successfully');        
-        }).catch(err => {
-            res.status(400).send('Failed to create new contact: ' + err);
-            console.log('Failed to create new contact: ' + err);
-        });
-});
-
-//Accounts Collection (table) - Specifically Add Recipe ID to Recipe array
-router.route('/accounts/:id/recipe/add').post((req, res) => {
+//Add Recipe Ref to Account
+router.route('/accounts/:id/recipes/add').post((req, res) => {
     Account.findById(req.params.id, (err, account) => {
         if (!account) {
             return next(new Error('Could not load Account'));
@@ -123,17 +107,18 @@ router.route('/accounts/:id/recipe/add').post((req, res) => {
             });
         }
     });
+    console.log('Add Account Recipe ID Here');
 });
 
-//Get Recipes based on the Account ID
-router.route('/accounts/:id/recipes').get((req, res) => {  
+//Get Recipes based on the Account Id (Get All Recipes from an Account)
+router.route('/accounts/:id/recipes/all').get((req, res) => {
+    console.log('ID');
     Account.findById(req.params.id, (err, account) => {
         if (err) {
             console.log(err);
         } else {       
-            Recipe.find({
-                '_id': { $in: account.recipes }
-            }, function(err, recipes) {
+            Recipe.find({'_id': { $in: account.recipes}}, 
+            function(err, recipes) {
                 if (err) {
                     console.log(err);
                 } else {
@@ -144,6 +129,38 @@ router.route('/accounts/:id/recipes').get((req, res) => {
     });
 });
 
+//Get Account Recipes By Sorting Type
+router.route('/accounts/:id/recipes/:type').get((req, res) => {
+    console.log('Type');
+    Account.findById(req.params.id, (err, account) => {
+        if (err) {
+            console.log(err);
+        } else {       
+            if (req.params.type == 'All') {
+                Recipe.find({'_id': { $in: account.recipes}}, 
+                function(err, recipes) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        res.json(recipes);
+                    }
+                });
+            } else {
+                Recipe.find({'_id': { $in: account.recipes}, 
+                            type: req.params.type}, 
+                            function(err, recipes) {
+                                if (err) {
+                                    console.log(err);
+                                } else {
+                                    res.json(recipes);
+                                }
+                            });
+            }
+        }
+    });
+});
+
+//Delete Account 
 router.route('/accounts/delete/:id').get((req, res) => {
     Account.findByIdAndRemove({_id: req.params.id}, (err, recipe) => {
         if (err) {
@@ -151,10 +168,13 @@ router.route('/accounts/delete/:id').get((req, res) => {
         } else {
             res.json('Removed account successfully');
         }
-    })
-})
+    });
+});
 
-//Recipe Collection (table)
+
+
+//Recipe Collection
+//Recipe Add
 router.route('/recipes/add').post((req, res) => {
     let recipe = new Recipe(req.body);
     recipe.save()
@@ -164,9 +184,32 @@ router.route('/recipes/add').post((req, res) => {
         }).catch(err => {
             res.status(400).send('Failed to create new recipe');
         });
+    console.log('Add Recipe Here');
 });
 
-//Recipe Collection (table)
+//Get All Recipes
+router.route('/recipes').get((req, res) => {
+    Recipe.find((err, recipes) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.json(recipes);
+        }
+    });
+});
+
+//Get Recipe By Id
+router.route('/recipes/:id').get((req, res) => {
+    Recipe.findById(req.params.id, (err, recipe) => {
+        if (err) {
+           console.log(err);
+        } else {
+           res.json(recipe);
+        }
+    });
+});
+
+//Update Recipe
 router.route('/recipes/update/:id').post((req, res) => {
     Recipe.findById(req.params.id, (err, recipe) => {
         if (!recipe)
@@ -187,7 +230,7 @@ router.route('/recipes/update/:id').post((req, res) => {
     });
 });
 
-//Recipe Collection (table)
+//Delete Recipe
 router.route('/recipes/delete/:id').get((req, res) => {
     Recipe.findByIdAndRemove({_id: req.params.id}, (err, recipe) => {
         if (err) {
@@ -195,8 +238,42 @@ router.route('/recipes/delete/:id').get((req, res) => {
         } else {
             res.json('Remove recipe successfully');
         }
-    })
-})
+    });
+});
 
+
+
+//Contact Colleaction
+//Add Contact
+router.route('/contact/add').post((req, res) => {
+    let account = new Contact(req.body);
+    console.log(Contact);
+    account.save()
+        .then(Contact => {
+            res.status(200).json({'status': 'Added successfully', 
+                                  'contactId': account._id, 
+                                  'contactEmail': account.email, 
+                                  'contactMessage': account.password});  
+            console.log('Contact added successfully');        
+        }).catch(err => {
+            res.status(400).send('Failed to create new contact: ' + err);
+            console.log('Failed to create new contact: ' + err);
+        });
+});
+
+//Get Contact
+router.route('/Contact/:email/:Message').get((req, res) => {
+    Account.findOne({email: req.params.email, message: req.params.message}, (err, account) => {
+        if (err) {
+            res.json(err);
+        } else {
+            res.json(Contact);
+        }
+    });
+});
+
+
+
+//Server
 app.use('/', router);
 app.listen(4000, () => console.log('Express server running on port 4000'));

@@ -1,11 +1,11 @@
-<div>
+<div class="wrapper">
    <br/>
    <mat-card class="mat-card">
       <h2>Edit</h2>
       <button mat-flat-button color="accent" routerLink="/list">Back</button>
       <button type="submit" 
             (click)="updateRecipe()"
-            [disabled]="updateForm.pristine || updateForm.invalid" 
+            [disabled]="updateRecipeForm.pristine || updateRecipeForm.invalid" 
             mat-flat-button color="primary">Save Recipe</button>
       <button mat-flat-button color="primary" class="add-button" (click)="addStep()">Add Step</button>
       <button mat-flat-button color="primary" class="add-button" (click)="addIngredient()">Add Ingredient</button>
@@ -13,7 +13,7 @@
       <br/>
          <mat-divider style="background-color: #673AB7;"></mat-divider>
       <br/>
-         <form [formGroup]="updateForm" class="create-form">
+         <form [formGroup]="updateRecipeForm" class="create-form">
             <div class="header-info">
                <input type="text" matInput placeholder="Author" formControlName="author" autocomplete="off">
             </div>
@@ -22,6 +22,7 @@
             </div>
             <div class="header-info">
                <mat-select placeholder="Recipe Type" formControlName="type">
+                  <mat-option value=" ">N/A</mat-option>
                   <mat-option value="Appetizers & Snacks">Appetizers & Snacks</mat-option>
                   <mat-option value="Breakfast & Lunch">Breakfast & Lunch</mat-option>
                   <mat-option value="Desserts">Desserts</mat-option>
@@ -37,7 +38,7 @@
             <section class="mat-typography">
                <h2>Add Ingredients</h2>
             </section> 
-            <div formArrayName="ingredients" *ngFor="let ingredient of updateForm.get('ingredients')['controls']; let i = index">
+            <div formArrayName="ingredients" *ngFor="let ingredient of updateRecipeForm.get('ingredients')['controls']; let i = index">
                <div [formGroupName]="i" class="float">
                   <div class="ingredient-info">
                      <mat-form-field class="field-full-width"> 
@@ -79,7 +80,7 @@
             <section class="mat-typography">
                <h2>Add Steps</h2>
             </section> 
-            <div formArrayName="steps" *ngFor="let step of updateForm.get('steps')['controls']; let i = index">
+            <div formArrayName="steps" *ngFor="let step of updateRecipeForm.get('steps')['controls']; let i = index">
                <div [formGroupName]="i">
                   <mat-form-field class="field-full-width">
                      <textarea rows="3" matInput class="matInput" placeholder="{{'Step  '+(i+1)}}" formControlName="description"></textarea>

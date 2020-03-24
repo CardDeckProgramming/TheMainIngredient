@@ -3,7 +3,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
 import { CreateComponent } from './components/create/create.component';
-import { EditComponent } from './components/edit/edit.component';
+import { CreateProfileComponent } from './components/create-profile/create-profile.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
+import { EditRecipeComponent } from './components/edit-recipe/edit-recipe.component';
 import { HomeComponent } from './components/home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LayoutModule } from '@angular/cdk/layout';
@@ -22,9 +25,11 @@ import {
   MatListModule,
   MatMenuModule, 
   MatOptionModule, 
+  MatRadioModule,
   MatSelectModule, 
   MatSidenavModule,
   MatSnackBarModule,
+  MatSortModule,
   MatTableModule, 
   MatToolbarModule,
   MatTooltipModule
@@ -40,7 +45,9 @@ const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'contact-us', component: ContactUsComponent},
   {path: 'create', component: CreateComponent},
-  {path: 'edit/:id', component: EditComponent},
+  {path: 'create-profile/:email/:password', component: CreateProfileComponent},
+  {path: 'edit-profile/:id', component: EditProfileComponent},
+  {path: 'edit-recipe/:id', component: EditRecipeComponent},
   {path: 'home', component: HomeComponent},
   {path: 'list', component: ListComponent},
   {path: 'sign-in', component: SignInComponent},
@@ -52,7 +59,9 @@ const routes: Routes = [
     AppComponent,
     ContactUsComponent,
     CreateComponent,
-    EditComponent,
+    CreateProfileComponent,
+    EditProfileComponent,
+    EditRecipeComponent,
     HomeComponent,
     ListComponent,
     MainNavComponent,
@@ -62,6 +71,7 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    DragDropModule,
     FormsModule,
     MatTooltipModule,
     HttpClientModule,
@@ -78,9 +88,11 @@ const routes: Routes = [
     MatListModule,
     MatMenuModule,
     MatOptionModule, 
+    MatRadioModule,
     MatSelectModule, 
     MatSidenavModule,
     MatSnackBarModule,
+    MatSortModule,
     MatTableModule, 
     MatToolbarModule,
     ReactiveFormsModule,

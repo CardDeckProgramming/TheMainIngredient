@@ -13,7 +13,7 @@
          -->
          <form [formGroup]="signInForm" class="sign-in">
             <mat-form-field class="header-info">
-               <input type="email" matInput placeholder="Email" formControlName="email" size="35" autocomplete="off"  email>
+               <input type="email" matInput placeholder="Email" formControlName="email" size="35" autocomplete="off" email>
             </mat-form-field>
             <br/><br/>
 
@@ -29,7 +29,6 @@
                (click)="logIn()"
                [disabled]="signInForm.pristine || signInForm.invalid"
                mat-flat-button color="primary">Log In</button>
-         <br />
          <button type="submit" 
                (click)="signUp()"
                [disabled]="signInForm.pristine || signInForm.invalid" 
@@ -37,4 +36,7 @@
          <mat-divider style="background-color: #673AB7;"></mat-divider>
       </div>
    </mat-card>
+   <mat-toolbar style="background-color: #673AB7; position: absolute; bottom: 0; width: 100%">
+      <span style="color: white; margin: 0 auto">Copyright &copy; 2020, The Main Ingredient</span>
+   </mat-toolbar>
 </div>

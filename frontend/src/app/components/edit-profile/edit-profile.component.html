@@ -1,0 +1,36 @@
+<div class="wrapper">
+   <br/>
+   <mat-card class="mat-card">
+      <h2>Edit Profile</h2>
+      <button mat-flat-button color="accent" routerLink="/list">Back</button>
+      <button type="submit" 
+            (click)="updateProfile()"
+            [disabled]="updateProfileForm.pristine || updateProfileForm.invalid" 
+            mat-flat-button color="primary">Save Profile</button>
+      <br/>
+      <br/>
+         <mat-divider style="background-color: #673AB7;"></mat-divider>
+      <br/>
+         <form [formGroup]="updateProfileForm" class="create-form">
+            <div class="header-info">
+               <input type="text" matInput placeholder="First Name" formControlName="first" autocomplete="off">
+            </div>
+            <div class="header-info">
+               <input type="text" matInput placeholder="Last Name" formControlName="last" autocomplete="off">
+            </div>
+            <mat-radio-group formControlName="gender">
+               <mat-radio-button value="Male">Male</mat-radio-button>
+               <mat-radio-button value="Female">Female</mat-radio-button>
+               <mat-radio-button value="Other">Other</mat-radio-button>
+            </mat-radio-group>
+         <br/>
+         <br/>
+            <mat-divider style="background-color: #673AB7;"></mat-divider>
+         <br/>
+         <br/>
+            <mat-form-field style="width: 100%">
+               <textarea type="text" matInput placeholder="Biography" formControlName="bio" autocomplete="off"></textarea>
+            </mat-form-field>
+         </form>
+   </mat-card>
+</div>

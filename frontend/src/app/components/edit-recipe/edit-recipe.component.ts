@@ -6,15 +6,15 @@ import { APIService } from '../../api.service';
 import { UserService } from 'src/app/user.service';
 
 @Component({
-  selector: 'app-edit',
-  templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.css']
+  selector: 'app-edit-recipe',
+  templateUrl: './edit-recipe.component.html',
+  styleUrls: ['./edit-recipe.component.css']
 })
-export class EditComponent implements OnInit {
+export class EditRecipeComponent implements OnInit {
 
   id: String;
   recipe: any = {};
-  updateForm: FormGroup;
+  updateRecipeForm: FormGroup;
 
   constructor(private apiService: APIService, 
               private fb: FormBuilder, 
@@ -33,9 +33,9 @@ export class EditComponent implements OnInit {
         this.apiService.getRecipeById(this.id).subscribe(res => {
           this.recipe = res;
   
-          this.updateForm.get('author').setValue(this.recipe.author);
-          this.updateForm.get('title').setValue(this.recipe.title);
-          this.updateForm.get('type').setValue(this.recipe.type);
+          this.updateRecipeForm.get('author').setValue(this.recipe.author);
+          this.updateRecipeForm.get('title').setValue(this.recipe.title);
+          this.updateRecipeForm.get('type').setValue(this.recipe.type);
           for(let ingredient of this.recipe.ingredients) {
             this.setIngredient(ingredient);
           }
@@ -50,7 +50,7 @@ export class EditComponent implements OnInit {
   }
 
   createForm() {
-    this.updateForm = this.fb.group({
+    this.updateRecipeForm = this.fb.group({
       author: ['', Validators.required],
       title: ['', Validators.required],
       type: ['', Validators.required],
@@ -68,15 +68,15 @@ export class EditComponent implements OnInit {
   }
 
   addIngredient() {
-    (<FormArray>this.updateForm.get('ingredients')).push(this.addIngredientFormGroup());
+    (<FormArray>this.updateRecipeForm.get('ingredients')).push(this.addIngredientFormGroup());
   }
 
   removeIngredient(ingredientIndex: number) {
-    (<FormArray>this.updateForm.get('ingredients')).removeAt(ingredientIndex);
+    (<FormArray>this.updateRecipeForm.get('ingredients')).removeAt(ingredientIndex);
   }
 
   setIngredient(ingredient) {
-    (<FormArray>this.updateForm.get('ingredients')).push(this.fb.group({
+    (<FormArray>this.updateRecipeForm.get('ingredients')).push(this.fb.group({
       ingredient: [ingredient.ingredient, Validators.required],
       amount: [ingredient.amount, Validators.required],
       measurement: [ingredient.measurement, Validators.required]
@@ -90,21 +90,25 @@ export class EditComponent implements OnInit {
   }
 
   addStep(): void {
-    (<FormArray>this.updateForm.get('steps')).push(this.addStepFormGroup());
+    (<FormArray>this.updateRecipeForm.get('steps')).push(this.addStepFormGroup());
   }
 
   removeStep(stepIndex: number): void {
-    (<FormArray>this.updateForm.get('steps')).removeAt(stepIndex);
+    (<FormArray>this.updateRecipeForm.get('steps')).removeAt(stepIndex);
   }
 
   setStep(step) {
-    (<FormArray>this.updateForm.get('steps')).push(this.fb.group({
+    (<FormArray>this.updateRecipeForm.get('steps')).push(this.fb.group({
       description: [step.description, Validators.required]
     }));
   }
 
   updateRecipe() {
-    this.apiService.updateRecipe(this.id, this.updateForm.get('author').value, this.updateForm.get('title').value, this.updateForm.get('type').value, this.updateForm.get('ingredients').value, this.updateForm.get('steps').value).subscribe(response => {
+    this.apiService.updateRecipe(this.id, this.updateRecipeForm.get('author').value, 
+                                 this.updateRecipeForm.get('title').value, 
+                                 this.updateRecipeForm.get('type').value, 
+                                 this.updateRecipeForm.get('ingredients').value, 
+                                 this.updateRecipeForm.get('steps').value).subscribe(response => {
       this.router.navigate(['/list']);
       this.snackBar.open('Recipe "' + JSON.parse(JSON.stringify(response['title'])) + '" updated successfully', 'OK', { duration: 4000, verticalPosition: 'top', panelClass: ['snackBarSuccess'] });
     });

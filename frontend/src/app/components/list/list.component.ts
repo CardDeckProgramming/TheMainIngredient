@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material';
-
+import { MatSnackBar } from '@angular/material';
 import { Recipe } from '../../recipe.model';
 import { UserService } from '../../user.service';
 import { APIService } from '../../api.service';
@@ -16,7 +16,7 @@ export class ListComponent implements OnInit {
   recipes: Recipe[];
   displayedColumns = ['author', 'title', 'type', 'actions'];
 
-  constructor(private userService: UserService, private apiService: APIService, private router: Router) { }
+  constructor(private userService: UserService, private apiService: APIService, private router: Router, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     if (this.userService.isAccountLoggedIn()) {
@@ -32,7 +32,7 @@ export class ListComponent implements OnInit {
   */
   fetchRecipes() {
     if (this.userService.isAccountLoggedIn()) {
-      this.apiService.getAccountRecipes().subscribe((data: Recipe[]) => {
+      this.apiService.getAccountRecipes(this.userService.getAccountId()).subscribe((data: Recipe[]) => {
         this.recipes = data;
       });
     } else {
@@ -48,7 +48,7 @@ export class ListComponent implements OnInit {
 
   //Using the routes defined in the app.module.ts this will take us to the editComponent for the user to edit the recipe they sleected
   editRecipe(id) {
-    this.router.navigate([`/edit/${id}`]);
+    this.router.navigate([`/edit-recipe/${id}`]);
   }
 
   //This currently deletes recipes, the naming will be fixed later...
@@ -56,6 +56,16 @@ export class ListComponent implements OnInit {
     this.apiService.deleteRecipe(id).subscribe(() => {
       this.fetchRecipes();
     });
+  }
+
+  sortByType(type: string) {
+    this.apiService.getAccountRecipesByType(this.userService.getAccountId(), type).subscribe((data: Recipe[]) => {
+      if (data.length == 0) {
+        this.snackBar.open('There are no ' + type + ' Recipes to display', 'Dismiss', { duration: 5000, verticalPosition: 'top', panelClass: ['snackBarError'] });
+      } else {
+        this.recipes = data;
+      }
+    })
   }
 
 }

@@ -3,3 +3,17 @@
   margin: 0;
 }
 
+mat-grid-list {
+  margin-top: 0.05%;
+}
+
+img {
+  transition: 0.5s ease-out;
+}
+
+img:hover {
+  -ms-transform: scale(1.05); /* IE 9 */
+  -webkit-transform: scale(1.05); /* Safari 3-8 */
+  transform: scale(1.05); 
+  transition: 0.5s ease-out;
+}

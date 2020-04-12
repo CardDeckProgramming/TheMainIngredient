@@ -1,16 +1,16 @@
-<mat-grid-list cols="6" rowHeight="100px">
-    <mat-grid-tile
-        *ngFor="let tile of tiles"
-        [colspan]="tile.cols"
-        [rowspan]="tile.rows"
-        [style.border]="'1px solid #FFFFFF;'">
-        <ng-container style="z-index: -1;">
-            <img [src]="tile.img"/>
-        </ng-container>
-        {{tile.text}}
-    </mat-grid-tile>
-    <mat-toolbar style="background-color: #673AB7;position: absolute;bottom: 0;width: 100%;border-top-left-radius: 10px;border-top-right-radius: 10px;">
-      <span style="color: white;">Footer Placeholder</span>
+<div>
+    <mat-grid-list cols="6" rowHeight="100px">
+        <mat-grid-tile
+            *ngFor="let tile of tiles"
+            [colspan]="tile.cols"
+            [rowspan]="tile.rows">
+            <ng-container style="z-index: -1;">
+                <img [src]="tile.img"/>
+            </ng-container>
+            {{tile.text}}
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-toolbar style="background-color: #673AB7; position: absolute; bottom: 0; width: 100%">
+        <span style="color: white; margin: 0 auto">Copyright &copy; 2020, The Main Ingredient</span>
     </mat-toolbar>
-</mat-grid-list>
-
+</div>

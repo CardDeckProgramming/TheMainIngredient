@@ -63,8 +63,12 @@ export class CreateComponent implements OnInit {
     (<FormArray>this.createForm.get('steps')).removeAt(stepIndex);
   }
 
-  saveRecipe() {
-    this.apiService.addRecipe(this.createForm.get('author').value, this.createForm.get('title').value, this.createForm.get('type').value, this.createForm.get('ingredients').value, this.createForm.get('steps').value).subscribe(response => {
+  addRecipe() {
+    this.apiService.addRecipe(this.createForm.get('author').value, 
+                              this.createForm.get('title').value, 
+                              this.createForm.get('type').value, 
+                              this.createForm.get('ingredients').value, 
+                              this.createForm.get('steps').value).subscribe(response => {
       this.apiService.addAccountRecipeId(JSON.parse(JSON.stringify(response['recipeId']))).subscribe(response => {
         this.router.navigate(['/list']);
       });

@@ -1,10 +1,10 @@
-<div>
+<div class="wrapper">
    <br/>
    <mat-card class="mat-card">
       <h2>Create</h2>
       <button mat-flat-button color="accent" routerLink="/list">Back</button>
       <button type="submit" 
-            (click)="saveRecipe()"
+            (click)="addRecipe()"
             [disabled]="createForm.pristine || createForm.invalid" 
             mat-flat-button color="primary">Save Recipe</button>
       <button mat-flat-button color="primary" class="add-button" (click)="addStep()">Add Step</button>
@@ -22,6 +22,7 @@
             </div>
             <div class="header-info">
                <mat-select placeholder="Recipe Type" formControlName="type">
+                  <mat-option value=" ">N/A</mat-option>
                   <mat-option value="Appetizers & Snacks">Appetizers & Snacks</mat-option>
                   <mat-option value="Breakfast & Lunch">Breakfast & Lunch</mat-option>
                   <mat-option value="Desserts">Desserts</mat-option>
@@ -80,7 +81,7 @@
             </section> 
             <div formArrayName="steps" *ngFor="let step of createForm.get('steps')['controls']; let i = index">
                <div [formGroupName]="i">
-                  <mat-form-field class="field-full-width">
+                  <mat-form-field style="width: 85%">
                      <textarea rows="3" matInput class="matInput" placeholder="{{'Step  '+(i+1)}}" formControlName="description"></textarea>
                   </mat-form-field>
                   <button mat-flat-button color="warn" class="delete-step" (click)="removeStep(i)">Delete Step</button>

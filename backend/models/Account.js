@@ -4,15 +4,28 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 let Account = new Schema({
-    email: {
+   first: {
+      type: String
+   }, 
+   last: {
+      type: String
+   },
+   gender: {
+      type: String
+   },
+   email: {
        type: String
     },
-    password: {
-       type: String
-    },
-    recipes: {
-       type: []
-    }
+   password: {
+      type: String
+   },
+   bio: {
+      type: String,
+      default: ''
+   },
+   recipes: {
+      type: []
+   }
 });
 
 export default mongoose.model('Account', Account);

@@ -19,10 +19,20 @@ export class MainNavComponent {
       shareReplay()
     );
 
+  otherTheme: boolean = false;
+
   constructor(private breakpointObserver: BreakpointObserver, 
-              private router: Router, private route: ActivatedRoute, 
-              public userService: UserService,
-              private apiService: APIService) { }
+              private router: Router, 
+              private route: ActivatedRoute, 
+              public userService: UserService) { }
+
+  changeTheme() {
+    this.otherTheme = !this.otherTheme;
+  }
+
+  editProfile(id) {
+    this.router.navigate([`/edit-profile/${id}`]);
+  }
 
   logOut() {
     this.userService.setAccountId(null);
@@ -30,11 +40,5 @@ export class MainNavComponent {
     this.userService.setAccountPassword(null);
     this.userService.setAccountLoggedIn(false);
     this.router.navigate(['']);
-  }
-
-  deleteAccount(id) {
-    this.apiService.deleteAccount(id).subscribe(() => {
-      this.logOut();
-    });
   }
 }

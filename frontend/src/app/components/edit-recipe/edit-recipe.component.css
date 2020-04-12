@@ -1,3 +1,8 @@
+.wrapper {
+   margin: 0 auto;
+   width: 80%;
+ }
+
 h2 {
    margin-top: 2.5%;
 }
@@ -46,6 +51,7 @@ button {
 .header-info, .ingredient-info {
    float: left;
    width: 28.5%;
+   margin-right: 2.5%;
    margin-bottom: 5%;
 }
 

@@ -12,11 +12,17 @@ h2 {
    width: 100%;
 }
 
+.field-full-width {
+   width: 85%;
+   float: left;
+}
+
 .float {
    float: left;
 }
 
 .matInput {
+   resize: none;
    margin-bottom: -0.5%;
 }
 
@@ -59,4 +65,8 @@ input:-webkit-autofill:hover,
 input:-webkit-autofill:focus, 
 input:-webkit-autofill:active  {
     -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+mat-radio-button {
+   margin-right: 2.5%;
 }

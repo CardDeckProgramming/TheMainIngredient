@@ -3,9 +3,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { APIService } from '../../api.service';
 import { Recipe } from '../../recipe.model';
 import { UserService } from 'src/app/user.service';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Volumes } from 'src/app/volume';
 import { Weights } from 'src/app/weight';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { Sort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-view',
@@ -16,6 +18,7 @@ export class ViewComponent implements OnInit {
 
   id: string;
   recipe: Recipe;
+  sortedIngredients: Array<string> = [];
   results: Array<string> = [];
   dropDown: Array<string> = [];
   VOLUMES = 'Volumes';
@@ -165,24 +168,13 @@ export class ViewComponent implements OnInit {
           }
 
           this.recipe = data;
+          this.sortedIngredients = this.recipe.ingredients.slice();
         });
       });
 
-      //this.startTimer(10);
     } else {
       this.router.navigate([`/list`]);
     }
-  }
-
-  startTimer(timeLeft) {
-    let interval = setInterval(() => {
-      if(timeLeft > 0) {
-        this.snackBar.open(timeLeft + ' seconds left', '', {duration: 3000, verticalPosition: 'top' });
-        timeLeft--;
-      } else {
-        this.snackBar.open('***Timer has finished***', 'Dismiss', {verticalPosition: 'top', panelClass: ['snackBarSucess']});
-      }
-    }, 1000)
   }
 
   convertAllMeasurements(measurmentType, toMeasurement) {
@@ -221,26 +213,42 @@ export class ViewComponent implements OnInit {
       let result = (amount * conversionValue).toFixed(2);
       this.results[inputId] = String(result) + conversionTo;
     }
+  } 
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.sortedIngredients, event.previousIndex, event.currentIndex);
   }
 
-  /*
-  doesWeightExist(type) {
-    for (let weight in Weights) {
-      if (type == weight) {
-        return true;
-      }
+  sortData(sort: Sort) {
+    const data = this.recipe.ingredients.slice();
+    if (!sort.active || sort.direction === '') {
+      this.sortedIngredients = data;
+      return;
     }
-    return false;
+
+    this.sortedIngredients = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      let aCompare: any;
+      let bCompare: any; 
+      switch (sort.active) {
+        case 'ingredient':
+          aCompare = a['ingredient'];
+          bCompare = b['ingredient'];
+          return this.compare(aCompare, bCompare, isAsc);
+        case 'amount': 
+          aCompare = a['amount'];
+          bCompare = b['amount'];
+          return this.compare(aCompare, bCompare, isAsc);
+        case 'measurement': 
+          aCompare = a['measurement'];
+          bCompare = b['measurement'];
+          return this.compare(aCompare, bCompare, isAsc);
+        default: return 0;
+      }
+    });
   }
 
-  doesVolumeExist(type) {
-    for (let volume in Volumes) {
-      if (type == volume) {
-        return true;
-      }
-    }
-    return false;
+  compare(a: number | string, b: number | string, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
-  */
 
 }

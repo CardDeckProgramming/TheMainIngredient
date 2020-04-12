@@ -12,65 +12,70 @@ export class APIService {
 
   uri = 'http://localhost:4000';
 
-  private accountIdSource = new Subject<string>();
-  accountId$ = this.accountIdSource.asObservable();
-
-  private contactIdSource = new Subject<string>();
-  contactId$ = this.contactIdSource.asObservable();
-
   constructor(private userService: UserService, private http: HttpClient) { }
 
-  sendAccountId(account: string) {
-    this.accountIdSource.next(account);
-  }
-
-  addAccount(email, password) {
+  addAccount(first, last, gender, email, password, bio) {
     const account = {
+      first: first,
+      last: last,
+      gender: gender,
       email: email,
-      password: password
+      password: password,
+      bio: bio
     }
     return this.http.post(`${this.uri}/accounts/add`, account);
   }
 
+  //Log Into Account 
   getAccount(email, password) {
-    return this.http.get(`${this.uri}/accounts/get/${email}/${password}`);
-  }
-  sendContactId(contact: string) {
-    this.contactIdSource.next(contact);
+    return this.http.get(`${this.uri}/accounts/${email}/${password}`);
   }
 
-  addContact(email, message) {
-    const contact = {
-      email: email,
-      message: message
+  //Get Account (Profile) By Id
+  getAccountById(id) {
+    return this.http.get(`${this.uri}/accounts/${id}`);
+  }
+
+  //Update Account (Profile)
+  updateAccount(first, last, gender, bio)
+  {
+    const account = {
+      first: first,
+      last: last,
+      gender: gender,
+      bio: bio
     }
-    return this.http.post(`${this.uri}/contact/add`,contact);
+    return this.http.post(`${this.uri}/accounts/update/${this.userService.getAccountId()}`, account);
   }
 
-  getContact(email, message) {
-    return this.http.get(`${this.uri}/contact/getcontact/${email}/${message}`);
-  }
-  
-
+  //Add Recipe Ref to Account
   addAccountRecipeId(recipeId) {
     const account = {
       recipeId: recipeId
     }
-    return this.http.post(`${this.uri}/accounts/${this.userService.getAccountId()}/recipe/add`, account);
+    console.log('Add Account Recipe ID Here');
+    return this.http.post(`${this.uri}/accounts/${this.userService.getAccountId()}/recipes/add`, account);
   }
 
-  getAccountRecipes() {
-    return this.http.get(`${this.uri}/accounts/${this.userService.getAccountId()}/recipes`);
+  //Get Recipes based on the Account Id
+  getAccountRecipes(id) {
+    return this.http.get(`${this.uri}/accounts/${id}/recipes/all`);
   }
 
-  getRecipes() {
-    return this.http.get(`${this.uri}/recipes`);
+  //Get Account Recipes By Sorting Type
+  getAccountRecipesByType(id, type) {
+    return this.http.get(`${this.uri}/accounts/${id}/recipes/${type}`);
   }
 
-  getRecipeById(id) {
-    return this.http.get(`${this.uri}/recipes/${id}`);
+  //Delete Account
+  deleteAccount(id) {
+    return this.http.get(`${this.uri}/accounts/delete/${id}`);
   }
 
+
+
+  //Recipe Collection
+  //Recipe Add
   addRecipe(author, title, type, ingredients, steps) {
     const recipe = {
       author: author,
@@ -79,9 +84,21 @@ export class APIService {
       ingredients: ingredients,
       steps: steps
     }
+    console.log('Add Recipe Here');
     return this.http.post(`${this.uri}/recipes/add`, recipe);
   }
 
+  //Get All Recipes
+  getRecipes() {
+    return this.http.get(`${this.uri}/recipes`);
+  }
+
+  //Get Recipe By Id
+  getRecipeById(id) {
+    return this.http.get(`${this.uri}/recipes/${id}`);
+  }
+
+  //Update Recipe
   updateRecipe(id, author, title, type, ingredients, steps) {
     const recipe = {
       author: author,
@@ -93,11 +110,25 @@ export class APIService {
     return this.http.post(`${this.uri}/recipes/update/${id}`, recipe);
   }
 
-  deleteAccount(id) {
-    return this.http.get(`${this.uri}/accounts/delete/${id}`);
-  }
-
+  //Delete Recipe
   deleteRecipe(id) {
     return this.http.get(`${this.uri}/recipes/delete/${id}`);
+  }
+
+
+
+  //Contact Colleaction
+  //Add Contact
+  addContact(email, message) {
+    const contact = {
+      email: email,
+      message: message
+    }
+    return this.http.post(`${this.uri}/contact/add`,contact);
+  }
+
+  //Get Contact
+  getContact(email, message) {
+    return this.http.get(`${this.uri}/contact/${email}/${message}`);
   }
 }

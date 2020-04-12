@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { APIService } from '../../api.service';
@@ -34,12 +34,12 @@ export class SignInComponent implements OnInit {
     this.apiService.getAccount(this.signInForm.get('email').value, this.signInForm.get('password').value).subscribe(response => {
       if (JSON.parse(JSON.stringify(response)) != null) {
         this.userService.setAccountId(JSON.parse(JSON.stringify(response['_id'])));
+        this.userService.setAccountFirst(JSON.parse(JSON.stringify(response['first'])));
         this.userService.setAccountEmail(JSON.parse(JSON.stringify(response['email'])));
         this.userService.setAccountPassword(JSON.parse(JSON.stringify(response['password'])));
         this.userService.setAccountLoggedIn(true);
         this.router.navigate([`/list`]);
-        let email = JSON.parse(JSON.stringify(response['email']));
-        this.snackBar.open('Welcome back ' + email.substring(0, email.indexOf('.')) + '!', 'Dismiss', {duration: 2500, verticalPosition: 'top', panelClass: ['snackBarSucess']});
+        this.snackBar.open('Welcome back ' + this.userService.getAccountFirst() + '!', 'Dismiss', {duration: 2500, verticalPosition: 'top', panelClass: ['snackBarSucess']});
       } else {
         this.snackBar.open('Error: Invalid login credentials', 'Dismiss', {verticalPosition: 'top', panelClass: ['snackBarError']});
       }
@@ -51,14 +51,11 @@ export class SignInComponent implements OnInit {
   Note: Remember the apiService (api.service.ts) holds all of our api function calls we send to the server  
   */
   signUp() {
-    this.apiService.addAccount(this.signInForm.get('email').value, this.signInForm.get('password').value).subscribe(response => {
-      if (JSON.parse(JSON.stringify(response)) != null) {
-        this.userService.setAccountId(JSON.parse(JSON.stringify(response['accountId'])));
-        this.userService.setAccountEmail(JSON.parse(JSON.stringify(response['accountEmail'])));
-        this.userService.setAccountPassword(JSON.parse(JSON.stringify(response['accountPassword'])));
-        this.userService.setAccountLoggedIn(true);
-        this.router.navigate([`/list`]);
-        this.snackBar.open('Welcome to Recipe Web App!', 'Dismiss', { duration: 2500, verticalPosition: 'top', panelClass: ['snackBarSucess'] });
+    this.apiService.getAccount(this.signInForm.get('email').value, this.signInForm.get('password').value).subscribe(response => {
+      if (JSON.parse(JSON.stringify(response)) == null) {
+        let email = this.signInForm.get('email').value;
+        let password = this.signInForm.get('password').value;
+        this.router.navigate([`/create-profile/${email}/${password}`]);
       } else {
         this.snackBar.open('Error: This email is already being used', 'Dismiss', { verticalPosition: 'top', panelClass: ['snackBarError'] });
       }

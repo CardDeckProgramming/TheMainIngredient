@@ -3,7 +3,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { APIService } from '../../api.service';
 import { Recipe } from '../../recipe.model';
 import { UserService } from 'src/app/user.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Volumes } from 'src/app/volume';
 import { Weights } from 'src/app/weight';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
@@ -151,9 +150,10 @@ export class ViewComponent implements OnInit {
                                     {from: 'kg', to: 'oz', value: 35.274}
                                   ];
 
-  constructor(private apiService: APIService, private router: Router, private route: ActivatedRoute, private userService: UserService, private snackBar: MatSnackBar) { 
-    
-  }
+  constructor(private apiService: APIService, 
+              private router: Router, 
+              private route: ActivatedRoute, 
+              private userService: UserService) { }
 
   ngOnInit() {
     if (this.userService.isAccountLoggedIn()) {

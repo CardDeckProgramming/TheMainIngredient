@@ -17,6 +17,9 @@ let Recipe = new Schema({
     },
     steps: {
        type: []
+    },
+    reviews: {
+       type: []
     }
 });
 

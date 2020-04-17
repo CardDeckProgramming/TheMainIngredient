@@ -1,46 +1,115 @@
 <div class="wrapper">
    <br/>
    <mat-card>
-      <mat-select placeholder="Sort By Recipe Type" (selectionChange)="sortByType($event.value)">
-         <mat-option value="All">All</mat-option>
-         <mat-option value="Appetizers & Snacks">Appetizers & Snacks</mat-option>
-         <mat-option value="Breakfast & Lunch">Breakfast & Lunch</mat-option>
-         <mat-option value="Desserts">Desserts</mat-option>
-         <mat-option value="Dinner">Dinner</mat-option>
-         <mat-option value="Drinks">Drinks</mat-option>
-      </mat-select>
+      <form [formGroup]="searchForm">
+         <input matInput color="primary" placeholder="Search Users..." style="width: 94.5%" formControlName="search" autocomplete="off">
+         <button mat-flat-button style="float: right; 
+                                        margin-top: -0.55%; 
+                                        margin-right: -1%; 
+                                        color: #673AB7;
+                                        font-size: 18px" 
+                                        (click)="search()">Search</button>
+      </form>         
    </mat-card>
    <br/>
-   <mat-card>
-      <!--[dataSource] take the recipes array we created in list.component.ts and creates a table by using the data -->
-      <table mat-table [dataSource]="recipes">
-         <ng-container matColumnDef="author">
-            <th mat-header-cell *matHeaderCellDef>Author</th>
-            <td mat-cell *matCellDef="let element">{{element.author}}</td>
-         </ng-container>
+   <mat-accordion multi="true">
+      <mat-expansion-panel [expanded]="true">
+         <mat-expansion-panel-header>
+            <mat-panel-title>Your Recipes</mat-panel-title>
+         </mat-expansion-panel-header>
+         <mat-select placeholder="Sort Recipes By Type" (selectionChange)="sortByType($event.value)">
+            <mat-option value="All">All</mat-option>
+            <mat-option value="Appetizers & Snacks">Appetizers & Snacks</mat-option>
+            <mat-option value="Breakfast & Lunch">Breakfast & Lunch</mat-option>
+            <mat-option value="Desserts">Desserts</mat-option>
+            <mat-option value="Dinner">Dinner</mat-option>
+            <mat-option value="Drinks">Drinks</mat-option>
+         </mat-select>
+         <br/><br/><hr style="opacity: 0.3"/>
+         <!--[dataSource] take the recipes array we created in list.component.ts and creates a table by using the data -->
+         <table mat-table [dataSource]="recipes">
+            <ng-container matColumnDef="title">
+               <th mat-header-cell *matHeaderCellDef style="width: 42.5%">Title</th>
+               <td mat-cell *matCellDef="let element">{{element.title}}</td>
+            </ng-container>
+   
+            <ng-container matColumnDef="type">
+               <th mat-header-cell *matHeaderCellDef style="width: 40%">Type</th>
+               <td mat-cell *matCellDef="let element">{{element.type}}</td>
+            </ng-container>
+   
+            <ng-container matColumnDef="actions">
+               <th mat-header-cell *matHeaderCellDef class="mat-column-right">Actions</th>
+               <td mat-cell *matCellDef="let element" class="mat-column-right">
+                  <button mat-button color="primary" (click)="viewRecipe(element._id)">View</button>
+                  <button mat-button color="primary" (click)="editRecipe(element._id)">Edit</button>
+                  <button mat-button color="warn" (click)="deleteRecipe(element._id)">Delete</button>
+               </td>
+            </ng-container>
+   
+            <!--displayedColumns is the array set in the list.component.ts which sets the table column names for us-->
+            <tr mat-header-row *matHeaderRowDef="displayedRecipeColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedRecipeColumns;"></tr>
+         </table>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+         <mat-expansion-panel-header>
+            <mat-panel-title>Favourited Users</mat-panel-title>
+         </mat-expansion-panel-header>
+         <div *ngIf="this.follows != undefined && this.follows.length > 0; else noFollows">
+            <table mat-table [dataSource]="follows" >
+               <ng-container matColumnDef="follow">
+                  <th mat-header-cell *matHeaderCellDef style="width: 82.5%">User</th>
+                  <td mat-cell *matCellDef="let element">{{element.first + ' ' + element.last}}</td>
+               </ng-container>
+   
+               <ng-container matColumnDef="actions">
+                  <th mat-header-cell *matHeaderCellDef class="mat-column-right">Actions</th>
+                  <td mat-cell *matCellDef="let element" class="mat-column-right">
+                     <button mat-button color="primary" (click)="viewUserRecipes(element.first + '_' + element.last, element._id)">View</button>
+                     <button mat-button color="warn" (click)="unfollowUser(element._id)">Unfollow</button>
+                  </td>
+               </ng-container>
+   
+               <tr mat-header-row *matHeaderRowDef="displayedFollowColumns"></tr>
+               <tr mat-row *matRowDef="let row; columns: displayedFollowColumns;"></tr>
+            </table>
+         </div>
+         <ng-template #noFollows>
+            <p>You have no added Favourited Users</p>
+         </ng-template>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+         <mat-expansion-panel-header>
+            <mat-panel-title>Your Reviews</mat-panel-title>
+         </mat-expansion-panel-header>
+         <div *ngIf="this.reviews != undefined && this.reviews.length > 0; else noReviews">
+            <table mat-table [dataSource]="reviews" >
+               <ng-container matColumnDef="title">
+                  <th mat-header-cell *matHeaderCellDef style="width: 42.5%">Review</th>
+                  <td mat-cell *matCellDef="let element">{{element.title}}</td>
+               </ng-container>
 
-         <ng-container matColumnDef="title">
-            <th mat-header-cell *matHeaderCellDef>Title</th>
-            <td mat-cell *matCellDef="let element">{{element.title}}</td>
-         </ng-container>
-
-         <ng-container matColumnDef="type">
-            <th mat-header-cell *matHeaderCellDef>Type</th>
-            <td mat-cell *matCellDef="let element">{{element.type}}</td>
-         </ng-container>
-
-         <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef class="mat-column-right">Actions</th>
-            <td mat-cell *matCellDef="let element" class="mat-column-right">
-               <button mat-button color="primary" (click)="viewRecipe(element._id)">View</button>
-               <button mat-button color="primary" (click)="editRecipe(element._id)">Edit</button>
-               <button mat-button color="warn" (click)="deleteRecipe(element._id)">Delete</button>
-            </td>
-         </ng-container>
-
-         <!--displayedColumns is the array set in the list.component.ts which sets the table column names for us-->
-         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-   </mat-card>
+               <ng-container matColumnDef="score">
+                  <th mat-header-cell *matHeaderCellDef style="width: 40%">Score</th>
+                  <td mat-cell *matCellDef="let element">{{element.score}}</td>
+               </ng-container>
+   
+               <ng-container matColumnDef="actions">
+                  <th mat-header-cell *matHeaderCellDef class="mat-column-right">Actions</th>
+                  <td mat-cell *matCellDef="let element" class="mat-column-right">
+                     <button mat-button color="primary" >View</button>
+                     <button mat-button color="warn" >Delete</button>
+                  </td>
+               </ng-container>
+   
+               <tr mat-header-row *matHeaderRowDef="displayedReviewColumns"></tr>
+               <tr mat-row *matRowDef="let row; columns: displayedReviewColumns;"></tr>
+            </table>
+         </div>
+         <ng-template #noReviews>
+            <p>You have no submitted reviews...</p>
+         </ng-template>
+      </mat-expansion-panel>
+   </mat-accordion>
 </div>

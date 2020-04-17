@@ -47,7 +47,6 @@ export class CreateProfileComponent implements OnInit {
                                  
       if (JSON.parse(JSON.stringify(response)) != null) {
         this.userService.setAccountId(JSON.parse(JSON.stringify(response['accountId'])));
-        this.userService.setAccountId(JSON.parse(JSON.stringify(response['accountId'])));
         this.userService.setAccountFirst(JSON.parse(JSON.stringify(response['accountFirst'])));
         this.userService.setAccountEmail(JSON.parse(JSON.stringify(response['accountEmail'])));
         this.userService.setAccountPassword(JSON.parse(JSON.stringify(response['accountPassword'])));

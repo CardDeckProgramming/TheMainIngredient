@@ -5,8 +5,9 @@ import mongoose from 'mongoose';
 
 //These imports are Schemas made to put into our db collections (tables) as seen in Robo 3T
 import Account from './models/Account';
-import Recipe from './models/Recipe';
 import Contact from './models/Contact';
+import Recipe from './models/Recipe';
+import Review from './models/Review';
 
 const app = express();
 const router = express.Router();
@@ -101,22 +102,21 @@ router.route('/accounts/:id/recipes/add').post((req, res) => {
             account.recipes.push(req.body.recipeId);
 
             account.save().then(account => {
+               console.log('Added Recipe ref Id');
                res.status(200).json({'status': 'Recipe ID saved to Account ' + req.params.id});
             }).catch(err => {
                 res.status(400).json({'status': 'Recipe ID failed to save to Account ' + req.params.id});
             });
         }
     });
-    console.log('Add Account Recipe ID Here');
 });
 
 //Get Recipes based on the Account Id (Get All Recipes from an Account)
 router.route('/accounts/:id/recipes/all').get((req, res) => {
-    console.log('ID');
     Account.findById(req.params.id, (err, account) => {
         if (err) {
             console.log(err);
-        } else {       
+        } else if (account.recipes != null) {       
             Recipe.find({'_id': { $in: account.recipes}}, 
             function(err, recipes) {
                 if (err) {
@@ -125,13 +125,14 @@ router.route('/accounts/:id/recipes/all').get((req, res) => {
                     res.json(recipes);
                 }
             });
+        } else {
+            console.log("Recipes are null");
         }
     });
 });
 
 //Get Account Recipes By Sorting Type
 router.route('/accounts/:id/recipes/:type').get((req, res) => {
-    console.log('Type');
     Account.findById(req.params.id, (err, account) => {
         if (err) {
             console.log(err);
@@ -161,8 +162,8 @@ router.route('/accounts/:id/recipes/:type').get((req, res) => {
 });
 
 //Delete Account 
-router.route('/accounts/delete/:id').get((req, res) => {
-    Account.findByIdAndRemove({_id: req.params.id}, (err, recipe) => {
+router.route('/account/delete/:id').get((req, res) => {
+    Account.findByIdAndRemove({_id: req.params.id}, (err, account) => {
         if (err) {
             res.json(err);
         } else {
@@ -184,7 +185,6 @@ router.route('/recipes/add').post((req, res) => {
         }).catch(err => {
             res.status(400).send('Failed to create new recipe');
         });
-    console.log('Add Recipe Here');
 });
 
 //Get All Recipes
@@ -231,12 +231,60 @@ router.route('/recipes/update/:id').post((req, res) => {
 });
 
 //Delete Recipe
-router.route('/recipes/delete/:id').get((req, res) => {
-    Recipe.findByIdAndRemove({_id: req.params.id}, (err, recipe) => {
+router.route('/account/:accountId/recipes/delete/:recipeId').get((req, res) => {
+    Account.findById(req.params.accountId, (err, account) => {
         if (err) {
             res.json(err);
         } else {
-            res.json('Remove recipe successfully');
+            account.recipes.remove(req.params.recipeId);
+            account.save(
+                Recipe.findByIdAndRemove({_id: req.params.recipeId}, (err, recipe) => {
+                    if (err) {
+                        res.json(err);
+                    } else {
+                        res.json('Removed recipe id and recipe successfully');
+                    }
+                })
+            );
+        }
+    });
+});
+
+
+
+//Follow Collection
+//Add Follow
+router.route('/account/:id/follows/add').post((req, res) => {
+    Account.findById(req.params.id, (err, account) => {
+        if (!account) {
+            return next(new Error('Could not load Account'));
+        } else {
+            account.follows.push(req.body.followId);
+
+            account.save().then(account => {
+               console.log('Added Follow Ref Id');
+               res.status(200).json({'status': 'Recipe ID saved to Account ' + req.params.id});
+            }).catch(err => {
+                res.status(400).json({'status': 'Recipe ID failed to save to Account ' + req.params.id});
+            });
+        }
+    });
+});
+
+//Get Follows based on the Account Id (Get All Added Follows from an Account)
+router.route('/account/:id/follows/all').get((req, res) => {
+    Account.findById(req.params.id, (err, account) => {
+        if (err) {
+            console.log(err);
+        } else {       
+            Account.find({'_id': { $in: account.follows}}, 
+            function(err, accounts) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.json(accounts);
+                }
+            });
         }
     });
 });
@@ -247,9 +295,8 @@ router.route('/recipes/delete/:id').get((req, res) => {
 //Add Contact
 router.route('/contact/add').post((req, res) => {
     let account = new Contact(req.body);
-    console.log(Contact);
     account.save()
-        .then(Contact => {
+        .then(contact => {
             res.status(200).json({'status': 'Added successfully', 
                                   'contactId': account._id, 
                                   'contactEmail': account.email, 
@@ -270,6 +317,131 @@ router.route('/Contact/:email/:Message').get((req, res) => {
             res.json(Contact);
         }
     });
+});
+
+
+
+//Review Collection
+//Review Add
+router.route('/reviews/add').post((req, res) => {
+    let review = new Review(req.body);
+    review.save()
+        .then(review => {
+            res.status(200).json({'status': 'Added successfully', 
+                                  'reviewId': review._id});
+        }).catch(err => {
+            res.status(400).send('Failed to add new review');
+        });
+});
+
+//Add Review Ref to Account 
+router.route('/accounts/:id/reviews/add').post((req, res) => {
+    Account.findById(req.params.id, (err, account) => {
+        if (err) {
+            console.log(err);
+        } else {
+            account.reviews.push(req.body.reviewId);
+            
+            account.save().then(account => {
+                res.status(200).json({'status': 'Added successfully', 
+                                      'reviewId': req.body.reviewId});
+            }).catch(err => {
+                res.status(400).json({'status': 'Review ID failed to save to Account ' + req.params.id});
+            });
+        }
+    });
+});
+
+//Add Review Ref to Recipe
+router.route('/recipes/:id/reviews/add').post((req, res) => {
+    Recipe.findById(req.params.id, (err, recipe) => {
+        if (err) {
+            console.log(err);
+        } else {
+            recipe.reviews.push(req.body.reviewId);
+
+            recipe.save().then(recipe => {
+                res.status(200).json({'status': 'Updated successfully'});
+            }).catch(err => {
+                res.status(400).json({'status': 'Review ID failed to save to Recipe ' + req.params.id});
+            });
+        }
+    });
+});
+
+//Get Reviews based on the Account Id (Get All Added Reviews from an Account)
+router.route('/account/:id/reviews/all').get((req, res) => {
+    Account.findById(req.params.id, (err, account) => {
+        if (err) {
+            console.log(err);
+        } else {       
+            Review.find({'_id': { $in: account.reviews}}, 
+            function(err, reviews) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.json(reviews);
+                }
+            });
+        }
+    });
+});
+
+//Delete Follow
+router.route('/account/:accountId/reviews/delete/:reviewId').get((req, res) => {
+    Account.findById(req.params.accountId, (err, account) => {
+        if (err) {
+            res.json(err);
+        } else {
+            account.reviews.remove(req.params.recipeId);
+            account.save(
+                Review.findByIdAndRemove({_id: req.params.reviewId}, (err, review) => {
+                    if (err) {
+                        res.json(err);
+                    } else {
+                        res.json('Removed review id and review successfully');
+                    }
+                })
+            );
+        }
+    });
+});
+
+
+
+//Search Results Collection 
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
+
+router.get('/search-results/search', function(req, res) {
+    console.log('Search: ' + req.query.firstName + ' ' + req.query.lastName);
+
+    if (req.query.lastName.length > 0) {
+        const firstName = new RegExp(escapeRegex(req.query.firstName), 'gi');
+        const lastName = new RegExp(escapeRegex(req.query.lastName), 'gi');
+        
+        Account.find({ first: firstName, last: lastName }, (err, accounts) => {
+            if (err) {
+                console.log(err);
+            } else if (accounts.length > 0) {
+                res.json(accounts)
+            } else {
+                res.json(null);
+            }
+        });  
+    } else {
+        const name = new RegExp(escapeRegex(req.query.firstName), 'gi');
+        Account.find({ first: name, }, (err, accounts) => {
+            if (err) {
+                console.log(err);
+            } else if (accounts.length > 0) {
+                res.json(accounts)
+            } else {
+                res.json(null);
+            }
+        });  
+    }
 });
 
 

@@ -1,0 +1,27 @@
+.wrapper {
+   margin: 0 auto;
+   width: 80%;
+}
+
+table {
+   width: 100%;
+}
+
+.mat-column-right {
+   text-align: center;
+}
+
+th {
+   font-size: 12pt;
+   font-weight: bold;
+   color: #000000;
+}
+
+mat-card {
+   border: 1px solid #673AB7;
+}
+
+button:hover {
+   text-decoration: underline;
+   text-decoration-color: #673AB7;
+}

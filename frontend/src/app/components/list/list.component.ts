@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { MatTableDataSource } from '@angular/material';
-import { MatSnackBar } from '@angular/material';
-import { Recipe } from '../../recipe.model';
-import { UserService } from '../../user.service';
 import { APIService } from '../../api.service';
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
+import { Account } from '../../account.model';
+import { Recipe } from '../../recipe.model';
+import { Review } from '../../review.model';
+import { Router } from '@angular/router';
+import { UserService } from '../../user.service';
 
 @Component({
   selector: 'app-list',
@@ -14,13 +16,28 @@ import { APIService } from '../../api.service';
 export class ListComponent implements OnInit {
 
   recipes: Recipe[];
-  displayedColumns = ['author', 'title', 'type', 'actions'];
+  displayedRecipeColumns = ['title', 'type', 'actions'];
+  follows: Account[];
+  displayedFollowColumns = ['follow', 'actions'];
+  reviews: Review[];
+  displayedReviewColumns = ['title', 'score', 'actions'];
+  searchForm: FormGroup;
 
-  constructor(private userService: UserService, private apiService: APIService, private router: Router, private snackBar: MatSnackBar) { }
+  constructor(private userService: UserService, 
+              private fb: FormBuilder, 
+              private apiService: APIService, 
+              private router: Router, 
+              private snackBar: MatSnackBar) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (this.userService.isAccountLoggedIn()) {
+      this.searchForm= this.fb.group({
+        search: new FormControl()
+      });
+
       this.fetchRecipes();
+      this.fetchFollows();
+      this.fetchReviews();
     } else {
       this.router.navigate([`/home`]);
     }
@@ -30,7 +47,7 @@ export class ListComponent implements OnInit {
   Gets all the recipes by calling the getRecipes() function from the apiService, 
   this will be changed later to get recipes based on the users account id
   */
-  fetchRecipes() {
+  fetchRecipes(): void {
     if (this.userService.isAccountLoggedIn()) {
       this.apiService.getAccountRecipes(this.userService.getAccountId()).subscribe((data: Recipe[]) => {
         this.recipes = data;
@@ -42,23 +59,44 @@ export class ListComponent implements OnInit {
     }
   }
 
-  viewRecipe(id) {
+  fetchFollows(): void {
+    this.apiService.getAccountFollows(this.userService.getAccountId()).subscribe((data: Account[]) => {
+      this.follows = data;
+    });
+  }
+
+  fetchReviews(): void {
+    this.apiService.getAccountReviews(this.userService.getAccountId()).subscribe((data: Review[]) => {
+      this.reviews = data;
+      console.log('Reviews: ' + this.reviews);
+    });
+  }
+
+  viewRecipe(id): void {
     this.router.navigate([`/view/${id}`]);
   }
 
   //Using the routes defined in the app.module.ts this will take us to the editComponent for the user to edit the recipe they sleected
-  editRecipe(id) {
+  editRecipe(id): void {
     this.router.navigate([`/edit-recipe/${id}`]);
   }
 
   //This currently deletes recipes, the naming will be fixed later...
-  deleteRecipe(id) {
-    this.apiService.deleteRecipe(id).subscribe(() => {
+  deleteRecipe(id): void {
+    this.apiService.deleteRecipe(this.userService.getAccountId(), id).subscribe(() => {
       this.fetchRecipes();
     });
   }
 
-  sortByType(type: string) {
+  viewUserRecipes(userName, userId): void {
+    this.router.navigate([`/user-view/${userName}/${userId}`]);
+  }
+
+  unfollowUser(followId): void {
+
+  }
+
+  sortByType(type: string): void {
     this.apiService.getAccountRecipesByType(this.userService.getAccountId(), type).subscribe((data: Recipe[]) => {
       if (data.length == 0) {
         this.snackBar.open('There are no ' + type + ' Recipes to display', 'Dismiss', { duration: 5000, verticalPosition: 'top', panelClass: ['snackBarError'] });
@@ -66,6 +104,18 @@ export class ListComponent implements OnInit {
         this.recipes = data;
       }
     })
+  }
+
+  search(): void {
+    let searchInput: string = this.searchForm.get('search').value.trim();
+    searchInput.trim();
+    
+    if (searchInput.length > 0) {
+      var search: string = searchInput;
+      this.router.navigate([`/search-results/${search}`]);
+    } else {
+      this.snackBar.open('Please enter a name to use the search', 'Dismiss', { duration: 5000, verticalPosition: 'top', panelClass: ['snackBarError'] });
+    }
   }
 
 }

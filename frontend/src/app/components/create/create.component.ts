@@ -18,7 +18,7 @@ export class CreateComponent implements OnInit {
   ngOnInit() {
     if (this.userService.isAccountLoggedIn()) { 
       this.createForm = this.fb.group({
-        author: ['', Validators.required],
+        author: [this.userService.getAccountFirst(), Validators.required],
         title: ['', Validators.required],
         type: ['', Validators.required],
         ingredients: this.fb.array([

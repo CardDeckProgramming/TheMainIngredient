@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-//import Recipe from './Recipe';
 
 const Schema = mongoose.Schema;
 
@@ -24,6 +23,12 @@ let Account = new Schema({
       default: ''
    },
    recipes: {
+      type: []
+   },
+   follows: {
+      type: []
+   },
+   reviews: {
       type: []
    }
 });

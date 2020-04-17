@@ -30,7 +30,7 @@ button {
 }
 
 .mat-card {
-   border-color: #FFFFFF;
+   border: 1px solid #673ab7;
    padding-bottom: 2.5%;
    margin-bottom: 5%;
 }
@@ -50,7 +50,7 @@ button {
 
 .header-info, .ingredient-info {
    float: left;
-   width: 28.5%;
+   width: 25.25%;
    margin-right: 2.5%;
    margin-bottom: 5%;
 }

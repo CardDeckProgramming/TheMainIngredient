@@ -51,21 +51,13 @@ export class EditProfileComponent implements OnInit {
     });
   }
 
-  deleteAccount(id) {
-    this.apiService.deleteAccount(id).subscribe(() => {
-      this.userService.setAccountId(null);
-      this.userService.setAccountEmail(null);
-      this.userService.setAccountPassword(null);
-      this.userService.setAccountLoggedIn(false);
-      this.router.navigate(['']);
-    });
-  }
-
   updateProfile() {
     this.apiService.updateAccount(this.updateProfileForm.get('first').value, 
                                   this.updateProfileForm.get('last').value,
                                   this.updateProfileForm.get('gender').value,  
                                   this.updateProfileForm.get('bio').value).subscribe(response => {
+
+      this.userService.setAccountFirst(this.updateProfileForm.get('first').value);
       this.router.navigate(['/list']);
     });
   }

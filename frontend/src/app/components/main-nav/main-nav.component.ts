@@ -23,7 +23,8 @@ export class MainNavComponent {
 
   constructor(private breakpointObserver: BreakpointObserver, 
               private router: Router, 
-              private route: ActivatedRoute, 
+              private route: ActivatedRoute,
+              private apiService: APIService, 
               public userService: UserService) { }
 
   changeTheme() {
@@ -32,6 +33,16 @@ export class MainNavComponent {
 
   editProfile(id) {
     this.router.navigate([`/edit-profile/${id}`]);
+  }
+
+  deleteAccount(id) {
+    this.apiService.deleteAccount(id).subscribe(() => {
+      this.userService.setAccountId(null);
+      this.userService.setAccountEmail(null);
+      this.userService.setAccountPassword(null);
+      this.userService.setAccountLoggedIn(false);
+      this.router.navigate(['']);
+    });
   }
 
   logOut() {

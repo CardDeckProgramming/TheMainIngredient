@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { map, shareReplay } from 'rxjs/operators';
 import { UserService } from 'src/app/user.service';
 import { APIService } from '../../api.service';
@@ -22,8 +22,7 @@ export class MainNavComponent {
   otherTheme: boolean = false;
 
   constructor(private breakpointObserver: BreakpointObserver, 
-              private router: Router, 
-              private route: ActivatedRoute,
+              public router: Router, 
               private apiService: APIService, 
               public userService: UserService) { }
 

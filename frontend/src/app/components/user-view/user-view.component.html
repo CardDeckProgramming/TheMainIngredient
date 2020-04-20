@@ -13,9 +13,10 @@
    </mat-card>
    <br/>
    <mat-card [ngStyle]="{'border-color': (this.recipes != undefined && this.recipes.length > 0) ? '#FFD740' : '#F44336'}">
+      <h2>{{this.userName.substring(0, this.userName.indexOf('_')) + "'s Profile"}}</h2>
+      <p>{{this.profile.bio}}</p>
       <br/>
       <div *ngIf="this.recipes != undefined && this.recipes.length > 0; else noResults"> 
-         <h2>{{this.userName.replace('_', ' ') + "'s Profile"}}</h2>
          <mat-select placeholder="Sort Recipes By Type" (selectionChange)="sortByType($event.value)">
             <mat-option value="All">All</mat-option>
             <mat-option value="Appetizers & Snacks">Appetizers & Snacks</mat-option>
@@ -41,7 +42,8 @@
                <th mat-header-cell *matHeaderCellDef class="mat-column-right">Actions</th>
                <td mat-cell *matCellDef="let element" class="mat-column-right">
                   <button mat-button color="primary" (click)="viewRecipe(this.userName, this.userId, element._id)">View</button>
-                  <button mat-button color="primary" (click)="reviewRecipe(this.userName, this.userId, element.title, element._id)">Review</button>
+                  <button mat-button color="primary" (click)="reviewRecipe(this.userName, this.userId, element.title, element._id)">Rate</button>
+                  <button mat-button color="primary" (click)="viewReviews(this.userName, this.userId, element._id, element.title)">Reviews</button>
                </td>
             </ng-container>
       

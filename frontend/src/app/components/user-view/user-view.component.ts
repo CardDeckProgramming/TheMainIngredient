@@ -13,6 +13,7 @@ import { UserService } from '../../user.service';
 })
 export class UserViewComponent implements OnInit {
 
+  profile: any = {};
   recipes: Recipe[];
   displayedColumns = ['title', 'type', 'actions'];
   searchForm: FormGroup;
@@ -33,6 +34,10 @@ export class UserViewComponent implements OnInit {
       });
 
       this.route.params.subscribe(params => {
+        this.apiService.getAccountById(params.userId).subscribe(data => {
+          this.profile = data;
+        });
+
         this.userName = params.userName;
         this.userId = params.userId;
         this.fetchRecipes(params.userId);
@@ -65,6 +70,10 @@ export class UserViewComponent implements OnInit {
 
   reviewRecipe(userName, userId, recipeTitle, recipeId): void {
     this.router.navigate([`/create-review/${userName}/${userId}/${recipeId}/${recipeTitle}`]);
+  }
+
+  viewReviews(userName, userId, recipeId, recipeTitle): void {
+    this.router.navigate([`/view-reviews/${userName}/${userId}/${recipeId}/${recipeTitle}`]);
   }
 
   sortByType(type: string): void {

@@ -1,4 +1,4 @@
-<mat-sidenav-container class="sidenav-container">
+<mat-sidenav-container class="sidenav-container" [ngStyle]="{'background-color': (this.router.url ==='/home' || this.router.url === '/') ? '#FFD740' : '#F5F5F5'}">
   <mat-sidenav 
       #drawer 
       class="sidenav" 
@@ -9,7 +9,7 @@
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
       <a mat-list-item (click)="editProfile(this.userService.getAccountId())">Edit Account</a>
-      <a mat-list-item routerLink="/list">Main Hub</a>
+      <a mat-list-item routerLink="/list">{{this.userService.getAccountFirst()}}'s Hub</a>
       <a mat-list-item routerLink="/create">Create Recipe</a>
       <a mat-list-item (click)="drawer.toggle(); logOut()">Log Out</a>
       <a mat-list-item (click)="drawer.toggle(); deleteAccount(this.userService.getAccountId())">Delete Account</a>
@@ -17,7 +17,7 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary">
-      <!--This *ngoIf checks to see if a variable is true/false, if true (meaning a user is logged in the fancy side bar is enabled)
+      <!--This *ngoIf checks to see if a variable is true/false, if true (meaning a user is logged in the fancy side bar is enabled) 
       else signIn is called which can be seen below with #signIn which creates the yellow sign in button-->
       <div *ngIf="this.userService.isAccountLoggedIn(); else signIn">
         <button
@@ -34,10 +34,9 @@
       </ng-template>
       <span class="spacer"></span>
       <a mat-list-item routerLink="/home">Home</a>
-      <a mat-list-item href="#">About Us</a>
       <a mat-list-item routerLink="/contact-us">Contact Us</a>
       <span class="pipe">&#124;</span>
-      <span style="color: #FFD740;">The Main Ingredient</span>
+      <span style="color: #FFD740">The Main Ingredient</span>
     </mat-toolbar>
     <!--The router-outlet tag uses the routes array (found in app.module / created in app-routing.module) to trvale to each page (component)-->
     <div> 

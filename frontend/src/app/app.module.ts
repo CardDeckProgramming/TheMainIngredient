@@ -36,14 +36,16 @@ import {
   MatToolbarModule,
   MatTooltipModule
   } from '@angular/material';
-import { NgModule, Component } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { ReadReviewsComponent } from './components/read-reviews/read-reviews.component';
 import { SearchResultsComponent } from './components/search-results/search-results.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
-import { ViewComponent } from './components/view/view.component';
 import { UserViewComponent } from './components/user-view/user-view.component';
 import { UserViewRecipeComponent } from './components/user-view-recipe/user-view-recipe.component';
+import { ViewComponent } from './components/view/view.component';
+import { ViewReviewComponent } from './components/view-review/view-review.component';
 
 //The path variables link to the corrisponding component
 const routes: Routes = [
@@ -58,9 +60,11 @@ const routes: Routes = [
   {path: 'list', component: ListComponent},
   {path: 'search-results/:search', component: SearchResultsComponent},
   {path: 'sign-in', component: SignInComponent},
-  {path: 'view/:id', component: ViewComponent},
+  {path: 'user-view/:userName/:userId', component: UserViewComponent},
   {path: 'user-view-recipe/:userName/:userId/:id', component: UserViewRecipeComponent},
-  {path: 'user-view/:userName/:userId', component: UserViewComponent}
+  {path: 'view/:id', component: ViewComponent},
+  {path: 'view-review/:reviewId/:recipeTitle', component: ViewReviewComponent },
+  {path: 'view-reviews/:userName/:userId/:recipeId/:recipeTitle', component: ReadReviewsComponent }
 ];
 
 @NgModule({
@@ -79,7 +83,9 @@ const routes: Routes = [
     SearchResultsComponent,
     UserViewComponent,
     CreateReviewComponent,
-    UserViewRecipeComponent
+    UserViewRecipeComponent,
+    ReadReviewsComponent,
+    ViewReviewComponent
   ],
   imports: [
     BrowserModule,

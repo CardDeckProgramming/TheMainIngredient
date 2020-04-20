@@ -2,6 +2,7 @@
    <br/>
    <mat-card class="mat-card">
       <h2>Review - {{this.recipeTitle}}</h2>
+      <h4>Recipe By: {{this.userName.replace('_', ' ')}}</h4>
       <button mat-flat-button color="accent" routerLink="/user-view/{{this.userName}}/{{this.userId}}">Back</button>
       <button type="submit" 
             (click)="saveReview()"
@@ -13,6 +14,7 @@
       <br/>
          <form [formGroup]="reviewForm" class="create-form">
             <h2>Rating Score</h2>
+            <p>{{this.reviewForm.get('score').value}}/10</p>
             <mat-slider formControlName="score"
                thumbLabel
                tickInterval="1"

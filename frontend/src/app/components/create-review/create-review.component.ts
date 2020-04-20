@@ -49,11 +49,12 @@ export class CreateReviewComponent implements OnInit {
 
   saveReview(): void {
     this.apiService.addReview(this.recipeTitle,
+                              this.userName.replace('_', ' '),
                               this.reviewForm.get('score').value, 
                               this.reviewForm.get('review').value).subscribe((response) => {
       this.apiService.addAccountReviewId(JSON.parse(JSON.stringify(response['reviewId']))).subscribe(response => {
         this.apiService.addRecipeReviewId(this.recipeId, JSON.parse(JSON.stringify(response['reviewId']))).subscribe(response => {
-          this.router.navigate(['/user-view/' + this.userId]);
+          this.router.navigate(['/user-view/' + this.userName + '/' + this.userId]);
           this.snackBar.open('Review submitted successfully', 'OK', { duration: 4000, verticalPosition: 'top', panelClass: ['snackBarSuccess'] });
         });
       });

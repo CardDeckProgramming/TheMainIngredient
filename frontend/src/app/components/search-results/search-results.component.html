@@ -16,7 +16,7 @@
       <div *ngIf="this.users != undefined && this.users.length > 0; else noResults"> 
          <table mat-table [dataSource]="users">
             <ng-container matColumnDef="user">
-               <th mat-header-cell *matHeaderCellDef>User</th>
+               <th mat-header-cell *matHeaderCellDef style="width: 80%">User</th>
                <td mat-cell *matCellDef="let element">{{element.first + ' ' + element.last}}</td>
             </ng-container>
 

@@ -6,10 +6,16 @@ let Review = new Schema({
    title: {
       type: String
    },
+   recipeBy: {
+      type: String
+   },
    score: {
       type: String
    }, 
    review: {
+      type: String
+   },
+   reviewBy: {
       type: String
    }
 });

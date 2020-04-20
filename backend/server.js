@@ -289,6 +289,20 @@ router.route('/account/:id/follows/all').get((req, res) => {
     });
 });
 
+//Delete Follow
+router.route('/account/:id/follows/delete/:followId').get((req, res) => {
+    Account.findById(req.params.id, (err, account) => {
+        if (err) {
+            res.json(err);
+        } else {
+            account.follows.remove(req.params.followId);
+            account.save(
+                res.json('Removed follow id and follow successfully')
+            );
+        }
+    });
+});
+
 
 
 //Contact Colleaction
@@ -332,6 +346,17 @@ router.route('/reviews/add').post((req, res) => {
         }).catch(err => {
             res.status(400).send('Failed to add new review');
         });
+});
+
+//Get Review By Id
+router.route('/reviews/:id').get((req, res) => {
+    Review.findById(req.params.id, (err, review) => {
+        if (err) {
+           console.log(err);
+        } else {
+           res.json(review);
+        }
+    });
 });
 
 //Add Review Ref to Account 
@@ -387,13 +412,32 @@ router.route('/account/:id/reviews/all').get((req, res) => {
     });
 });
 
-//Delete Follow
-router.route('/account/:accountId/reviews/delete/:reviewId').get((req, res) => {
-    Account.findById(req.params.accountId, (err, account) => {
+//Get Reviews based on the Recipe Id (Get All Added Reviews from a Recipe)
+router.route('/recipe/:id/reviews/all').get((req, res) => {
+    Recipe.findById(req.params.id, (err, recipe) => {
+        if (err) {
+            console.log(err);
+        } else {     
+            Review.find({'_id': { $in: recipe.reviews}}, 
+            function(err, reviews) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.json(reviews);
+                    console.log('Reviews: ' + reviews);
+                }
+            });
+        }
+    });
+});
+
+//Delete Review
+router.route('/account/:id/reviews/delete/:reviewId').get((req, res) => {
+    Account.findById(req.params.id, (err, account) => {
         if (err) {
             res.json(err);
         } else {
-            account.reviews.remove(req.params.recipeId);
+            account.reviews.remove(req.params.reviewId);
             account.save(
                 Review.findByIdAndRemove({_id: req.params.reviewId}, (err, review) => {
                     if (err) {
@@ -415,8 +459,6 @@ function escapeRegex(text) {
 };
 
 router.get('/search-results/search', function(req, res) {
-    console.log('Search: ' + req.query.firstName + ' ' + req.query.lastName);
-
     if (req.query.lastName.length > 0) {
         const firstName = new RegExp(escapeRegex(req.query.firstName), 'gi');
         const lastName = new RegExp(escapeRegex(req.query.lastName), 'gi');

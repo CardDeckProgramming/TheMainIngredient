@@ -68,7 +68,6 @@ export class ListComponent implements OnInit {
   fetchReviews(): void {
     this.apiService.getAccountReviews(this.userService.getAccountId()).subscribe((data: Review[]) => {
       this.reviews = data;
-      console.log('Reviews: ' + this.reviews);
     });
   }
 
@@ -93,7 +92,19 @@ export class ListComponent implements OnInit {
   }
 
   unfollowUser(followId): void {
+    this.apiService.deleteFollow(this.userService.getAccountId(), followId).subscribe(() => {
+      this.fetchFollows();
+    });
+  }
 
+  viewReview(reviewId, recipeTitle): void {
+    this.router.navigate([`/view-review/${reviewId}/${recipeTitle}`]);
+  }
+
+  deleteReview(reviewId): void {
+    this.apiService.deleteReview(this.userService.getAccountId(), reviewId).subscribe(() => {
+      this.fetchReviews();
+    });
   }
 
   sortByType(type: string): void {

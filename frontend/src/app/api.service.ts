@@ -89,6 +89,10 @@ export class APIService {
     return this.http.get(`${this.uri}/account/${id}/follows/all`);
   }
 
+  deleteFollow(id, followId): Observable<Object> {
+    return this.http.get(`${this.uri}/account/${id}/follows/delete/${followId}`);
+  }
+
 
 
   //Recipe Collection
@@ -147,13 +151,19 @@ export class APIService {
 
 
   //Revew Collection
-  addReview(title, score, writtenReview): Observable<Object> {
+  addReview(title, userName, score, writtenReview): Observable<Object> {
     const review = {
       title: title,
+      recipeBy: userName,
       score: score,
-      review: writtenReview
+      review: writtenReview,
+      reviewBy: this.userService.getAccountFirst()
     };
     return this.http.post(`${this.uri}/reviews/add`, review);
+  }
+
+  getReviewById(id): Observable<Object> {
+    return this.http.get(`${this.uri}/reviews/${id}`);
   }
 
   addAccountReviewId(reviewId): Observable<Object> {
@@ -172,6 +182,14 @@ export class APIService {
 
   getAccountReviews(id): Observable<Object> {
     return this.http.get(`${this.uri}/account/${id}/reviews/all`);
+  }
+
+  getRecipeReviews(id): Observable<Object> {
+    return this.http.get(`${this.uri}/recipe/${id}/reviews/all`);
+  }
+
+  deleteReview(id, reviewId): Observable<Object> {
+    return this.http.get(`${this.uri}/account/${id}/reviews/delete/${reviewId}`);
   }
 
 

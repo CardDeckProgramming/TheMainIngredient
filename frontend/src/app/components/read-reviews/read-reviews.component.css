@@ -19,10 +19,7 @@ th {
 
 mat-card {
    border: 1px solid #673ab7;
-}
-
-mat-accordion {
-   margin-bottom: 5%;
+   margin-bottom: 2.5%;
 }
 
 button:hover {
@@ -35,20 +32,12 @@ button:hover {
    border-bottom: 0.25px;
 }
 
-.mat-expansion-panel.mat-expanded {
-   border: 1px solid #673AB7;
-}
-
 .mat-expansion-panel:last-child {
    border: 1px solid #673AB7;
 }
 
 input::placeholder{
    color:#000000;
-}
-
-mat-panel-title {
-   font-weight: bold;
 }
 
 ::ng-deep .specific-class > .mat-expansion-indicator:after {

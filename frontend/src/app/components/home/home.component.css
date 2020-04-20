@@ -1,9 +1,5 @@
-.body {
-  padding: 0;
-  margin: 0;
-}
-
 mat-grid-list {
+  background-color: #673AB7;
   margin-top: 0.05%;
 }
 

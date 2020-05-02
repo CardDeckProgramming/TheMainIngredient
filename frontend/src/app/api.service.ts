@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject, Observable } from 'rxjs';
 import { UserService } from './user.service';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import { UserService } from './user.service';
 //Example: ${this.uri}/recipes uses the http://localhost:400 uri to connect to the server we created and call the APIs set in the server.js (found in backend folder)
 export class APIService {
 
-  uri = 'http://localhost:4000';
+  uri = environment.uri;
 
   constructor(private userService: UserService, private http: HttpClient) { }
 

@@ -8,7 +8,7 @@ To Start the Recipe WebApp locally:
 
 2. In IDE (Visial Studio Code)
 Open a terminal -> change directory to backend (cd backend)
-Run: npm run dev (Don't close this terminal)
+Run: npm run start (Don't close this terminal)
 
 3. Open another terminal (found atop the menu tab) -> change terminal to frontend (cd frontend)
 Run: ng serve --open (Don't close this terminal)
@@ -62,3 +62,21 @@ Then enter 'git rebase master' to briing in the new changes from master to your 
 Run in /frontend to compile files for backend/dist folder: ng build --prod
 Copy contents into backend/dist folder (Make sure to clear both frontend & backend /dist folders before adding new files into backend/dist folder)
 
+# Screen for linux commandline
+
+screen -list
+
+   Displays the available screens
+
+screen -S TheMainIngredient
+
+   Will create a screen with the name "TheMainIngredient"
+
+screen -R
+
+   Will display available screens if no input provided
+   Can use screen -R TheMainIngredient to go back to the screen
+
+CTRL + A + D
+
+   Let's the user leave the screen.

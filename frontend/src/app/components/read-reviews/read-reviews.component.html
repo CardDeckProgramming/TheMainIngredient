@@ -1,11 +1,12 @@
 <div class="wrapper">
    <br/>
    <mat-card [ngStyle]="{'border-color': (this.reviews != undefined && this.reviews.length > 0) ? '#FFD740' : '#F44336'}">
-      <h2>{{this.recipeTitle + " - Reviews"}}</h2>
-      <h4>Recipe By: {{this.recipeBy}}</h4>
+      <h2>Read Reviews</h2>
       <button mat-flat-button color="accent" routerLink="/user-view/{{this.userName}}/{{this.userId}}">Back</button>
       <br/><br/>
       <div *ngIf="this.reviews != undefined && this.reviews.length > 0; else noReviews">
+         <h4>{{this.recipeTitle + " - Reviews"}}</h4>
+         <h4>Recipe By: {{this.recipeBy}}</h4>
          <mat-card *ngFor="let review of this.reviews; let i = index">
             <h3>Review By: {{review.reviewBy}}</h3>
             <hr style="opacity: 0.3;"/>

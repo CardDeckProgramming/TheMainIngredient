@@ -54,3 +54,11 @@ After you have pulled in the new changes in the master branch, switch to your ot
 Then enter 'git rebase master' to briing in the new changes from master to your branch. 
 
    *Note: You may get merge conflicts during this command (this means code you've changed was also changed in the same spot with the new changes you just pulled in). To fix these, go to the files where merge conflicts exist. Fix the code so the appropriate changes remain, and add the files to your next commit when you're ready to push your changes to the repository
+
+
+
+# Add frontend code into server:
+
+Run in /frontend to compile files for backend/dist folder: ng build --prod
+Copy contents into backend/dist folder (Make sure to clear both frontend & backend /dist folders before adding new files into backend/dist folder)
+

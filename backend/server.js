@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 mongoose.connect('mongodb://localhost:27017/recipes');
 mongoose.connection.once('Open', () => {
         console.log('MongoDB database connection established successfully');
-    }).on('error', () => {
+    }).on('error', error => {
         console.log('MongoDB Connection Error: ', error);
 });
 
@@ -490,4 +490,5 @@ router.get('/search-results/search', function(req, res) {
 
 //Server
 app.use('/', router);
+app.use(express.static(__dirname + '/dist'));
 app.listen(4000, () => console.log('Express server running on port 4000'));

@@ -46,26 +46,7 @@ import { UserViewComponent } from './components/user-view/user-view.component';
 import { UserViewRecipeComponent } from './components/user-view-recipe/user-view-recipe.component';
 import { ViewComponent } from './components/view/view.component';
 import { ViewReviewComponent } from './components/view-review/view-review.component';
-
-//The path variables link to the corrisponding component
-const routes: Routes = [
-  {path: '', redirectTo: 'home', pathMatch: 'full'},
-  {path: 'contact-us', component: ContactUsComponent},
-  {path: 'create', component: CreateComponent},
-  {path: 'create-profile/:email/:password', component: CreateProfileComponent},
-  {path: 'create-review/:userName/:userId/:recipeId/:recipeTitle', component: CreateReviewComponent },
-  {path: 'edit-profile/:id', component: EditProfileComponent},
-  {path: 'edit-recipe/:id', component: EditRecipeComponent},
-  {path: 'home', component: HomeComponent},
-  {path: 'list', component: ListComponent},
-  {path: 'search-results/:search', component: SearchResultsComponent},
-  {path: 'sign-in', component: SignInComponent},
-  {path: 'user-view/:userName/:userId', component: UserViewComponent},
-  {path: 'user-view-recipe/:userName/:userId/:id', component: UserViewRecipeComponent},
-  {path: 'view/:id', component: ViewComponent},
-  {path: 'view-review/:reviewId/:recipeTitle', component: ViewReviewComponent },
-  {path: 'view-reviews/:userName/:userId/:recipeId/:recipeTitle', component: ReadReviewsComponent }
-];
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -116,7 +97,7 @@ const routes: Routes = [
     MatTableModule, 
     MatToolbarModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(routes)
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

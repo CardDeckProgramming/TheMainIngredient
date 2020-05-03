@@ -489,6 +489,6 @@ router.get('/search-results/search', function(req, res) {
 
 
 //Server
-app.use('/', router);
+app.use('/api', router);
 app.use(express.static(__dirname + '/dist'));
 app.listen(80, () => console.log('Express server running on port 80'));

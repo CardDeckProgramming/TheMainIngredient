@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { APIService } from '../../api.service';
-import { Review } from '../../review.model';
-import { UserService } from 'src/app/user.service';
+import { RecipeService } from '../../services/recipe.service';
+import { Review } from '../../models/review.model';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-read-reviews',
@@ -18,7 +18,7 @@ export class ReadReviewsComponent implements OnInit {
   reviews: Review[];
   recipeBy: any;
 
-  constructor(private apiService: APIService, 
+  constructor(private apiService: RecipeService, 
               private router: Router, 
               private route: ActivatedRoute, 
               private userService: UserService) { }
@@ -31,7 +31,7 @@ export class ReadReviewsComponent implements OnInit {
         this.recipeId = params.recipeId;
         this.recipeTitle = params.recipeTitle;
 
-        this.apiService.getRecipeReviews(this.recipeId).subscribe((data: Review[]) => {
+        this.apiService.getReviewsByRecipeId(this.recipeId).subscribe((data: Review[]) => {
           this.reviews = data;
           this.recipeBy = this.reviews[0]['recipeBy'];
         });

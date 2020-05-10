@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { APIService } from '../../api.service';
-import { Recipe } from '../../recipe.model';
-import { UserService } from 'src/app/user.service';
-import { Volumes } from 'src/app/volume';
-import { Weights } from 'src/app/weight';
+import { RecipeService } from '../../services/recipe.service';
+import { Recipe } from '../../models/recipe.model';
+import { UserService } from 'src/app/services/user.service';
+import { Volumes } from 'src/app/models/measurement/volume';
+import { Weights } from 'src/app/models/measurement/weight';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Sort } from '@angular/material/sort';
 
@@ -152,7 +152,7 @@ export class UserViewRecipeComponent implements OnInit {
                                     {from: 'kg', to: 'oz', value: 35.274}
                                   ];
 
-  constructor(private apiService: APIService, 
+  constructor(private recipeService: RecipeService, 
               private router: Router, 
               private route: ActivatedRoute, 
               private userService: UserService) { }
@@ -164,7 +164,7 @@ export class UserViewRecipeComponent implements OnInit {
         this.userId = params.userId;
         this.id = params.id;
 
-        this.apiService.getRecipeById(this.id).subscribe((data: Recipe) => {
+        this.recipeService.getRecipeById(this.id).subscribe((data: Recipe) => {
 
           for (let i = 0; i < data.ingredients.length; i++) {
             this.results.push('');

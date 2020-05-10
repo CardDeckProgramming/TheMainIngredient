@@ -20,7 +20,6 @@
          <!--These buttons will allow users to log in or sign up, the [disabled] code state that the signInForm (that we set above)
          needs to be completed before the user can press either of the buttons-->      
          <button type="submit" 
-                 (click)="submit()"
                  [disabled]="contactUsForm.pristine || contactUsForm.invalid" 
                  mat-flat-button color="primary">Submit</button>
           <mat-divider style="background-color: #673AB7;"></mat-divider>

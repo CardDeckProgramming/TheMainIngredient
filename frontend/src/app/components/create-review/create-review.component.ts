@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { APIService } from '../../api.service';
+import { AccountService } from '../../services/account.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
-import { UserService } from '../../user.service';
+import { UserService } from '../../services/user.service';
+import { ReviewService } from 'src/app/services/review.service';
+import { RecipeService } from 'src/app/services/recipe.service';
 
 @Component({
   selector: 'app-create-review',
@@ -20,7 +22,9 @@ export class CreateReviewComponent implements OnInit {
 
   constructor(private userService: UserService, 
               private fb: FormBuilder, 
-              private apiService: APIService, 
+              private accountService: AccountService,
+              private recipeService: RecipeService, 
+              private reviewService: ReviewService, 
               private router: Router, 
               private route: ActivatedRoute, 
               private snackBar: MatSnackBar) { }
@@ -48,12 +52,12 @@ export class CreateReviewComponent implements OnInit {
   }
 
   saveReview(): void {
-    this.apiService.addReview(this.recipeTitle,
+    this.reviewService.addReview(this.recipeTitle,
                               this.userName.replace('_', ' '),
                               this.reviewForm.get('score').value, 
                               this.reviewForm.get('review').value).subscribe((response) => {
-      this.apiService.addAccountReviewId(JSON.parse(JSON.stringify(response['reviewId']))).subscribe(response => {
-        this.apiService.addRecipeReviewId(this.recipeId, JSON.parse(JSON.stringify(response['reviewId']))).subscribe(response => {
+      this.accountService.addReviewToAccount(JSON.parse(JSON.stringify(response['reviewId']))).subscribe(response => {
+        this.recipeService.addReviewToRecipe(this.recipeId, JSON.parse(JSON.stringify(response['reviewId']))).subscribe(response => {
           this.router.navigate(['/user-view/' + this.userName + '/' + this.userId]);
           this.snackBar.open('Review submitted successfully', 'OK', { duration: 4000, verticalPosition: 'top', panelClass: ['snackBarSuccess'] });
         });

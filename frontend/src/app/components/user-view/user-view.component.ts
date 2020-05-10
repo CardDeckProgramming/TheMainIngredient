@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { APIService } from '../../api.service';
+import { AccountService } from '../../services/account.service';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
-import { Recipe } from '../../recipe.model';
+import { Recipe } from '../../models/recipe.model';
 import { Router, ActivatedRoute } from '@angular/router';
-import { UserService } from '../../user.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-user-view',
@@ -22,19 +22,19 @@ export class UserViewComponent implements OnInit {
 
   constructor(private userService: UserService, 
               private fb: FormBuilder, 
-              private apiService: APIService, 
+              private accountService: AccountService, 
               private router: Router, 
               private route: ActivatedRoute, 
               private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    if (this.userService.isAccountLoggedIn()) {
-      this.searchForm= this.fb.group({
-        search: new FormControl()
-      });
+    this.searchForm= this.fb.group({
+      search: new FormControl()
+    });
 
+    if (this.userService.isAccountLoggedIn()) {
       this.route.params.subscribe(params => {
-        this.apiService.getAccountById(params.userId).subscribe(data => {
+        this.accountService.getAccountById(params.userId).subscribe(data => {
           this.profile = data;
         });
 
@@ -48,7 +48,7 @@ export class UserViewComponent implements OnInit {
   }
 
   fetchRecipes(userId): void {
-    this.apiService.getAccountRecipes(userId).subscribe((data: Recipe[]) => {
+    this.accountService.getRecipesByAccountId(userId).subscribe((data: Recipe[]) => {
       this.recipes = data;
     });
   }
@@ -58,7 +58,7 @@ export class UserViewComponent implements OnInit {
     
     if (searchInput.length > 0) {
       var search: string = searchInput;
-      this.router.navigate([`/search-results/${search}`]);
+      this.router.navigate([`/search/${search}`]);
     } else {
       this.snackBar.open('Please enter a name to use the search', 'Dismiss', { duration: 5000, verticalPosition: 'top', panelClass: ['snackBarError'] });
     }
@@ -77,7 +77,7 @@ export class UserViewComponent implements OnInit {
   }
 
   sortByType(type: string): void {
-    this.apiService.getAccountRecipesByType(this.userService.getAccountId(), type).subscribe((data: Recipe[]) => {
+    this.accountService.getAccountRecipesByType(this.userService.getAccountId(), type).subscribe((data: Recipe[]) => {
       if (data.length == 0) {
         this.snackBar.open('There are no ' + type + ' Recipes to display', 'Dismiss', { duration: 5000, verticalPosition: 'top', panelClass: ['snackBarError'] });
       } else {

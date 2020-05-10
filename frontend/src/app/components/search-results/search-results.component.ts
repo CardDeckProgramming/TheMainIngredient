@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { APIService } from '../../api.service';
+import { AccountService } from '../../services/account.service';
+import { SearchService } from '../../services/search.service';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
-import { Account } from '../../account.model';
+import { Account } from '../../models/account.model';
 import { Router, ActivatedRoute } from '@angular/router';
-import { UserService } from '../../user.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-search-results',
@@ -18,18 +19,19 @@ export class SearchResultsComponent implements OnInit {
   searchForm: FormGroup;
 
   constructor(private userService: UserService, 
-              private apiService: APIService, 
+              private accountService: AccountService,
+              private searchService: SearchService, 
               private router: Router, 
               private route: ActivatedRoute,
               private snackBar: MatSnackBar,
               private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    if (this.userService.isAccountLoggedIn()) {
-      this.searchForm = this.fb.group({
-        search: new FormControl()
-      });
+    this.searchForm = this.fb.group({
+      search: new FormControl()
+    });
 
+    if (this.userService.isAccountLoggedIn()) {
       this.route.params.subscribe(params => {
         let searchInput = params.search;
 
@@ -55,7 +57,7 @@ export class SearchResultsComponent implements OnInit {
   
       this.searchForm.get('search').setValue(last == '' ? first : first + ' ' + last);
   
-      this.apiService.getAccountBySearch(first, last).subscribe((data: Account[]) => {
+      this.searchService.getAccountBySearch(first, last).subscribe((data: Account[]) => {
         this.users = data;
       });
     } else {
@@ -68,7 +70,7 @@ export class SearchResultsComponent implements OnInit {
   }
 
   followUser(followId): void {
-    this.apiService.addFollow(this.userService.getAccountId(), followId).subscribe(response => {
+    this.accountService.addFollowToAccount(this.userService.getAccountId(), followId).subscribe(response => {
       this.snackBar.open('User favorited successfully', 'OK', { duration: 4000, verticalPosition: 'top', panelClass: ['snackBarSuccess'] });
     });
   }

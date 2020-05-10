@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
-import { APIService } from '../../api.service';
-import { UserService } from 'src/app/user.service';
+import { AccountService } from '../../services/account.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-create-profile',
@@ -16,8 +16,8 @@ export class CreateProfileComponent implements OnInit {
   email: string;
   password: string;
 
-  constructor(private apiService: APIService, 
-              private fb: FormBuilder, 
+  constructor(private accountService: AccountService, 
+              private formBuilder: FormBuilder, 
               private router: Router, 
               private route: ActivatedRoute,
               private snackBar: MatSnackBar,
@@ -25,7 +25,7 @@ export class CreateProfileComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.createProfileForm = this.fb.group({
+      this.createProfileForm = this.formBuilder.group({
         first: ['', Validators.required],
         last: ['', Validators.required],
         gender: ['', Validators.required],
@@ -38,12 +38,12 @@ export class CreateProfileComponent implements OnInit {
   }
 
   addAccount() {
-    this.apiService.addAccount(this.createProfileForm.get('first').value, 
-                               this.createProfileForm.get('last').value, 
-                               this.createProfileForm.get('gender').value, 
-                               this.email, 
-                               this.password, 
-                               this.createProfileForm.get('bio').value).subscribe(response => {
+    this.accountService.addAccount(this.createProfileForm.get('first').value, 
+                                   this.createProfileForm.get('last').value, 
+                                   this.createProfileForm.get('gender').value, 
+                                   this.email, 
+                                   this.password, 
+                                   this.createProfileForm.get('bio').value).subscribe(response => {
                                  
       if (JSON.parse(JSON.stringify(response)) != null) {
         this.userService.setAccountId(JSON.parse(JSON.stringify(response['accountId'])));

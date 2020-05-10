@@ -3,8 +3,8 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { map, shareReplay } from 'rxjs/operators';
-import { UserService } from 'src/app/user.service';
-import { APIService } from '../../api.service';
+import { UserService } from 'src/app/services/user.service';
+import { AccountService } from '../../services/account.service';
 
 @Component({
   selector: 'main-nav',
@@ -23,7 +23,7 @@ export class MainNavComponent {
 
   constructor(private breakpointObserver: BreakpointObserver, 
               public router: Router, 
-              private apiService: APIService, 
+              private accountService: AccountService, 
               public userService: UserService) { }
 
   changeTheme() {
@@ -35,7 +35,8 @@ export class MainNavComponent {
   }
 
   deleteAccount(id) {
-    this.apiService.deleteAccount(id).subscribe(() => {
+    this.accountService.deleteAccount(id).subscribe((res) => {
+      console.log('deleteAccount response: ' + res);
       this.userService.setAccountId(null);
       this.userService.setAccountEmail(null);
       this.userService.setAccountPassword(null);

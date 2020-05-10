@@ -5,12 +5,6 @@
       <mat-divider style="background-color: #673AB7;"></mat-divider>
       <br />
       <div class="content">
-         <!--[formGroup] uses the signInForm variable provided in the sign-in.component.ts file to create our form.
-            The formControlName property in the input tags link each property from the signInForm to our [formGroup] property
-         
-         value="bdb.barth@gmail.com"
-         value="ben123"
-         -->
          <form [formGroup]="signInForm" class="sign-in">
             <mat-form-field class="header-info">
                <input type="email" matInput placeholder="Email" formControlName="email" size="35" autocomplete="off" email>
@@ -23,10 +17,8 @@
             </mat-form-field>
          </form>
          <br />
-         <!--These buttons will allow users to log in or sign up, the [disabled] code state that the signInForm (that we set above)
-         needs to be completed before the user can press either of the buttons-->
          <button type="submit" 
-               (click)="logIn()"
+               (click)="signIn()"
                [disabled]="signInForm.pristine || signInForm.invalid"
                mat-flat-button color="primary">Log In</button>
          <button type="submit" 

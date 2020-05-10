@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
-import { APIService } from '../../api.service';
-import { UserService } from 'src/app/user.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { RecipeService } from 'src/app/services/recipe.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-edit-recipe',
@@ -16,8 +16,8 @@ export class EditRecipeComponent implements OnInit {
   recipe: any = {};
   updateRecipeForm: FormGroup;
 
-  constructor(private apiService: APIService, 
-              private fb: FormBuilder, 
+  constructor(private recipeService: RecipeService,
+              private formBuilder: FormBuilder, 
               private router: Router, 
               private route: ActivatedRoute, 
               private snackBar: MatSnackBar,
@@ -30,7 +30,7 @@ export class EditRecipeComponent implements OnInit {
     if (this.userService.isAccountLoggedIn()) {
       this.route.params.subscribe(params => {
         this.id = params.id;
-        this.apiService.getRecipeById(this.id).subscribe(res => {
+        this.recipeService.getRecipeById(this.id).subscribe(res => {
           this.recipe = res;
   
           this.updateRecipeForm.get('author').setValue(this.recipe.author);
@@ -50,17 +50,17 @@ export class EditRecipeComponent implements OnInit {
   }
 
   createForm() {
-    this.updateRecipeForm = this.fb.group({
-      author: ['', Validators.required],
+    this.updateRecipeForm = this.formBuilder.group({
+      author: [''],
       title: ['', Validators.required],
       type: ['', Validators.required],
-      ingredients: this.fb.array([]),
-      steps: this.fb.array([])
+      ingredients: this.formBuilder.array([]),
+      steps: this.formBuilder.array([])
     });
   }
 
   addIngredientFormGroup() {
-    return this.fb.group({
+    return this.formBuilder.group({
       ingredient: ['', Validators.required],
       amount: ['', Validators.required],
       measurement: ['', Validators.required]
@@ -76,7 +76,7 @@ export class EditRecipeComponent implements OnInit {
   }
 
   setIngredient(ingredient) {
-    (<FormArray>this.updateRecipeForm.get('ingredients')).push(this.fb.group({
+    (<FormArray>this.updateRecipeForm.get('ingredients')).push(this.formBuilder.group({
       ingredient: [ingredient.ingredient, Validators.required],
       amount: [ingredient.amount, Validators.required],
       measurement: [ingredient.measurement, Validators.required]
@@ -84,7 +84,7 @@ export class EditRecipeComponent implements OnInit {
   }
 
   addStepFormGroup(): FormGroup {
-    return this.fb.group({
+    return this.formBuilder.group({
       description: ['', Validators.required]
     });
   }
@@ -98,13 +98,13 @@ export class EditRecipeComponent implements OnInit {
   }
 
   setStep(step) {
-    (<FormArray>this.updateRecipeForm.get('steps')).push(this.fb.group({
+    (<FormArray>this.updateRecipeForm.get('steps')).push(this.formBuilder.group({
       description: [step.description, Validators.required]
     }));
   }
 
   updateRecipe() {
-    this.apiService.updateRecipe(this.id, this.updateRecipeForm.get('author').value, 
+    this.recipeService.updateRecipe(this.id, this.updateRecipeForm.get('author').value, 
                                  this.updateRecipeForm.get('title').value, 
                                  this.updateRecipeForm.get('type').value, 
                                  this.updateRecipeForm.get('ingredients').value, 

@@ -20,4 +20,4 @@ let Review = new Schema({
    }
 });
 
-export default mongoose.model('Review', Review);
+module.exports = mongoose.model('Review', Review);

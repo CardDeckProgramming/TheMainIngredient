@@ -27,7 +27,7 @@ const routes: Routes = [
   {path: 'edit-recipe/:id', component: EditRecipeComponent},
   {path: 'home', component: HomeComponent},
   {path: 'list', component: ListComponent},
-  {path: 'search-results/:search', component: SearchResultsComponent},
+  {path: 'search/:search', component: SearchResultsComponent},
   {path: 'sign-in', component: SignInComponent},
   {path: 'user-view/:userName/:userId', component: UserViewComponent},
   {path: 'user-view-recipe/:userName/:userId/:id', component: UserViewRecipeComponent},

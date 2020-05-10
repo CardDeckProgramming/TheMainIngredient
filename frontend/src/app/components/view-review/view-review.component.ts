@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { APIService } from '../../api.service';
-import { Review } from '../../review.model';
+import { ReviewService } from '../../services/review.service';
+import { Review } from '../../models/review.model';
 import { Router, ActivatedRoute } from '@angular/router';
-import { UserService } from '../../user.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-view-review',
@@ -19,7 +19,7 @@ export class ViewReviewComponent implements OnInit {
   writtenReview: any;
 
   constructor(private userService: UserService, 
-              private apiService: APIService, 
+              private reviewService: ReviewService, 
               private router: Router, 
               private route: ActivatedRoute) { }
 
@@ -29,11 +29,9 @@ export class ViewReviewComponent implements OnInit {
       this.route.params.subscribe(params => {
         this.reviewId = params.reviewId;
         this.recipeTitle = params.recipeTitle;
-        console.log(this.reviewId);
-        console.log(this.recipeTitle);
       });
 
-      this.apiService.getReviewById(this.reviewId).subscribe((data: Review) => {
+      this.reviewService.getReviewById(this.reviewId).subscribe((data: Review) => {
         this.review = data;
 
         this.recipeBy = this.review.recipeBy;

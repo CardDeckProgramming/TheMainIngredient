@@ -23,4 +23,4 @@ let Recipe = new Schema({
     }
 });
 
-export default mongoose.model('Recipe', Recipe);
+module.exports = mongoose.model('Recipe', Recipe);

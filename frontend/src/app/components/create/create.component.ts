@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { APIService } from '../../api.service';
-import { UserService } from 'src/app/user.service';
+import { AccountService } from 'src/app/services/account.service';
+import { RecipeService } from 'src/app/services/recipe.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-create',
@@ -13,18 +14,22 @@ export class CreateComponent implements OnInit {
 
   createForm: FormGroup;
 
-  constructor(private apiService: APIService, private fb: FormBuilder, private router: Router, private userService: UserService) { }
+  constructor(private accountService: AccountService,
+              private formBuilder: FormBuilder, 
+              private recipeService: RecipeService, 
+              private router: Router, 
+              private userService: UserService) { }
 
   ngOnInit() {
     if (this.userService.isAccountLoggedIn()) { 
-      this.createForm = this.fb.group({
+      this.createForm = this.formBuilder.group({
         author: [this.userService.getAccountFirst(), Validators.required],
         title: ['', Validators.required],
         type: ['', Validators.required],
-        ingredients: this.fb.array([
+        ingredients: this.formBuilder.array([
           this.addIngredientFormGroup()
         ]),
-        steps: this.fb.array([
+        steps: this.formBuilder.array([
           this.addStepFormGroup()
         ])
       });
@@ -34,7 +39,7 @@ export class CreateComponent implements OnInit {
   }
 
   addIngredientFormGroup() {
-    return this.fb.group({
+    return this.formBuilder.group({
       ingredient: ['', Validators.required],
       amount: ['', Validators.required],
       measurement: ['', Validators.required]
@@ -50,7 +55,7 @@ export class CreateComponent implements OnInit {
   }
 
   addStepFormGroup(): FormGroup {
-    return this.fb.group({
+    return this.formBuilder.group({
       description: ['', Validators.required]
     });
   }
@@ -64,12 +69,12 @@ export class CreateComponent implements OnInit {
   }
 
   addRecipe() {
-    this.apiService.addRecipe(this.createForm.get('author').value, 
+    this.recipeService.addRecipe(this.createForm.get('author').value, 
                               this.createForm.get('title').value, 
                               this.createForm.get('type').value, 
                               this.createForm.get('ingredients').value, 
                               this.createForm.get('steps').value).subscribe(response => {
-      this.apiService.addAccountRecipeId(JSON.parse(JSON.stringify(response['recipeId']))).subscribe(response => {
+      this.accountService.addRecipeToAcount(JSON.parse(JSON.stringify(response['recipeId']))).subscribe(response => {
         this.router.navigate(['/list']);
       });
     });

@@ -13,4 +13,4 @@ let Contact = new Schema({
    
 });
 
-export default mongoose.model('Contact', Contact);
+module.exports = mongoose.model('Contact', Contact);

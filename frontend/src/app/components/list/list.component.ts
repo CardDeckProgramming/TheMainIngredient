@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { APIService } from '../../api.service';
+import { AccountService } from '../../services/account.service';
+import { RecipeService } from '../../services/recipe.service';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
-import { Account } from '../../account.model';
-import { Recipe } from '../../recipe.model';
-import { Review } from '../../review.model';
+import { Account } from '../../models/account.model';
+import { Recipe } from '../../models/recipe.model';
+import { Review } from '../../models/review.model';
 import { Router } from '@angular/router';
-import { UserService } from '../../user.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-list',
@@ -24,17 +25,18 @@ export class ListComponent implements OnInit {
   searchForm: FormGroup;
 
   constructor(private userService: UserService, 
-              private fb: FormBuilder, 
-              private apiService: APIService, 
+              private formBuilder: FormBuilder, 
+              private acountService: AccountService, 
+              private recipeService: RecipeService, 
               private router: Router, 
               private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
+    this.searchForm = this.formBuilder.group({
+      search: new FormControl()
+    });
+    
     if (this.userService.isAccountLoggedIn()) {
-      this.searchForm= this.fb.group({
-        search: new FormControl()
-      });
-
       this.fetchRecipes();
       this.fetchFollows();
       this.fetchReviews();
@@ -43,30 +45,20 @@ export class ListComponent implements OnInit {
     }
   }
 
-  /* 
-  Gets all the recipes by calling the getRecipes() function from the apiService, 
-  this will be changed later to get recipes based on the users account id
-  */
   fetchRecipes(): void {
-    if (this.userService.isAccountLoggedIn()) {
-      this.apiService.getAccountRecipes(this.userService.getAccountId()).subscribe((data: Recipe[]) => {
-        this.recipes = data;
-      });
-    } else {
-      this.apiService.getRecipes().subscribe((data: Recipe[]) => {
-        this.recipes = data;
-      });
-    }
+    this.acountService.getRecipesByAccountId(this.userService.getAccountId()).subscribe((data: Recipe[]) => {
+      this.recipes = data;
+    });
   }
 
   fetchFollows(): void {
-    this.apiService.getAccountFollows(this.userService.getAccountId()).subscribe((data: Account[]) => {
+    this.acountService.getFollowsByAccountId(this.userService.getAccountId()).subscribe((data: Account[]) => {
       this.follows = data;
     });
   }
 
   fetchReviews(): void {
-    this.apiService.getAccountReviews(this.userService.getAccountId()).subscribe((data: Review[]) => {
+    this.acountService.getReviewsByAccountId(this.userService.getAccountId()).subscribe((data: Review[]) => {
       this.reviews = data;
     });
   }
@@ -82,7 +74,7 @@ export class ListComponent implements OnInit {
 
   //This currently deletes recipes, the naming will be fixed later...
   deleteRecipe(id): void {
-    this.apiService.deleteRecipe(this.userService.getAccountId(), id).subscribe(() => {
+    this.acountService.deleteRecipeFromAccount(this.userService.getAccountId(), id).subscribe(() => {
       this.fetchRecipes();
     });
   }
@@ -92,7 +84,7 @@ export class ListComponent implements OnInit {
   }
 
   unfollowUser(followId): void {
-    this.apiService.deleteFollow(this.userService.getAccountId(), followId).subscribe(() => {
+    this.acountService.deleteFollowFromAccount(this.userService.getAccountId(), followId).subscribe(() => {
       this.fetchFollows();
     });
   }
@@ -102,13 +94,13 @@ export class ListComponent implements OnInit {
   }
 
   deleteReview(reviewId): void {
-    this.apiService.deleteReview(this.userService.getAccountId(), reviewId).subscribe(() => {
+    this.acountService.deleteReviewFromAccount(this.userService.getAccountId(), reviewId).subscribe(() => {
       this.fetchReviews();
     });
   }
 
   sortByType(type: string): void {
-    this.apiService.getAccountRecipesByType(this.userService.getAccountId(), type).subscribe((data: Recipe[]) => {
+    this.acountService.getAccountRecipesByType(this.userService.getAccountId(), type).subscribe((data: Recipe[]) => {
       if (data.length == 0) {
         this.snackBar.open('There are no ' + type + ' Recipes to display', 'Dismiss', { duration: 5000, verticalPosition: 'top', panelClass: ['snackBarError'] });
       } else {
@@ -123,7 +115,7 @@ export class ListComponent implements OnInit {
     
     if (searchInput.length > 0) {
       var search: string = searchInput;
-      this.router.navigate([`/search-results/${search}`]);
+      this.router.navigate([`/search/${search}`]);
     } else {
       this.snackBar.open('Please enter a name to use the search', 'Dismiss', { duration: 5000, verticalPosition: 'top', panelClass: ['snackBarError'] });
     }

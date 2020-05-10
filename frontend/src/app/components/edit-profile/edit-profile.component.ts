@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { APIService } from '../../api.service';
-import { UserService } from 'src/app/user.service';
+import { AccountService } from 'src/app/services/account.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -15,7 +15,7 @@ export class EditProfileComponent implements OnInit {
   profile: any = {};
   updateProfileForm: FormGroup;
 
-  constructor(private apiService: APIService, 
+  constructor(private accountService: AccountService, 
               private fb: FormBuilder, 
               private router: Router, 
               private route: ActivatedRoute,
@@ -28,7 +28,7 @@ export class EditProfileComponent implements OnInit {
     if (this.userService.isAccountLoggedIn()) { 
       this.route.params.subscribe(params => {
         this.id = params.id;
-        this.apiService.getAccountById(this.id).subscribe(res => {
+        this.accountService.getAccountById(this.id).subscribe(res => {
           this.profile = res;
   
           this.updateProfileForm.get('first').setValue(this.profile.first);
@@ -52,10 +52,10 @@ export class EditProfileComponent implements OnInit {
   }
 
   updateProfile() {
-    this.apiService.updateAccount(this.updateProfileForm.get('first').value, 
-                                  this.updateProfileForm.get('last').value,
-                                  this.updateProfileForm.get('gender').value,  
-                                  this.updateProfileForm.get('bio').value).subscribe(response => {
+    this.accountService.updateAccount(this.updateProfileForm.get('first').value, 
+                                      this.updateProfileForm.get('last').value,
+                                      this.updateProfileForm.get('gender').value,  
+                                      this.updateProfileForm.get('bio').value).subscribe(response => {
 
       this.userService.setAccountFirst(this.updateProfileForm.get('first').value);
       this.router.navigate(['/list']);

@@ -33,4 +33,4 @@ let Account = new Schema({
    }
 });
 
-export default mongoose.model('Account', Account);
+module.exports = mongoose.model('Account', Account);

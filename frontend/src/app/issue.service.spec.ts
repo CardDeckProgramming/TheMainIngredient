@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { APIService } from './api.service';
+import { APIService } from './services/search.service';
 
 describe('RecipeService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

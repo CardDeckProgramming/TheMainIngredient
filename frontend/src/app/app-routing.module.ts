@@ -33,11 +33,12 @@ const routes: Routes = [
   {path: 'user-view-recipe/:userName/:userId/:id', component: UserViewRecipeComponent},
   {path: 'view/:id', component: ViewComponent},
   {path: 'view-review/:reviewId/:recipeTitle', component: ViewReviewComponent },
-  {path: 'view-reviews/:userName/:userId/:recipeId/:recipeTitle', component: ReadReviewsComponent }
+  {path: 'view-reviews/:userName/:userId/:recipeId/:recipeTitle', component: ReadReviewsComponent },
+  {path: '**', redirectTo: 'home' },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {useHash: true})],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

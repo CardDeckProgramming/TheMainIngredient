@@ -452,7 +452,6 @@ router.route('/account/:id/reviews/delete/:reviewId').get((req, res) => {
 });
 
 
-
 //Search Results Collection 
 function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
@@ -490,5 +489,11 @@ router.get('/search-results/search', function(req, res) {
 
 //Server
 app.use('/api', router);
-app.use(express.static(__dirname + '/dist'));
+app.use(express.static(__dirname + '/dist'))
+    .all('/*', function ( req, res ) {
+                res
+                .status( 200 )
+                .set( { 'content-type': 'text/html; charset=utf-8' } )
+                .sendfile('dist/index.html' );
+    });
 app.listen(80, () => console.log('Express server running on port 80'));

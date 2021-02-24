@@ -496,4 +496,4 @@ app.use(express.static(__dirname + '/dist'))
                 .set( { 'content-type': 'text/html; charset=utf-8' } )
                 .sendfile('dist/index.html' );
     });
-app.listen(80, () => console.log('Express server running on port 80'));
+app.listen(3000, () => console.log('Express server running on port 3000'));

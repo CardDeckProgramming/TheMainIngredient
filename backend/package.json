@@ -10,11 +10,11 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.8.4",
-    "@babel/preset-env": "^7.8.4",
-    "babel-cli": "^6.26.0",
+    "@babel/cli": "^7.0.0-0",
+    "@babel/core": "^7.13.1",
+    "@babel/preset-env": "^7.13.5",
     "babel-preset-env": "^1.7.0",
-    "babel-watch": "^7.0.0",
+    "babel-watch": "^7.4.0",
     "braces": "^3.0.2",
     "kind-of": "^6.0.3",
     "minimist": "^1.2.5"
@@ -22,6 +22,6 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mongoose": "^5.8.11"
+    "mongoose": "^5.11.18"
   }
 }

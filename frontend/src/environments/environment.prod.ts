@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  uri: 'http://nelsonprogramming.tech/api'
+  uri: '/api'
 };

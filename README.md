@@ -2,6 +2,12 @@
 Web App for Application Project class
 
 --------------------------------------------------------------------------------------------------------------------------------------
+To setup Recipe WebApp for development
+
+1. install node.js and mongodb
+2. run npm install on both backend and frontend projects
+
+--------------------------------------------------------------------------------------------------------------------------------------
 To Start the Recipe WebApp locally:
 
 1. Go to File Explorer -> Program Files/MongoDB/src/4.0/bin -> run command 'mongod' in command prompt (Don't close this)
@@ -11,9 +17,9 @@ Open a terminal -> change directory to backend (cd backend)
 Run: npm run start (Don't close this terminal)
 
 3. Open another terminal (found atop the menu tab) -> change terminal to frontend (cd frontend)
-Run: ng serve --open (Don't close this terminal)
+Run: npm run start (Don't close this terminal)
 
-Afterwards the web app should run and open in your browser
+Afterwards the web app should run and open in your browser http://localhost:4200
 
 --------------------------------------------------------------------------------------------------------------------------------------
 Git Commands:
@@ -57,10 +63,16 @@ Then enter 'git rebase master' to briing in the new changes from master to your 
 
 
 
-# Add frontend code into server:
+# Build project for production
 
-Run in /frontend to compile files for backend/dist folder: ng build --prod
-Copy contents into backend/dist folder (Make sure to clear both frontend & backend /dist folders before adding new files into backend/dist folder)
+1. Clear backend/build
+2. run `npm run build` on frontend
+3. in backend, `.sendfile('src/dist/index.html' );` to `.sendfile('dist/index.html' );`
+4. run `npm run build` on backend
+5. copy `frontend/dist/frontend` to `backend/build/dist`
+6. move `backend/build/dist/imgs` to `backend/build/dist/assets/imgs`
+7. run command `node server.js` in `backend/build` to run server in production mode
+8. profit $$$
 
 # Screen for linux commandline
 

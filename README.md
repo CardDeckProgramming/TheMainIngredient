@@ -74,6 +74,12 @@ Then enter 'git rebase master' to briing in the new changes from master to your 
 7. run command `node server.js` in `backend/build` to run server in production mode
 8. profit $$$
 
+# Running project on production
+
+1. `git pull` latest on master
+2. `cd backend/build`
+3. `node server.js`
+
 # Screen for linux commandline
 
 screen -list

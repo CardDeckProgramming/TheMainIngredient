@@ -23,10 +23,16 @@ var app = (0, _express["default"])();
 
 var router = _express["default"].Router();
 
-app.use((0, _cors["default"])());
-app.use(_bodyParser["default"].json()); //Connect our local db with our server
+require('dotenv').config({
+  path: __dirname + '/.env'
+});
 
-_mongoose["default"].connect('mongodb://localhost:27017/recipes');
+app.use((0, _cors["default"])());
+app.use(_bodyParser["default"].json());
+var uri = process.env.mongoDBUri || 'mongodb://localhost:27017/recipes';
+var port = process.env.port || 3000; //Connect our local db with our server
+
+_mongoose["default"].connect(uri);
 
 _mongoose["default"].connection.once('Open', function () {
   console.log('MongoDB database connection established successfully');
@@ -524,6 +530,6 @@ app.use(_express["default"]["static"](__dirname + '/dist')).all('/*', function (
   }) // .sendfile('src/dist/index.html' );
   .sendfile('dist/index.html');
 });
-app.listen(3000, function () {
-  return console.log('Express server running on port 3000');
+app.listen(port, function () {
+  return console.log("Express server running on port ".concat(port));
 });

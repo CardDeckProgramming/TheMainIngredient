@@ -12,11 +12,16 @@ import Review from './models/Review';
 const app = express();
 const router = express.Router();
 
+require('dotenv').config({path: __dirname + '/.env'});
+
 app.use(cors());
 app.use(bodyParser.json());
 
+const uri = process.env.mongoDBUri || 'mongodb://localhost:27017/recipes';
+const port = process.env.port || 3000;
+
 //Connect our local db with our server
-mongoose.connect('mongodb://localhost:27017/recipes');
+mongoose.connect(uri);
 mongoose.connection.once('Open', () => {
         console.log('MongoDB database connection established successfully');
     }).on('error', error => {
@@ -497,4 +502,4 @@ app.use(express.static(__dirname + '/dist'))
                 // .sendfile('src/dist/index.html' );
                 .sendfile('dist/index.html' );
     });
-app.listen(3000, () => console.log('Express server running on port 3000'));
+app.listen(port, () => console.log(`Express server running on port ${port}`));

@@ -1,0 +1,19 @@
+version: '3.7'
+services:
+  mongodb:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_DATABASE: main-ingredient
+    ports:
+      - 3001:27017
+    volumes:
+      - ./docker/database:/docker-entrypoint-initdb.d
+  main_ingredient:
+    image: main-ingredient
+    environment:
+        mongoDBUri: mongodb://mongodb:27017/recipes
+        port: 3000
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongodb
